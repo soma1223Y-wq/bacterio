@@ -1,0 +1,491 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>グラム陽性菌テキスト</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<style>
+/* Layout: 1カラムの読み物。上部固定ナビ → 章ごとのカード（Apple HIG風）。配色は問題集と統一（アクセント=ピンク） */
+:root{
+  --bg:#F2F2F7; --card:#FFFFFF; --fg:#1C1C1E; --fg2s:#6C6C70; --sep:#C6C6C8; --fill:#E9E9EE;
+  --accent:#C21A63; --accentFill:#FF2D55; --accentSoft:#FCE4EC;
+  --ok:#248A3D; --okSoft:#E3F5E7; --ng:#D70015; --ngSoft:#FDE7E9; --warn:#C93400; --warnSoft:#FFF0E3;
+  --info:#0A6DC2; --infoSoft:#E3F0FB; --nav:rgba(242,242,247,.86);
+  --font:"Helvetica Neue", Arial, "Hiragino Kaku Gothic ProN", "Hiragino Sans", Meiryo, sans-serif;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#000000; --card:#1C1C1E; --fg:#F2F2F7; --fg2s:#98989F; --sep:#38383A; --fill:#2C2C2E;
+  --accent:#FF6FA3; --accentFill:#FF375F; --accentSoft:#3A1526;
+  --ok:#30D158; --okSoft:#12331B; --ng:#FF6961; --ngSoft:#3A1517; --warn:#FF9F0A; --warnSoft:#3A2608;
+  --info:#5AB0FF; --infoSoft:#0E2A44; --nav:rgba(18,18,20,.86); color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#000000; --card:#1C1C1E; --fg:#F2F2F7; --fg2s:#98989F; --sep:#38383A; --fill:#2C2C2E;
+  --accent:#FF6FA3; --accentFill:#FF375F; --accentSoft:#3A1526;
+  --ok:#30D158; --okSoft:#12331B; --ng:#FF6961; --ngSoft:#3A1517; --warn:#FF9F0A; --warnSoft:#3A2608;
+  --info:#5AB0FF; --infoSoft:#0E2A44; --nav:rgba(18,18,20,.86); color-scheme:dark}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:calc(env(safe-area-inset-top,0px) + var(--navh,49px) + 16px)}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+body{background:var(--bg);color:var(--fg);font-family:var(--font);font-size:16px;line-height:1.7;-webkit-text-size-adjust:100%}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:11;background:var(--nav)}
+i,em{font-style:italic}
+.nav{position:sticky;top:env(safe-area-inset-top,0px);z-index:10;background:var(--nav);-webkit-backdrop-filter:saturate(180%) blur(20px);backdrop-filter:saturate(180%) blur(20px);border-bottom:.5px solid var(--sep)}
+.nav-in{display:flex;gap:4px;overflow-x:auto;scrollbar-width:none;max-width:820px;margin:0 auto;padding-block:8px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.nav-in::-webkit-scrollbar{display:none}
+.nav a{flex:none;font-size:14px;font-weight:600;padding:6px 12px;border-radius:980px;color:var(--accent);white-space:nowrap}
+.nav a:hover,.nav a:focus-visible{background:var(--accentSoft);outline:none}
+.wrap{max-width:820px;margin:0 auto;padding-block:8px 72px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+header.top{padding:32px 2px 8px}
+header.top .eyebrow{font-size:13px;font-weight:600;color:var(--accent);letter-spacing:.04em}
+h1{font-size:33px;line-height:1.2;font-weight:700;margin:4px 0 6px;letter-spacing:-.01em;text-wrap:balance}
+.byline{color:var(--fg2s);font-size:14px;margin:0}
+.lead{font-size:15px;color:var(--fg2s);margin:14px 2px 0}
+h2{font-size:23px;font-weight:700;margin:40px 2px 4px;padding-top:6px;text-wrap:balance;scroll-margin-top:60px}
+.kicker{font-size:12px;font-weight:700;color:var(--accent);letter-spacing:.06em;margin:36px 2px 0}
+.kicker + h2{margin-top:2px}
+h3{font-size:18px;font-weight:700;margin:4px 0 2px}
+.card{background:var(--card);border-radius:14px;padding:18px 18px 20px;margin-top:12px}
+.card > :first-child{margin-top:0}
+.card p{margin:10px 0}
+.card h3{margin-top:20px;padding-top:2px;border-top:.5px solid var(--sep)}
+.card h3:first-of-type,.card > h3:first-child{border-top:0;padding-top:0}
+.hl{color:var(--accent);font-weight:600}
+.term{font-weight:700}
+ul.clean,ol.clean{margin:8px 0;padding-left:1.3em}
+ul.clean li,ol.clean li{margin:4px 0}
+dl.kv{display:grid;grid-template-columns:auto 1fr;gap:6px 14px;margin:10px 0}
+dl.kv dt{font-weight:700;white-space:nowrap}
+dl.kv dd{margin:0;min-width:0}
+.callout{border-radius:10px;padding:12px 14px;margin:12px 0;font-size:15px}
+.callout .lb{font-weight:700;display:block;margin-bottom:2px;font-size:13px;letter-spacing:.03em}
+.callout p{margin:6px 0 0}
+.callout.point{background:var(--accentSoft)}.callout.point .lb{color:var(--accent)}
+.callout.note{background:var(--infoSoft)}.callout.note .lb{color:var(--info)}
+.callout.warn{background:var(--warnSoft)}.callout.warn .lb{color:var(--warn)}
+.callout.goro{background:var(--okSoft)}.callout.goro .lb{color:var(--ok)}
+.tbl{overflow-x:auto;margin:14px 0;border-radius:10px;border:.5px solid var(--sep)}
+table{border-collapse:collapse;width:100%;font-size:14.5px;min-width:360px}
+th,td{text-align:left;padding:9px 12px;border-bottom:.5px solid var(--sep);vertical-align:top}
+thead th{background:var(--fill);font-weight:700;white-space:nowrap}
+tbody tr:last-child td{border-bottom:0}
+td .s{color:var(--fg2s);font-size:13px}
+figure{margin:16px 0 4px}
+figure svg{display:block;width:100%;height:auto;max-width:100%;background:var(--card)}
+figcaption{font-size:13px;color:var(--fg2s);margin-top:8px;line-height:1.6}
+.steps{list-style:none;counter-reset:s;margin:10px 0;padding:0}
+.steps li{position:relative;padding:4px 0 4px 34px;margin:4px 0}
+.steps li::before{counter-increment:s;content:counter(s);position:absolute;left:0;top:4px;width:24px;height:24px;border-radius:50%;background:var(--accent);color:#fff;font-size:13px;font-weight:700;display:grid;place-items:center}
+.svg-fg{fill:var(--fg)}.svg-sub{fill:var(--fg2s)}
+.exbox{border:1px solid var(--accent);border-radius:12px;padding:12px 14px;margin:16px 0 4px;background:var(--accentSoft)}
+.exbox .eh{font-size:11px;font-weight:700;color:#fff;background:var(--accent);display:inline-block;padding:2px 8px;border-radius:5px;margin-bottom:7px;letter-spacing:.03em}
+.exbox .q{font-weight:600;margin:0}
+.exbox ol.ch{margin:8px 0 0;padding-left:1.4em;font-size:14.5px}
+.exbox ol.ch li{margin:2px 0}
+.exbox details{margin-top:8px}
+.exbox summary{cursor:pointer;color:var(--accent);font-weight:700;font-size:14px;list-style:none}
+.exbox summary::-webkit-details-marker{display:none}
+.exbox summary::before{content:"▶ 答えと解説";font-size:13px}
+.exbox details[open] summary::before{content:"▼ 答えと解説"}
+.exbox .a{margin-top:8px;padding-top:10px;border-top:.5px solid var(--accent);font-size:14.5px;line-height:1.65;background:var(--card);margin-left:-14px;margin-right:-14px;padding-left:14px;padding-right:14px;padding-bottom:2px;border-radius:0 0 11px 11px}
+.exbox .a .v{font-weight:700;color:var(--ok)}
+.exbox .a p{margin:6px 0}
+.exbox .a code{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:13.5px;background:var(--fill);padding:1px 5px;border-radius:4px}
+.cta{display:block;text-align:center;background:var(--accentFill);color:#fff;font-weight:700;font-size:17px;padding:17px;border-radius:14px;text-decoration:none;margin-top:40px;box-shadow:0 6px 18px -8px var(--accentFill)}
+.cta:active{opacity:.85}
+.cta:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+.links{display:flex;flex-wrap:wrap;gap:8px;margin:12px 2px 0;justify-content:center}
+.links a{display:inline-flex;align-items:center;gap:6px;font-size:14px;font-weight:600;color:var(--accent);background:var(--accentSoft);padding:7px 14px;border-radius:980px;text-decoration:none}
+.links a::before{content:"↗";font-size:12px}
+footer{color:var(--fg2s);font-size:13px;text-align:center;margin-top:36px;padding-top:16px;border-top:.5px solid var(--sep)}
+@media (max-width:440px){h1{font-size:28px}h2{font-size:20px}.card{padding:16px 14px 18px}dl.kv{grid-template-columns:1fr}dl.kv dt{margin-top:4px}}
+</style>
+<style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{-webkit-text-size-adjust:100%}body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
+</head>
+<body>
+
+
+
+<nav class="nav" aria-label="目次"><div class="nav-in" id="nav"></div></nav>
+<div class="wrap" id="top">
+  <header class="top">
+    <div class="eyebrow">微生物学 細菌学分野</div>
+    <h1>グラム陽性菌テキスト</h1>
+  </header>
+
+  <!-- 過去問分析 -->
+  <div class="kicker">ANALYSIS</div>
+  <h2 id="analysis">過去問分析（グラム陽性菌）</h2>
+  <div class="card">
+    <p>2024・2025年度の過去問から、グラム陽性菌で問われたテーマをまとめました。ブドウ球菌の毒素・耐性と、芽胞形成菌（破傷風・ボツリヌス）が頻出です。</p>
+    <div class="tbl"><table>
+      <thead><tr><th>テーマ</th><th>2024</th><th>2025</th><th>章</th></tr></thead>
+      <tbody>
+        <tr><td><span class="hl">スーパー抗原</span>（作用機序）</td><td>問6</td><td>—</td><td><a href="#staph-factors">3</a></td></tr>
+        <tr><td>黄色ブドウ球菌の<span class="hl">食中毒</span>（エンテロトキシン）</td><td>—</td><td>問6（記述）</td><td><a href="#staph-disease">4</a></td></tr>
+        <tr><td>バイオフィルム・カテーテル感染</td><td>—</td><td>問7（記述）</td><td><a href="#staph-disease">4</a></td></tr>
+        <tr><td><span class="hl">VRE</span>の院内感染対策</td><td>問5</td><td>—</td><td><a href="#entero">9</a></td></tr>
+        <tr><td><span class="hl">芽胞形成菌</span>の判別</td><td>問7</td><td>—</td><td><a href="#spore">10</a></td></tr>
+        <tr><td><span class="hl">破傷風菌とボツリヌス菌</span>（染色・毒素）</td><td>—</td><td>問8（記述）</td><td><a href="#clostridium">12</a></td></tr>
+        <tr><td>レンサ球菌（第一選択薬・溶血）</td><td>問10・問15</td><td>—</td><td><a href="#strep">6</a></td></tr>
+      </tbody>
+    </table></div>
+  </div>
+
+  <!-- 1 分類 -->
+  <div class="kicker">CHAPTER 1</div>
+  <h2 id="overview">グラム陽性菌の分類</h2>
+  <div class="card">
+    <p>グラム陽性菌は<span class="hl">ペプチドグリカン層が厚い</span>のが特徴（→総論テキスト第4章）。大きく「球菌」と「桿菌」に分かれます。</p>
+    <div class="tbl"><table>
+      <thead><tr><th>グループ</th><th>属</th><th>代表菌</th></tr></thead>
+      <tbody>
+        <tr><td rowspan="3"><span class="hl">球菌</span></td><td>ブドウ球菌属 <i>Staphylococcus</i></td><td>黄色ブドウ球菌・表皮ブドウ球菌</td></tr>
+        <tr><td>レンサ球菌属 <i>Streptococcus</i></td><td>肺炎球菌・化膿レンサ球菌</td></tr>
+        <tr><td>腸球菌属 <i>Enterococcus</i></td><td><i>E. faecalis</i>・<i>E. faecium</i></td></tr>
+        <tr><td rowspan="2"><span class="hl">桿菌</span></td><td>芽胞形成菌 <i>Bacillus</i>／<i>Clostridium</i></td><td>炭疽菌・破傷風菌・ボツリヌス菌 など</td></tr>
+        <tr><td>無芽胞菌 <i>Listeria</i> など</td><td>リステリア菌</td></tr>
+      </tbody>
+    </table></div>
+  </div>
+
+  <!-- 2 ブドウ球菌属 -->
+  <div class="kicker">CHAPTER 2</div>
+  <h2 id="staph">ブドウ球菌属</h2>
+  <div class="card">
+    <p><b>共通性状：</b>グラム陽性、<span class="hl">通性嫌気性</span>、大きさ約1μm、<span class="hl">無鞭毛・無芽胞</span>。<span class="hl">耐塩性</span>があり10%NaClでも増殖でき、分離培養の培地に利用される。</p>
+    <div class="callout note"><span class="lb">用語：コアグラーゼとは</span>
+      <p>血漿を固める（フィブリノゲン→フィブリン）<span class="hl">酵素</span>。これを<span class="hl">もつ＝陽性（CPS）が黄色ブドウ球菌</span>、<span class="hl">もたない＝陰性（CNS）が表皮ブドウ球菌</span>で、両者を見分ける指標になる。菌にとっては、自分の周りに血を固めてフィブリンの壁を作り、白血球や抗体から隠れる病原因子でもある。</p>
+    </div>
+    <h3>コアグラーゼによる区別</h3>
+    <div class="tbl"><table>
+      <thead><tr><th></th><th>黄色ブドウ球菌</th><th>表皮ブドウ球菌</th></tr></thead>
+      <tbody>
+        <tr><td>コアグラーゼ</td><td><span class="hl">陽性（CPS）</span></td><td><span class="hl">陰性（CNS）</span></td></tr>
+        <tr><td>保有率・常在性</td><td>皮膚・鼻腔に20〜30%（常在菌ではない）</td><td>約100%（<span class="hl">皮膚常在菌</span>）</td></tr>
+        <tr><td>マンニトール分解・莢膜</td><td>あり。多くの病原因子をもち高病原性</td><td>なし。普段は感染を起こさないが、<span class="hl">無菌臓器に入ると感染症</span></td></tr>
+      </tbody>
+    </table></div>
+    <h3>分離・鑑別の培地</h3>
+    <dl class="kv">
+      <dt>血液寒天培地</dt><dd>黄色ブドウ球菌＝<span class="hl">黄色いコロニー</span>、表皮ブドウ球菌＝白いコロニー。</dd>
+      <dt>マンニット食塩培地<br>（7.5%NaCl）</dt><dd>耐塩性の菌だけ育つ<span class="hl">選択培地</span>。黄色ブドウ球菌はマンニトールを分解して酸を産生し、周囲の<span class="hl">フェノールレッド</span>（pH指示薬で、酸性になると赤→黄に変わる）が<span class="hl">黄変</span>。表皮ブドウ球菌は分解できず黄変しない。</dd>
+      <dt>コアグラーゼ試験</dt><dd>黄色ブドウ球菌は<span class="hl">ウサギ血漿を凝固</span>させる。表皮ブドウ球菌は凝固しない。</dd>
+    </dl>
+    <div class="exbox">
+      <span class="eh">鑑別のまとめ（頻出）</span>
+      <p class="q">ブドウ球菌の鑑別として正しいのはどれか。</p>
+      <ol class="ch"><li>コアグラーゼ試験で黄色ブドウ球菌はウサギ血漿を凝固させる</li><li>マンニット食塩培地で表皮ブドウ球菌は黄変する</li><li>血液寒天培地で黄色ブドウ球菌は白いコロニーをつくる</li><li>保菌率は表皮ブドウ球菌で20〜30%</li></ol>
+      <details><summary></summary><div class="a"><p class="v">答え：1</p>
+      <p>②黄変するのは分解できる黄色ブドウ球菌。③黄色ブドウ球菌は黄色、表皮は白。④表皮が約100%、黄色が20〜30%。</p></div></details>
+    </div>
+  </div>
+
+  <!-- 3 病原因子 -->
+  <div class="kicker">CHAPTER 3</div>
+  <h2 id="staph-factors">黄色ブドウ球菌の病原因子</h2>
+  <div class="card">
+    <h3>スーパー抗原（TSST-1・エンテロトキシン・表皮剥脱性毒素）</h3>
+    <p>通常、T細胞は<span class="hl">特定の抗原にだけ</span>反応して活性化する。スーパー抗原は、抗原提示細胞の<span class="hl">MHCとT細胞のTCRを、抗原に関係なく（非特異的に）架橋</span>し、多くのT細胞を一斉に活性化させる（ポリクローナル活性化）。その結果、<span class="hl">サイトカインストーム</span>（全身の炎症）が起きる。</p>
+    <figure>
+      <svg viewBox="0 0 600 190" role="img" aria-label="スーパー抗原がMHCとTCRを抗原非特異的に架橋する図" font-family="inherit">
+        <g fill="currentColor" font-size="12">
+          <rect x="60" y="30" width="150" height="40" rx="8" fill="#0A6DC2" opacity=".16"/><text x="135" y="55" text-anchor="middle" font-weight="700">抗原提示細胞</text>
+          <rect x="390" y="30" width="150" height="40" rx="8" fill="#248A3D" opacity=".18"/><text x="465" y="55" text-anchor="middle" font-weight="700">T細胞</text>
+          <rect x="120" y="70" width="40" height="40" rx="4" fill="#0A6DC2" opacity=".5"/><text x="140" y="126" text-anchor="middle" font-size="11">MHC</text>
+          <rect x="440" y="70" width="40" height="40" rx="4" fill="#248A3D" opacity=".55"/><text x="460" y="126" text-anchor="middle" font-size="11">TCR</text>
+          <rect x="270" y="78" width="60" height="26" rx="6" fill="#C21A63" opacity=".85"/><text x="300" y="96" text-anchor="middle" font-size="11" font-weight="700" fill="#fff">SAg</text>
+          <path d="M160,86 L270,90" stroke="#C21A63" stroke-width="2.5"/>
+          <path d="M330,92 L440,88" stroke="#C21A63" stroke-width="2.5"/>
+          <text x="300" y="130" text-anchor="middle" font-size="11" fill="#C21A63" font-weight="700">抗原に関係なく架橋</text>
+          <text x="300" y="165" text-anchor="middle" font-size="12">多くのT細胞が一斉活性化 → サイトカインストーム</text>
+        </g>
+      </svg>
+      <figcaption>スーパー抗原（SAg）は、抗原のすき間（溝）を使わず<span class="hl">MHCとTCRの外側を直接つなぐ</span>ため、抗原の種類に関係なく大量のT細胞を活性化する。</figcaption>
+    </figure>
+    <h3>そのほかの病原因子</h3>
+    <div class="tbl"><table>
+      <thead><tr><th>因子</th><th>はたらき</th></tr></thead>
+      <tbody>
+        <tr><td><span class="hl">プロテインA</span></td><td>菌の周囲に分泌され、免疫グロブリンの<span class="hl">Fc領域</span>（抗体の根もと＝定常部）<span class="hl">に結合して抗体をマスク</span>し、食細胞の貪食を抑える。</td></tr>
+        <tr><td>細胞損傷性毒素</td><td>ヘモリジン、PVL（白血球溶解毒素）など。<span class="hl">細胞膜に穴をあける</span>。</td></tr>
+        <tr><td>莢膜</td><td>食細胞による貪食を抑制。莢膜があると病原性が高くなる。</td></tr>
+        <tr><td><span class="hl">コアグラーゼ</span></td><td>血液を凝固させ、<span class="hl">白血球や抗体の送達を妨害</span>する。</td></tr>
+        <tr><td><span class="hl">バイオフィルム</span></td><td>多糖体・DNA・タンパク質で構成され、<span class="hl">抗菌薬や宿主の免疫から守る</span>。</td></tr>
+      </tbody>
+    </table></div>
+    <div class="exbox">
+      <span class="eh">2024年 問6</span>
+      <p class="q">スーパー抗原の作用機序として正しい説明を2つ選べ。</p>
+      <ol class="ch"><li>細胞非特異的にアポトーシスを誘導する</li><li>MHCとT細胞受容体を抗原非特異的に架橋する</li><li>細菌が宿主細胞に侵入するのを促進する</li><li>細菌の分裂を加速化する</li><li>リンパ球をポリクローナルに活性化する</li></ol>
+      <details><summary></summary><div class="a"><p class="v">答え：2・5</p>
+      <p>MHCとTCRを抗原非特異的に架橋し、多くのT細胞をポリクローナルに活性化してサイトカインストームを起こす。</p></div></details>
+    </div>
+  </div>
+
+  <!-- 4 感染症 -->
+  <div class="kicker">CHAPTER 4</div>
+  <h2 id="staph-disease">黄色ブドウ球菌の感染症</h2>
+  <div class="card">
+    <div class="callout point"><span class="lb">最重要の区別</span>
+      <p><b>化膿性炎症疾患</b>＝<span class="hl">菌そのもの</span>による／<b>毒素性疾患</b>＝<span class="hl">菌が生産した毒素</span>による。毒素性はさらに「感染局所で増殖して毒素を出す」ものと「体に入る前に食品中で毒素ができる（食中毒）」ものに分かれる。</p>
+    </div>
+    <figure>
+      <svg viewBox="0 0 600 200" role="img" aria-label="黄色ブドウ球菌の感染症の分類" font-family="inherit">
+        <g fill="currentColor" font-size="12">
+          <rect x="210" y="14" width="180" height="32" rx="8" fill="#C21A63" opacity=".16"/><text x="300" y="35" text-anchor="middle" font-weight="700">黄色ブドウ球菌の感染症</text>
+          <line x1="300" y1="46" x2="150" y2="70" stroke="currentColor" opacity=".4"/><line x1="300" y1="46" x2="450" y2="70" stroke="currentColor" opacity=".4"/>
+          <rect x="60" y="70" width="180" height="30" rx="7" fill="#0A6DC2" opacity=".16"/><text x="150" y="90" text-anchor="middle" font-weight="700">化膿性炎症疾患</text>
+          <text x="150" y="118" text-anchor="middle" font-size="11">菌そのものによる</text>
+          <text x="150" y="138" text-anchor="middle" font-size="11">皮膚軟部組織／血流／呼吸器</text>
+          <rect x="360" y="70" width="180" height="30" rx="7" fill="#248A3D" opacity=".18"/><text x="450" y="90" text-anchor="middle" font-weight="700">毒素性疾患</text>
+          <line x1="450" y1="100" x2="380" y2="124" stroke="currentColor" opacity=".4"/><line x1="450" y1="100" x2="520" y2="124" stroke="currentColor" opacity=".4"/>
+          <text x="380" y="140" text-anchor="middle" font-size="11">局所で増殖→毒素</text>
+          <text x="380" y="156" text-anchor="middle" font-size="10.5">TSS・SSSS</text>
+          <text x="522" y="140" text-anchor="middle" font-size="11">食品中で毒素</text>
+          <text x="522" y="156" text-anchor="middle" font-size="10.5">食中毒</text>
+        </g>
+      </svg>
+    </figure>
+    <h3>化膿性炎症疾患</h3>
+    <ol class="clean">
+      <li><b>皮膚軟部組織の感染症</b>：毛包炎 → 癤（せつ） → 癰（よう）、蜂窩織炎。</li>
+      <li><b>血流感染症</b>：<span class="hl">留置カテーテル</span>などで増殖した菌塊が血流で運ばれる。心内膜炎・骨髄炎・塞栓症・脳卒中などの原因。</li>
+      <li><b>呼吸器感染症</b>：市中感染は主にウイルス感染に続発。院内感染は人工呼吸器関連肺炎として<span class="hl">MRSA</span>が重要。</li>
+    </ol>
+    <h3>毒素性疾患</h3>
+    <dl class="kv">
+      <dt>毒素性ショック症候群<br>（TSS）</dt><dd><span class="hl">TSST-1やエンテロトキシン</span>（スーパー抗原）が血流に入って急激に発症。</dd>
+      <dt>ブドウ球菌性熱傷様皮膚症候群（SSSS）</dt><dd><span class="hl">表皮剥脱性毒素（ET）</span>が表皮のタイトジャンクションを破壊。とびひ→ETが血流に入り全身へ→SSSS。<span class="hl">ニコルスキー現象</span>（表皮がすぐ剥がれる）。病変部位で菌が増えているわけではない。</dd>
+      <dt>毒素型食中毒</dt><dd><span class="hl">エンテロトキシン</span>は100℃でも失活せず（120℃20分で失活）、胃酸にも強い。<span class="hl">摂取後1〜6時間</span>と早く発症。食品中で<span class="hl">すでに産生された毒素</span>で起こり、通常12時間以内に軽快。抗生物質は使わず経過を待つ。</dd>
+    </dl>
+    <div class="exbox">
+      <span class="eh">2025年 問6（記述）</span>
+      <p class="q">黄色ブドウ球菌が原因で発症する食中毒の、臨床経過の特徴と機序を説明しなさい。</p>
+      <details><summary></summary><div class="a"><p class="v">解答例</p>
+      <p><b>特徴</b>：摂取後1〜6時間と潜伏期が短く、急性胃腸炎を起こす。通常12時間以内に軽快する。<br>
+      <b>機序</b>：食品中で菌が<span class="hl">あらかじめ産生したエンテロトキシン</span>（耐熱性・耐酸性のスーパー抗原）を摂取して発症する毒素型食中毒。菌が腸管で増えて起こるのではない。</p></div></details>
+    </div>
+    <div class="exbox">
+      <span class="eh">2025年 問7（記述）</span>
+      <p class="q">カテーテル留置患者の血液培養から表皮ブドウ球菌が検出され、感受性ありのセフェム系が効かなかった。理由と対応を答えなさい。</p>
+      <details><summary></summary><div class="a"><p class="v">解答例</p>
+      <p><b>理由</b>：カテーテル表面に<span class="hl">バイオフィルム</span>を形成し、食細胞も抗菌薬も届きにくい（組織移行性の低下）ため、試験管内の感受性と生体内の効果が乖離した。<br>
+      <b>対応</b>：原因となる<span class="hl">カテーテルを抜去（交換）</span>する。</p></div></details>
+    </div>
+  </div>
+
+  <!-- 5 薬剤耐性 -->
+  <div class="kicker">CHAPTER 5</div>
+  <h2 id="staph-resist">ブドウ球菌の薬剤耐性</h2>
+  <div class="card">
+    <p>ブドウ球菌属は、<span class="hl">プラスミドやトランスポゾン</span>などの外来遺伝子の取り込みや遺伝子変異で薬剤耐性を獲得する。</p>
+    <div class="callout point"><span class="lb">耐性の歴史</span>
+      <p>ペニシリン → <span class="hl">メチシリン</span>（この耐性菌がMRSA） → <span class="hl">バンコマイシン</span>（MRSAに対処可能になったが、その後バンコマイシン耐性菌も出現）。</p>
+    </div>
+    <dl class="kv">
+      <dt>MRSA</dt><dd>メチシリン耐性黄色ブドウ球菌。ほぼ全ての抗生剤に耐性。耐性率は<span class="hl">健常者約20%・医療機関約50%</span>。病院で黄色ブドウ球菌が見つかったら<span class="hl">MRSAとして初期対応</span>する。耐性の仕組みは変異型PBP（<span class="hl">PBP2'</span>）＝総論テキスト第15章。</dd>
+      <dt>VRSA</dt><dd>バンコマイシンは細胞壁のペンタペプチドに結合して架橋を阻害するが、耐性菌では酵素<span class="hl">VanX</span>がペンタペプチドの一部を切断し、別のアミノ酸に変えることでバンコマイシンが結合できなくなる。</dd>
+    </dl>
+    <div class="callout note"><span class="lb">治療の原則</span>
+      <p>①<span class="hl">感染巣の排除</span>：カテーテル・人工関節などの人工物を取り除く、腫瘍性病変はドレナージ、外科的切除（デブリードマン）。②<span class="hl">抗菌薬</span>：薬剤感受性試験を行ったうえで、耐性のない抗生物質を使う。</p>
+    </div>
+  </div>
+
+  <!-- 6 レンサ球菌 -->
+  <div class="kicker">CHAPTER 6</div>
+  <h2 id="strep">レンサ球菌属</h2>
+  <div class="card">
+    <p><b>共通性状：</b><span class="hl">通性嫌気性</span>（酸素はあったほうがいい）。<span class="hl">溶血性</span>とランスフィールドの<span class="hl">群抗原性</span>で分類し、正確には16S rRNAの塩基配列解析で決定する。<span class="hl">ホモ乳酸発酵</span>で、酸素の有無に関わらずグルコースを乳酸に分解。無鞭毛・無芽胞。肺炎球菌は莢膜あり。</p>
+    <div class="callout note"><span class="lb">用語：溶血性とランスフィールド群抗原性</span>
+      <p><b>溶血性</b>＝血液寒天培地（赤血球入り）の<span class="hl">赤血球を壊す性質</span>。完全に壊してコロニーの周りが透明＝<span class="hl">β溶血</span>、不完全で緑色になる＝<span class="hl">α溶血</span>、壊さない＝<span class="hl">γ溶血</span>。<br>
+      <b>ランスフィールド群抗原性</b>＝細胞壁の<span class="hl">糖（多糖）抗原の違い</span>でA群・B群…と分ける分類。化膿レンサ球菌＝A群、など（肺炎球菌にはこの群抗原がない）。</p>
+    </div>
+    <h3>連鎖のしかたと溶血性</h3>
+    <div class="tbl"><table>
+      <thead><tr><th>菌</th><th>連鎖</th><th>溶血</th></tr></thead>
+      <tbody>
+        <tr><td>肺炎球菌</td><td>双球状</td><td><span class="hl">α溶血</span>（不完全溶血・緑色）</td></tr>
+        <tr><td>化膿レンサ球菌</td><td>長連鎖</td><td><span class="hl">β溶血</span>（完全溶血）</td></tr>
+        <tr><td>腸球菌</td><td>短連鎖</td><td><span class="hl">γ溶血</span>（溶血しない）</td></tr>
+      </tbody>
+    </table></div>
+    <h3>化膿レンサ球菌（A群）の病原因子</h3>
+    <dl class="kv">
+      <dt>β溶血毒素</dt><dd>ストレプトリジンO・Sを産生。</dd>
+      <dt>発赤毒素</dt><dd><span class="hl">スーパー抗原</span>で、猩紅熱を起こす。劇症型溶血性レンサ球菌感染症の原因にも。</dd>
+      <dt>Mタンパク質</dt><dd>抗貪食・殺菌作用をもち、<span class="hl">表皮細胞への付着因子</span>として働く。</dd>
+    </dl>
+    <div class="exbox">
+      <span class="eh">2024年 問10</span>
+      <p class="q">レンサ球菌感染症に対する第一選択薬として最もふさわしいものを選べ（薬剤耐性菌はないものとする）。</p>
+      <ol class="ch"><li>バンコマイシン</li><li>アミノグリコシド系</li><li>ニューキノロン系</li><li>ペニシリンG</li><li>第2世代セフェム系</li></ol>
+      <details><summary></summary><div class="a"><p class="v">答え：4（ペニシリンG）</p>
+      <p>レンサ球菌にはペニシリンが効く。バンコマイシンはMRSAなど耐性菌用。</p></div></details>
+    </div>
+  </div>
+
+  <!-- 7 A群レンサ球菌感染症 -->
+  <div class="kicker">CHAPTER 7</div>
+  <h2 id="strep-disease">A群レンサ球菌感染症</h2>
+  <div class="card">
+    <h3>局所感染と続発症</h3>
+    <dl class="kv">
+      <dt>とびひ</dt><dd>黄色ブドウ球菌の項を参照。</dd>
+      <dt>丹毒（erysipelas）</dt><dd>境界明瞭で鮮明な紅斑。発赤毒素による発熱など全身症状。病変は<span class="hl">表皮に限局</span>し皮下組織に及ばない。</dd>
+      <dt>蜂巣炎（蜂窩織炎）</dt><dd>発赤の境界が<span class="hl">不明瞭</span>。レンサ球菌はペニシリンが効くが、黄色ブドウ球菌はペニシリン耐性のことが多いため<span class="hl">鑑別が重要</span>。</dd>
+      <dt>咽頭炎・扁桃炎</dt><dd>子供の風邪の原因。化膿しなければ3〜5日で自然治癒。化膿すると<span class="hl">1〜5週間後にリウマチ熱・急性糸球体腎炎を合併</span>するおそれ。</dd>
+    </dl>
+    <div class="callout point"><span class="lb">続発症は「交差反応／免疫複合体」</span>
+      <p><b>リウマチ熱</b>：レンサ球菌への抗体が<span class="hl">関節や心筋と交差反応</span>して起こる（発熱・多発関節炎・心筋炎）。治療は副腎皮質ステロイド。<br>
+      <b>急性糸球体腎炎</b>：抗原抗体の<span class="hl">免疫複合体が腎糸球体に沈着</span>して起こる（高血圧・蛋白尿・浮腫）。</p>
+    </div>
+    <h3>毒素性・重症感染症</h3>
+    <dl class="kv">
+      <dt>猩紅熱</dt><dd>発赤毒素（spe）産生菌の咽頭炎で発症。頸・上胸部の紅斑と<span class="hl">イチゴ舌</span>（川崎病が鑑別疾患）。</dd>
+      <dt>劇症型溶血性<br>レンサ球菌感染症</dt><dd>壊死性筋膜炎。A群βレンサ球菌による重症感染症で、発赤毒素がスーパー抗原として作用しサイトカインストーム。敗血症性ショックで急激に悪化（<span class="hl">致死率30%</span>）。</dd>
+    </dl>
+  </div>
+
+  <!-- 8 肺炎球菌 -->
+  <div class="kicker">CHAPTER 8</div>
+  <h2 id="pneumo">肺炎球菌と髄膜炎の起因菌</h2>
+  <div class="card">
+    <p>肺炎球菌は<span class="hl">厚い莢膜</span>をもち、コロニーが粘液状（ムコイド様）。ランスフィールド群抗原性はなく、グラム染色の診断価値が高い。血液寒天培地で<span class="hl">α溶血</span>、<span class="hl">ペニシリンが効く</span>。髄膜炎の起因菌の一つ。</p>
+    <div class="callout goro"><span class="lb">年齢別の髄膜炎起因菌（覚える）</span>
+      <p>生後すぐ＝<span class="hl">B群レンサ球菌</span>／1歳くらいまで＝大腸菌／4歳くらいまで＝<span class="hl">インフルエンザ桿菌 type b</span>／小児・成人＝<span class="hl">肺炎球菌・髄膜炎菌</span>／高齢者＝肺炎球菌・<span class="hl">リステリア</span>。</p>
+    </div>
+  </div>
+
+  <!-- 9 腸球菌 -->
+  <div class="kicker">CHAPTER 9</div>
+  <h2 id="entero">腸球菌とVRE</h2>
+  <div class="card">
+    <p>腸球菌属は<span class="hl">通性嫌気性</span>、鞭毛・莢膜・芽胞なし、<span class="hl">γ溶血</span>。ヒト腸管の常在細菌叢の構成菌。<i>E. faecalis</i>（疾患の原因のほとんど）と<i>E. faecium</i>（多剤耐性傾向で臨床上重要）。</p>
+    <div class="callout warn"><span class="lb">VRE（バンコマイシン耐性腸球菌）</span>
+      <p>医原性感染症の起因菌の代表。<span class="hl">効く抗菌薬が少なく</span>、重症でなければ抗菌薬を投与しない・中止して<span class="hl">経過観察</span>。プラスミドにより耐性を広げる。</p>
+    </div>
+    <div class="exbox">
+      <span class="eh">2024年 問5</span>
+      <p class="q">VREが病棟の複数患者から検出された場合、適切でない行動を2つ選べ。</p>
+      <ol class="ch"><li>病棟を閉鎖し患者を他病棟へ移動する</li><li>汚染区域をクリーニングする</li><li>抗菌薬を中止し、PPI＋マクロライド＋ペニシリンの3剤併用に切り替える</li><li>手洗い・ガウンテクニックを強化する</li><li>周辺患者の糞便培養を提出する</li></ol>
+      <details><summary></summary><div class="a"><p class="v">答え：1・3</p>
+      <p>①患者を他病棟に移すと菌を広げる。③この3剤はピロリ菌の除菌療法で、VREには無関係。重症でなければ抗菌薬を中止し経過観察する。</p></div></details>
+    </div>
+  </div>
+
+  <!-- 10 芽胞形成菌 総論 -->
+  <div class="kicker">CHAPTER 10</div>
+  <h2 id="spore">芽胞形成菌の総論</h2>
+  <div class="card">
+    <p>芽胞を形成する菌の代表が<span class="hl">グラム陽性桿菌</span>。芽胞は<span class="hl">超極限環境で作られる耐久形態</span>で、120℃の高温やホルムアルデヒドでないと滅菌できない。環境が良くなると出芽して分裂を始める。</p>
+    <div class="callout point"><span class="lb">芽胞・莢膜・バイオフィルムの違い</span>
+      <p><b>芽胞</b>＝極限状態で形成、熱・乾燥・化学物質・紫外線に耐性、代謝が止まっている。<br>
+      <b>莢膜</b>＝宿主の食細胞をおさえ貪食を低下させる。<br>
+      <b>バイオフィルム</b>＝複数の菌が集まって作る高次構造物で、抗菌薬や免疫細胞から守る。</p>
+    </div>
+    <h3><i>Bacillus</i> 属と <i>Clostridium</i> 属</h3>
+    <div class="tbl"><table>
+      <thead><tr><th></th><th><i>Bacillus</i> 属</th><th><i>Clostridium</i> 属</th></tr></thead>
+      <tbody>
+        <tr><td>酸素</td><td><span class="hl">好気性</span>（通性嫌気性）</td><td><span class="hl">偏性嫌気性</span></td></tr>
+        <tr><td>代表菌</td><td>炭疽菌・セレウス菌・枯草菌</td><td>破傷風菌・ボツリヌス菌・ウェルシュ菌・ディフィシル菌</td></tr>
+      </tbody>
+    </table></div>
+    <div class="exbox">
+      <span class="eh">2024年 問7</span>
+      <p class="q">芽胞を形成できる菌を2つ選べ。</p>
+      <ol class="ch"><li>カンピロバクター・ジェジュニ</li><li>レジオネラ菌</li><li>炭疽菌</li><li>髄膜炎菌</li><li>ボツリヌス菌</li></ol>
+      <details><summary></summary><div class="a"><p class="v">答え：3・5</p>
+      <p>芽胞を形成するのは<i>Bacillus</i>属・<i>Clostridium</i>属のグラム陽性桿菌。炭疽菌とボツリヌス菌が該当。</p></div></details>
+    </div>
+  </div>
+
+  <!-- 11 Bacillus -->
+  <div class="kicker">CHAPTER 11</div>
+  <h2 id="bacillus"><i>Bacillus</i> 属</h2>
+  <div class="card">
+    <h3>炭疽菌</h3>
+    <p>通性嫌気性、<span class="hl">莢膜あり・鞭毛なし</span>。人獣共通感染症の炭疽の原因菌（4類感染症）。原因因子は<span class="hl">莢膜とタンパク質毒素</span>。バイオテロに使われた。</p>
+    <div class="tbl"><table>
+      <thead><tr><th>炭疽の病型</th><th>未治療の致死率・特徴</th></tr></thead>
+      <tbody>
+        <tr><td>皮膚炭疽</td><td>致死率10〜20%。水疱・壊死性潰瘍・浮腫。病変は黒い。</td></tr>
+        <tr><td>腸炭疽</td><td>致死率25〜50%。感染獣などを摂取して発症。腹痛・嘔吐・血性下痢。</td></tr>
+        <tr><td>肺炭疽</td><td><span class="hl">致死率90%以上</span>。経気道で芽胞を吸入。胸痛・咳嗽から呼吸困難・チアノーゼ。</td></tr>
+      </tbody>
+    </table></div>
+    <h3>セレウス菌</h3>
+    <p>通性嫌気性、<span class="hl">周毛性鞭毛あり・莢膜なし</span>。食中毒を起こし、下痢型と嘔吐型に分かれる。</p>
+    <dl class="kv">
+      <dt>下痢型</dt><dd>感染後、宿主の<span class="hl">腸内で産生</span>されたエンテロトキシンで発症。潜伏期<span class="hl">8〜16時間と長め</span>。</dd>
+      <dt>嘔吐型</dt><dd><span class="hl">食品中</span>でセレウス菌が増殖し産生したセレウリドで発症。潜伏期<span class="hl">1〜6時間と早め</span>（黄色ブドウ球菌の食中毒に似る）。</dd>
+    </dl>
+  </div>
+
+  <!-- 12 Clostridium -->
+  <div class="kicker">CHAPTER 12</div>
+  <h2 id="clostridium"><i>Clostridium</i> 属</h2>
+  <div class="card">
+    <p><span class="hl">偏性嫌気性</span>（酸素があると増えられない）で芽胞を形成する。破傷風・ボツリヌス中毒・ガス壊疽・食中毒・偽膜性大腸炎などを起こす。</p>
+    <h3>破傷風菌とボツリヌス菌（2025年 記述の中心）</h3>
+    <figure>
+      <svg viewBox="0 0 600 170" role="img" aria-label="破傷風毒素とボツリヌス毒素の麻痺の違い" font-family="inherit">
+        <g fill="currentColor" font-size="12">
+          <rect x="30" y="20" width="250" height="130" rx="10" fill="#C21A63" opacity=".1"/>
+          <rect x="320" y="20" width="250" height="130" rx="10" fill="#0A6DC2" opacity=".1"/>
+          <text x="155" y="44" text-anchor="middle" font-weight="700" font-size="14">破傷風毒素</text>
+          <text x="445" y="44" text-anchor="middle" font-weight="700" font-size="14">ボツリヌス毒素</text>
+          <text x="155" y="74" text-anchor="middle" font-size="11.5">抑制性ニューロンの</text>
+          <text x="155" y="92" text-anchor="middle" font-size="11.5">伝達物質放出を阻害</text>
+          <text x="155" y="122" text-anchor="middle" font-weight="700" fill="#C21A63">強直性けいれん</text>
+          <text x="155" y="140" text-anchor="middle" font-size="11">（痙性麻痺）</text>
+          <text x="445" y="74" text-anchor="middle" font-size="11.5">神経筋接合部で</text>
+          <text x="445" y="92" text-anchor="middle" font-size="11.5">アセチルコリン放出を阻害</text>
+          <text x="445" y="122" text-anchor="middle" font-weight="700" fill="#0A6DC2">弛緩性麻痺</text>
+        </g>
+      </svg>
+      <figcaption>どちらもグラム陽性桿菌・芽胞形成・偏性嫌気性。<b>破傷風</b>は抑制を外して筋が固まる（痙性）、<b>ボツリヌス</b>はアセチルコリンを止めて筋がゆるむ（弛緩性）。</figcaption>
+    </figure>
+    <dl class="kv">
+      <dt>破傷風菌</dt><dd>周毛性鞭毛あり・莢膜なし、<span class="hl">端在性</span>の芽胞。芽胞が<span class="hl">創傷から侵入</span>し発芽・増殖して毒素（テタノスパスミン）を産生。潜伏期3〜21日、全身性けいれんまでのオンセットタイムが48時間以内だと致死率50%以上。治療は免疫グロブリン・筋弛緩薬・ペニシリン大量投与。<span class="hl">四種混合ワクチン</span>に含まれる。</dd>
+      <dt>ボツリヌス菌</dt><dd>周毛性鞭毛あり・莢膜なし、<span class="hl">亜端在性</span>の芽胞。神経毒素でA〜G型に分類。<b>食餌性</b>＝食品中の毒で起こる毒素性食中毒。<b>乳児</b>＝経口摂取した芽胞が<span class="hl">大腸で発芽・増殖</span>して毒素を産生（生後3週〜1歳、<span class="hl">はちみつ</span>が原因のことが多い）。</dd>
+    </dl>
+    <h3>ガス壊疽菌（ウェルシュ菌ほか）</h3>
+    <p>偏性嫌気性、鞭毛なし・<span class="hl">莢膜あり</span>の大型菌。糖分解能が強くガス産生が著しい。血液寒天培地で<span class="hl">二重溶血環</span>。<span class="hl">α毒素（ホスホリパーゼC）</span>で組織を損傷し、ガス産生を伴う急激で広範な筋肉の壊死（ガス壊疽）。治療はデブリードマンと高圧酸素療法。ウェルシュ菌の食中毒は、芽胞で増殖した菌を多量に摂取して発症。</p>
+    <h3>クロストリジウム・ディフィシル菌</h3>
+    <p>偏性嫌気性、<span class="hl">端在性の芽胞</span>、莢膜をもち強い抗貪食作用。<span class="hl">抗菌薬関連下痢症</span>（医原性・院内感染）を起こし、偽膜性腸炎が重症化すると中毒性巨大結腸症に。治療は抗菌薬の中止とバンコマイシン。</p>
+  </div>
+
+  <!-- 13 リステリア -->
+  <div class="kicker">CHAPTER 13</div>
+  <h2 id="listeria">リステリア菌</h2>
+  <div class="card">
+    <p><span class="hl">芽胞を形成しない</span>グラム陽性桿菌。通性嫌気性〜微好気性、莢膜なし。<span class="hl">30℃以下では4本の周毛性鞭毛</span>をもつが、37℃では鞭毛なし。<span class="hl">細胞内寄生細菌</span>で、マクロファージに貪食されても殺菌されない。</p>
+    <dl class="kv">
+      <dt>リステリア症</dt><dd>人獣共通感染症（5類）。急性発熱性胃腸炎。</dd>
+      <dt>新生児リステリア症</dt><dd>流産や死産の原因。<b>早発型</b>＝生後7日未満、妊娠後期に母体から子宮内感染（呼吸促迫・肺炎・早産・髄膜炎）。<b>遅発型</b>＝生後7〜14日、出生後の水平感染（<span class="hl">髄膜炎が多く予後不良</span>）。</dd>
+    </dl>
+  </div>
+
+  <a class="cta" href="index.html">グラム陽性菌の問題を解く →</a>
+  <div class="links">
+    <a href="soron.html">総論テキスト</a>
+  </div>
+  <footer>グラム陽性菌テキスト</footer>
+</div>
+
+<script>
+(function(){
+  const secs=[["analysis","過去問分析"],["overview","分類"],["staph","ブドウ球菌"],["staph-factors","病原因子"],["staph-disease","感染症"],["staph-resist","薬剤耐性"],["strep","レンサ球菌"],["strep-disease","A群感染症"],["pneumo","肺炎球菌"],["entero","腸球菌・VRE"],["spore","芽胞形成菌"],["bacillus","Bacillus"],["clostridium","Clostridium"],["listeria","リステリア"]];
+  const nav=document.getElementById('nav');
+  secs.forEach(([id,t])=>{const a=document.createElement('a');a.href='#'+id;a.textContent=t;nav.appendChild(a)});
+  const navEl=document.querySelector('.nav');
+  function setNavH(){document.documentElement.style.setProperty('--navh',navEl.getBoundingClientRect().height+'px')}
+  setNavH();window.addEventListener('resize',setNavH);
+  nav.querySelectorAll('a').forEach(a=>a.addEventListener('click',e=>{e.preventDefault();const el=document.getElementById(a.getAttribute('href').slice(1));if(el)el.scrollIntoView({behavior:'smooth',block:'start'})}));
+})();
+</script>
+
+</body>
+</html>
