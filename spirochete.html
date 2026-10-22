@@ -1,0 +1,382 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>らせん菌テキスト</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<style>
+/* Layout: 1カラムの読み物。上部固定ナビ → 章ごとのカード（Apple HIG風）。配色は問題集と統一（アクセント=ピンク） */
+:root{
+  --bg:#F2F2F7; --card:#FFFFFF; --fg:#1C1C1E; --fg2s:#6C6C70; --sep:#C6C6C8; --fill:#E9E9EE;
+  --accent:#C21A63; --accentFill:#FF2D55; --accentSoft:#FCE4EC;
+  --ok:#248A3D; --okSoft:#E3F5E7; --ng:#D70015; --ngSoft:#FDE7E9; --warn:#C93400; --warnSoft:#FFF0E3;
+  --info:#0A6DC2; --infoSoft:#E3F0FB; --nav:rgba(242,242,247,.86);
+  --font:"Helvetica Neue", Arial, "Hiragino Kaku Gothic ProN", "Hiragino Sans", Meiryo, sans-serif;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#000000; --card:#1C1C1E; --fg:#F2F2F7; --fg2s:#98989F; --sep:#38383A; --fill:#2C2C2E;
+  --accent:#FF6FA3; --accentFill:#FF375F; --accentSoft:#3A1526;
+  --ok:#30D158; --okSoft:#12331B; --ng:#FF6961; --ngSoft:#3A1517; --warn:#FF9F0A; --warnSoft:#3A2608;
+  --info:#5AB0FF; --infoSoft:#0E2A44; --nav:rgba(18,18,20,.86); color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#000000; --card:#1C1C1E; --fg:#F2F2F7; --fg2s:#98989F; --sep:#38383A; --fill:#2C2C2E;
+  --accent:#FF6FA3; --accentFill:#FF375F; --accentSoft:#3A1526;
+  --ok:#30D158; --okSoft:#12331B; --ng:#FF6961; --ngSoft:#3A1517; --warn:#FF9F0A; --warnSoft:#3A2608;
+  --info:#5AB0FF; --infoSoft:#0E2A44; --nav:rgba(18,18,20,.86); color-scheme:dark}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:calc(env(safe-area-inset-top,0px) + var(--navh,49px) + 16px)}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+body{background:var(--bg);color:var(--fg);font-family:var(--font);font-size:16px;line-height:1.7;-webkit-text-size-adjust:100%}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:11;background:var(--nav)}
+i,em{font-style:italic}
+.nav{position:sticky;top:env(safe-area-inset-top,0px);z-index:10;background:var(--nav);-webkit-backdrop-filter:saturate(180%) blur(20px);backdrop-filter:saturate(180%) blur(20px);border-bottom:.5px solid var(--sep)}
+.nav-in{display:flex;gap:4px;overflow-x:auto;scrollbar-width:none;max-width:820px;margin:0 auto;padding-block:8px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.nav-in::-webkit-scrollbar{display:none}
+.nav a{flex:none;font-size:14px;font-weight:600;padding:6px 12px;border-radius:980px;color:var(--accent);white-space:nowrap}
+.nav a:hover,.nav a:focus-visible{background:var(--accentSoft);outline:none}
+.wrap{max-width:820px;margin:0 auto;padding-block:8px 72px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+header.top{padding:32px 2px 8px}
+header.top .eyebrow{font-size:13px;font-weight:600;color:var(--accent);letter-spacing:.04em}
+h1{font-size:33px;line-height:1.2;font-weight:700;margin:4px 0 6px;letter-spacing:-.01em;text-wrap:balance}
+.byline{color:var(--fg2s);font-size:14px;margin:0}
+.lead{font-size:15px;color:var(--fg2s);margin:14px 2px 0}
+h2{font-size:23px;font-weight:700;margin:40px 2px 4px;padding-top:6px;text-wrap:balance;scroll-margin-top:60px}
+.kicker{font-size:12px;font-weight:700;color:var(--accent);letter-spacing:.06em;margin:36px 2px 0}
+.kicker + h2{margin-top:2px}
+h3{font-size:18px;font-weight:700;margin:4px 0 2px}
+.card{background:var(--card);border-radius:14px;padding:18px 18px 20px;margin-top:12px}
+.card > :first-child{margin-top:0}
+.card p{margin:10px 0}
+.card h3{margin-top:20px;padding-top:2px;border-top:.5px solid var(--sep)}
+.card h3:first-of-type,.card > h3:first-child{border-top:0;padding-top:0}
+.hl{color:var(--accent);font-weight:600}
+.term{font-weight:700}
+ul.clean,ol.clean{margin:8px 0;padding-left:1.3em}
+ul.clean li,ol.clean li{margin:4px 0}
+dl.kv{display:grid;grid-template-columns:auto 1fr;gap:6px 14px;margin:10px 0}
+dl.kv dt{font-weight:700;white-space:nowrap}
+dl.kv dd{margin:0;min-width:0}
+.callout{border-radius:10px;padding:12px 14px;margin:12px 0;font-size:15px}
+.callout .lb{font-weight:700;display:block;margin-bottom:2px;font-size:13px;letter-spacing:.03em}
+.callout p{margin:6px 0 0}
+.callout.point{background:var(--accentSoft)}.callout.point .lb{color:var(--accent)}
+.callout.note{background:var(--infoSoft)}.callout.note .lb{color:var(--info)}
+.callout.warn{background:var(--warnSoft)}.callout.warn .lb{color:var(--warn)}
+.callout.goro{background:var(--okSoft)}.callout.goro .lb{color:var(--ok)}
+.tbl{overflow-x:auto;margin:14px 0;border-radius:10px;border:.5px solid var(--sep)}
+table{border-collapse:collapse;width:100%;font-size:14.5px;min-width:360px}
+th,td{text-align:left;padding:9px 12px;border-bottom:.5px solid var(--sep);vertical-align:top}
+thead th{background:var(--fill);font-weight:700;white-space:nowrap}
+tbody tr:last-child td{border-bottom:0}
+td .s{color:var(--fg2s);font-size:13px}
+figure{margin:16px 0 4px}
+figure svg{display:block;width:100%;height:auto;max-width:100%;background:var(--card)}
+figcaption{font-size:13px;color:var(--fg2s);margin-top:8px;line-height:1.6}
+.steps{list-style:none;counter-reset:s;margin:10px 0;padding:0}
+.steps li{position:relative;padding:4px 0 4px 34px;margin:4px 0}
+.steps li::before{counter-increment:s;content:counter(s);position:absolute;left:0;top:4px;width:24px;height:24px;border-radius:50%;background:var(--accent);color:#fff;font-size:13px;font-weight:700;display:grid;place-items:center}
+.svg-fg{fill:var(--fg)}.svg-sub{fill:var(--fg2s)}
+.exbox{border:1px solid var(--accent);border-radius:12px;padding:12px 14px;margin:16px 0 4px;background:var(--accentSoft)}
+.exbox .eh{font-size:11px;font-weight:700;color:#fff;background:var(--accent);display:inline-block;padding:2px 8px;border-radius:5px;margin-bottom:7px;letter-spacing:.03em}
+.exbox .q{font-weight:600;margin:0}
+.exbox ol.ch{margin:8px 0 0;padding-left:1.4em;font-size:14.5px}
+.exbox ol.ch li{margin:2px 0}
+.exbox details{margin-top:8px}
+.exbox summary{cursor:pointer;color:var(--accent);font-weight:700;font-size:14px;list-style:none}
+.exbox summary::-webkit-details-marker{display:none}
+.exbox summary::before{content:"▶ 答えと解説";font-size:13px}
+.exbox details[open] summary::before{content:"▼ 答えと解説"}
+.exbox .a{margin-top:8px;padding-top:10px;border-top:.5px solid var(--accent);font-size:14.5px;line-height:1.65;background:var(--card);margin-left:-14px;margin-right:-14px;padding-left:14px;padding-right:14px;padding-bottom:2px;border-radius:0 0 11px 11px}
+.exbox .a .v{font-weight:700;color:var(--ok)}
+.exbox .a p{margin:6px 0}
+.exbox .a code{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:13.5px;background:var(--fill);padding:1px 5px;border-radius:4px}
+.cta{display:block;text-align:center;background:var(--accentFill);color:#fff;font-weight:700;font-size:17px;padding:17px;border-radius:14px;text-decoration:none;margin-top:40px;box-shadow:0 6px 18px -8px var(--accentFill)}
+.cta:active{opacity:.85}
+.cta:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+.links{display:flex;flex-wrap:wrap;gap:8px;margin:12px 2px 0;justify-content:center}
+.links a{display:inline-flex;align-items:center;gap:6px;font-size:14px;font-weight:600;color:var(--accent);background:var(--accentSoft);padding:7px 14px;border-radius:980px;text-decoration:none}
+.links a::before{content:"↗";font-size:12px}
+footer{color:var(--fg2s);font-size:13px;text-align:center;margin-top:36px;padding-top:16px;border-top:.5px solid var(--sep)}
+@media (max-width:440px){h1{font-size:28px}h2{font-size:20px}.card{padding:16px 14px 18px}dl.kv{grid-template-columns:1fr}dl.kv dt{margin-top:4px}}
+</style>
+<style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{-webkit-text-size-adjust:100%}body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
+</head>
+<body>
+
+<nav class="nav" aria-label="目次"><div class="nav-in" id="nav"></div></nav>
+<div class="wrap" id="top">
+  <header class="top">
+    <div class="eyebrow">微生物学 細菌学分野</div>
+    <h1>らせん菌テキスト</h1>
+  </header>
+
+  <!-- 過去問分析 -->
+  <div class="kicker">ANALYSIS</div>
+  <h2 id="analysis">過去問分析（らせん菌）</h2>
+  <div class="card">
+    <p>2024・2025年度の過去問から、らせん菌で問われたテーマをまとめました。<span class="hl">梅毒の血清診断</span>と<span class="hl">カンピロバクター／ギラン・バレー</span>、<span class="hl">ピロリ菌</span>が重要です。</p>
+    <div class="tbl"><table>
+      <thead><tr><th>テーマ</th><th>2024</th><th>2025</th><th>章</th></tr></thead>
+      <tbody>
+        <tr><td><span class="hl">梅毒の血清診断</span>（STS／TP法）</td><td>—</td><td>問11（記述）</td><td><a href="#serology">4</a></td></tr>
+        <tr><td>妊娠梅毒の治療・先天梅毒</td><td>—</td><td>問17（記述）</td><td><a href="#course">3</a>・<a href="#treat">5</a></td></tr>
+        <tr><td><span class="hl">カンピロバクター／ギラン・バレー</span></td><td>問16（記述）</td><td>—</td><td><a href="#campylo">8</a></td></tr>
+        <tr><td><span class="hl">ピロリ菌</span>（ウレアーゼ・CagA・除菌）</td><td>—</td><td>問12</td><td><a href="#pylori">9</a></td></tr>
+      </tbody>
+    </table></div>
+  </div>
+
+  <!-- 1 分類 -->
+  <div class="kicker">学名（英語で書けるように）</div>
+  <h2 id="names">覚える学名（リストの赤字の菌）</h2>
+  <div class="card">
+    <p>英語（学名）の問題は、<span class="hl">細菌リストの赤字の菌だけ</span>から出ます。この群で覚える対象は次の通りです（頭文字を省略せず、斜体は不要）。</p>
+    <div class="tbl"><table>
+      <thead><tr><th>日本語名</th><th>学名</th></tr></thead>
+      <tbody>
+        <tr><td>梅毒トレポネーマ</td><td><i>Treponema pallidum subsp. pallidum</i></td></tr>
+        <tr><td>ライム病ボレリア</td><td><i>Borrelia burgdorferi</i></td></tr>
+        <tr><td>カンピロバクター・ジェジュニ</td><td><i>Campylobacter jejuni</i></td></tr>
+        <tr><td>ピロリ菌</td><td><i>Helicobacter pylori</i></td></tr>
+      </tbody>
+    </table></div>
+  </div>
+
+  <div class="kicker">CHAPTER 1</div>
+  <h2 id="overview">らせん菌の分類</h2>
+  <div class="card">
+    <p>細胞体がねじれて<span class="hl">らせん形</span>になった細菌。多くは<span class="hl">グラム染色で分類できない</span>（→総論テキスト第14章）。</p>
+    <div class="tbl"><table>
+      <thead><tr><th>グループ</th><th>属</th></tr></thead>
+      <tbody>
+        <tr><td><span class="hl">スピロヘータ目</span></td><td>トレポネーマ属（<span class="hl">梅毒</span>）・ボレリア属・レプトスピラ属・ブラキスピラ属</td></tr>
+        <tr><td>グラム陰性のらせん菌</td><td>カンピロバクター属・ヘリコバクター属（<span class="hl">ピロリ菌</span>）・鼠咬症スピリルム</td></tr>
+      </tbody>
+    </table></div>
+    <div class="callout note"><span class="lb">用語：スピロヘータ</span>
+      <p>細長くねじれた糸状の細菌の総称。<span class="hl">菌体の中を走る鞭毛（軸糸）</span>でコイルのように動く。グラム染色では染まりにくい。</p>
+    </div>
+  </div>
+
+  <!-- 2 梅毒トレポネーマ -->
+  <div class="kicker">CHAPTER 2</div>
+  <h2 id="treponema">梅毒トレポネーマ</h2>
+  <div class="card">
+    <p>梅毒の原因菌。<span class="hl">偏性嫌気性〜微好気性</span>で、芽胞・莢膜なし。直径0.1〜0.2μm×6〜20μmで6〜14回旋するらせん。</p>
+    <div class="callout point"><span class="lb">2つの重要な性質</span>
+      <p>① <span class="hl">体外（人工培地）で培養できない</span>（熱にも寒さにも弱く、環境の変化に非常に弱い）。<br>
+      ② <span class="hl">菌体表面に抗原となるタンパク質がほとんどなく</span>、免疫から逃げるのが得意。だから「弱いけれど、免疫に強くて増えると怖い菌」。</p>
+    </div>
+    <p>グラム染色では染まりにくい（<i>pallidum</i>＝淡い、という語源）。</p>
+  </div>
+
+  <!-- 3 臨床経過 -->
+  <div class="kicker">CHAPTER 3</div>
+  <h2 id="course">梅毒の臨床経過</h2>
+  <div class="card">
+    <p>性行為で伝播する性感染症だが、<span class="hl">滲出液の接触でも感染</span>するため医療従事者も注意が必要。母体から胎児に感染することもある（先天梅毒）。経過は病期で進む。</p>
+    <figure>
+      <svg viewBox="0 0 600 150" role="img" aria-label="梅毒の病期のタイムライン" font-family="inherit">
+        <line x1="20" y1="96" x2="580" y2="96" stroke="currentColor" opacity=".3"/>
+        <g font-family="inherit">
+          <rect x="24" y="40" width="130" height="44" rx="8" fill="#C21A63" opacity=".16"/>
+          <text x="89" y="60" text-anchor="middle" font-size="12" font-weight="700" fill="currentColor">第1期</text>
+          <text x="89" y="76" text-anchor="middle" font-size="10.5" fill="currentColor">硬性下疳</text>
+          <rect x="166" y="40" width="150" height="44" rx="8" fill="#C21A63" opacity=".28"/>
+          <text x="241" y="60" text-anchor="middle" font-size="12" font-weight="700" fill="currentColor">第2期</text>
+          <text x="241" y="76" text-anchor="middle" font-size="10.5" fill="currentColor">バラ疹・全身性</text>
+          <rect x="328" y="40" width="110" height="44" rx="8" fill="#76767f" opacity=".2"/>
+          <text x="383" y="60" text-anchor="middle" font-size="12" font-weight="700" fill="currentColor">潜伏梅毒</text>
+          <text x="383" y="76" text-anchor="middle" font-size="10.5" fill="currentColor">症状消失</text>
+          <rect x="450" y="40" width="130" height="44" rx="8" fill="#C93400" opacity=".2"/>
+          <text x="515" y="60" text-anchor="middle" font-size="12" font-weight="700" fill="#C93400">第3期</text>
+          <text x="515" y="76" text-anchor="middle" font-size="10.5" fill="#C93400">ゴム腫・神経症状</text>
+          <text x="89" y="118" text-anchor="middle" font-size="10" fill="currentColor" opacity=".7">局所</text>
+          <text x="241" y="118" text-anchor="middle" font-size="10" fill="currentColor" opacity=".7">1〜3ヶ月後</text>
+          <text x="515" y="118" text-anchor="middle" font-size="10" fill="currentColor" opacity=".7">数年後</text>
+          <text x="241" y="136" text-anchor="middle" font-size="10.5" fill="#C21A63">★ここまでにペニシリンで治療</text>
+        </g>
+      </svg>
+    </figure>
+    <dl class="kv">
+      <dt>第1期</dt><dd>潜伏1ヶ月を経て、侵入部位の局所に<span class="hl">硬性下疳</span>（硬いしこり）ができる。滲出液に<span class="hl">多量のトレポネーマ</span>がいて接触感染する。症状は3〜4週で消失し潜伏梅毒へ。</dd>
+      <dt>第2期</dt><dd>感染1〜3ヶ月後、<span class="hl">バラ疹・丘疹性梅毒疹・扁平コンジローマ</span>などの<span class="hl">全身性病変</span>。これも自然消失するが、<span class="hl">ここまでにペニシリンで治療しないといけない</span>。</dd>
+      <dt>第3期<br>（晩期顕性梅毒）</dt><dd>数年後、臓器病変が進行。心血管症状や、<span class="hl">ゴム腫・進行麻痺・脊髄癆</span>などの神経症状が出現。</dd>
+      <dt>先天梅毒</dt><dd>妊婦から胎盤を経由して胎児に感染し約<span class="hl">40%が死亡</span>。<span class="hl">ハッチンソン三徴</span>（ハッチンソン歯・実質性角膜炎・内耳性難聴）。治療に4週かかるため、<span class="hl">分娩4週前までに治療</span>を始めれば予防できる（ペニシリンの胎児への影響は今までない）。</dd>
+    </dl>
+    <div class="callout note"><span class="lb">用語メモ</span>
+      <p><b>硬性下疳</b>＝第1期の硬いしこり／<b>バラ疹</b>＝第2期の全身の淡い発疹／<b>扁平コンジローマ</b>＝陰部などの平たいいぼ／<b>ゴム腫</b>＝第3期の肉のかたまり状の病変。</p>
+    </div>
+  </div>
+
+  <!-- 4 血清診断 -->
+  <div class="kicker">CHAPTER 4</div>
+  <h2 id="serology">梅毒の血清診断（最重要）</h2>
+  <div class="card">
+    <p>梅毒は培養できないので、<span class="hl">血清で抗体を調べて診断</span>する。2種類の検査の性質を区別するのがポイント。</p>
+    <div class="tbl"><table>
+      <thead><tr><th></th><th>非特異的検査（STS／RPR）</th><th>特異的検査（TP法：TPHA・FTA-ABS）</th></tr></thead>
+      <tbody>
+        <tr><td>抗原</td><td><span class="hl">カルジオリピン</span>（ウシ心臓由来のリン脂質）</td><td><span class="hl">梅毒トレポネーマの菌体成分</span></td></tr>
+        <tr><td>原理</td><td>組織破壊で露出した自己成分への抗体を見る</td><td>トレポネーマそのものへの抗体を見る</td></tr>
+        <tr><td>特徴</td><td>感染<span class="hl">早期から陽性</span>。疾患活動性と相関し<span class="hl">治療効果の判定に有効</span>。生物学的偽陽性がある</td><td><span class="hl">特異性が高い</span>。ただし<span class="hl">治癒後も陽性が続く</span>ので治療効果の判定には使えない</td></tr>
+      </tbody>
+    </table></div>
+    <div class="callout note"><span class="lb">用語：カルジオリピンと偽陽性</span>
+      <p>カルジオリピンは<span class="hl">ヒトの細胞膜（ミトコンドリア）に含まれるリン脂質</span>で、梅毒菌そのものの成分ではない。梅毒で<span class="hl">組織が壊れると</span>、漏れ出した自己のリン脂質に対する抗体ができる。STSはこの「<span class="hl">壊れた自己組織への抗体</span>」を見ているだけなので、梅毒菌への抗体を直接見ているわけではない。</p>
+      <p>そのため、梅毒でなくても「組織が壊れる／リン脂質への抗体ができる」状況（<span class="hl">妊娠・自己免疫疾患・他の感染症</span>など）で陽性になる＝<span class="hl">生物学的偽陽性</span>。「火事（梅毒）の煙（組織破壊）」を見ているので、タバコや花火（他の原因）でも煙は出る、というイメージ。</p>
+    </div>
+    <h3>STS × TP の組み合わせの読み方</h3>
+    <div class="tbl"><table>
+      <thead><tr><th>STS</th><th>TP</th><th>解釈</th></tr></thead>
+      <tbody>
+        <tr><td>＋</td><td>−</td><td>生物学的偽陽性、または<span class="hl">初期梅毒</span></td></tr>
+        <tr><td>＋</td><td>＋</td><td>早期〜晩期梅毒・再感染・治療後</td></tr>
+        <tr><td>−</td><td>＋</td><td>梅毒治療後、またはTP法の偽陽性</td></tr>
+        <tr><td>−</td><td>−</td><td>梅毒陰性（まれに感染ごく初期）</td></tr>
+      </tbody>
+    </table></div>
+    <div class="callout point"><span class="lb">TP法だけではダメな理由</span>
+      <p>TP法は<span class="hl">一度陽性になると一生陽性</span>のままなので、TP＋だけでは「今感染中」「治療済み」「昔の既往」を区別できない。<span class="hl">治療効果の判定や再感染の検出はSTSでしかできない</span>（STSは抗体価が活動性と連動し、治ると下がる・再感染で上がる）。だから2つを組み合わせる。<br>
+      <span class="s">たとえ：TP＝焦げ跡（かつて火事があった痕／消えない）、STS＝今出ている煙（今の活動性）。</span></p>
+    </div>
+    <div class="exbox">
+      <span class="eh">2025年 問11（記述）</span>
+      <p class="q">梅毒の血清診断における非特異的検査と特異的検査の原理・特徴・病期との関係を説明しなさい。</p>
+      <details><summary></summary><div class="a"><p class="v">解答例</p>
+      <p><b>非特異的</b>：カルジオリピンを抗原とする（RPR法など）。早期から陽性になり、治療で抗体価が下がるので<span class="hl">治療効果の判定</span>に使う。生物学的偽陽性がある。<br>
+      <b>特異的</b>：トレポネーマ抗原を用いる（TPHA・FTA-ABS）。特異性が高いが、<span class="hl">治癒後も陽性が続く</span>ので治療効果の判定には使えない。</p></div></details>
+    </div>
+  </div>
+
+  <!-- 5 治療 -->
+  <div class="kicker">CHAPTER 5</div>
+  <h2 id="treat">梅毒の治療</h2>
+  <div class="card">
+    <p>治療は<span class="hl">ペニシリン</span>。病期が進むほど長く使う（第1期2〜4週／第2期4〜8週／第3期8〜12週）。</p>
+    <div class="callout warn"><span class="lb">用語：ヤーリッシュ・ヘルクスハイマー反応</span>
+      <p>治療開始時、病原菌が短期間に大量に破壊され、菌内部の毒素が血液に混入して起こる<span class="hl">中毒反応</span>（発熱など）。副作用が出ても<span class="hl">抗菌薬を飲み続けることが大事</span>。</p>
+    </div>
+    <p>梅毒は細胞表面に抗原がほぼなく、少しある抗原もすぐ変異するため<span class="hl">何度でも再感染</span>する。16世紀と比べ症状は軽減（宿主と病原体の共進化）。</p>
+  </div>
+
+  <!-- 6 ボレリア -->
+  <div class="kicker">CHAPTER 6</div>
+  <h2 id="borrelia">ボレリア属</h2>
+  <div class="card">
+    <p>グラム陰性、微好気性、ゆるやかならせん状。</p>
+    <h3>ライム病</h3>
+    <p>鳥やネズミから<span class="hl">マダニを介して伝播</span>する。経過で症状が進む。</p>
+    <dl class="kv">
+      <dt>初期</dt><dd><span class="hl">遊走性紅斑</span>（広がっていく赤み）、インフルエンザ様症状。</dd>
+      <dt>数ヶ月後</dt><dd>髄膜炎、神経根炎。</dd>
+      <dt>数年後</dt><dd>リウマチ様関節炎。</dd>
+    </dl>
+    <p>ほかに回帰熱・新興回帰熱を起こすボレリアもある。</p>
+  </div>
+
+  <!-- 7 レプトスピラ -->
+  <div class="kicker">CHAPTER 7</div>
+  <h2 id="leptospira">レプトスピラ属</h2>
+  <div class="card">
+    <p><span class="hl">偏性好気性</span>。ペリプラズム間腔に伸びる両極性鞭毛をもち、菌体の両端が<span class="hl">鉤状に曲がっている</span>のが特徴。</p>
+    <h3>ワイル病</h3>
+    <p>人獣共通感染症。<span class="hl">感染動物の尿</span>を介して皮膚や粘膜から感染し、<span class="hl">発熱・黄疸・腎不全</span>など多彩な症状が出る。治療はペニシリン・テトラサイクリン・マクロライド。</p>
+  </div>
+
+  <!-- 8 カンピロバクター -->
+  <div class="kicker">CHAPTER 8</div>
+  <h2 id="campylo">カンピロバクター属</h2>
+  <div class="card">
+    <p>グラム陰性桿菌で、<span class="hl">S字状・カーブ状</span>の形。<span class="hl">57℃の加熱で1分以内に死滅</span>。家畜やペット・野生動物に常在し、ヒトに感染すると<span class="hl">カンピロバクター腸炎・食中毒</span>を起こす。<i>C. jejuni</i> と <i>C. coli</i> が病原性をもち、<span class="hl">食中毒の原因の中で細菌トップ</span>。</p>
+    <h3>カンピロバクター腸炎・食中毒</h3>
+    <p>原因は<span class="hl">生や加熱不十分の鶏肉</span>が多い。生きた菌で発症し、<span class="hl">潜伏期間が1〜7日と長い</span>。多くは予後良好だが、<i>C. jejuni</i> では一部で<span class="hl">ギラン・バレー症候群</span>を合併する。</p>
+    <h3>ギラン・バレー症候群</h3>
+    <p>四肢の筋力低下や腱反射の消失を特徴とする<span class="hl">脱髄性の多発性末梢神経障害</span>。食中毒の数日後から手足の軽い麻痺が下肢から上肢へ、<span class="hl">両側性</span>に進む（脳梗塞などは片側性）。</p>
+    <figure>
+      <svg viewBox="0 0 600 130" role="img" aria-label="ギラン・バレー症候群の発生機序（分子相同性）" font-family="inherit">
+        <defs><marker id="arG" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 Z" fill="currentColor"/></marker></defs>
+        <g fill="currentColor" font-size="11.5">
+          <rect x="16" y="34" width="150" height="48" rx="8" fill="#0A6DC2" opacity=".14"/><text x="91" y="54" text-anchor="middle" font-weight="700">菌の細胞壁多糖</text><text x="91" y="70" text-anchor="middle" font-size="10.5">に対する抗体ができる</text>
+          <line x1="166" y1="58" x2="200" y2="58" stroke="currentColor" opacity=".55" marker-end="url(#arG)"/>
+          <rect x="202" y="34" width="180" height="48" rx="8" fill="#C21A63" opacity=".16"/><text x="292" y="54" text-anchor="middle" font-weight="700">分子相同性（似た構造）</text><text x="292" y="70" text-anchor="middle" font-size="10.5">神経のガングリオシドと交差</text>
+          <line x1="382" y1="58" x2="416" y2="58" stroke="currentColor" opacity=".55" marker-end="url(#arG)"/>
+          <rect x="418" y="34" width="166" height="48" rx="8" fill="#C93400" opacity=".2"/><text x="501" y="54" text-anchor="middle" font-weight="700" fill="#C93400">自己の末梢神経を攻撃</text><text x="501" y="70" text-anchor="middle" font-size="10.5" fill="#C93400">→ 麻痺</text>
+        </g>
+      </svg>
+      <figcaption>菌の多糖と神経のガングリオシドが<span class="hl">分子相同性</span>（似た構造）をもつため、菌への抗体が自己の末梢神経を攻撃してしまう（免疫交差反応）。</figcaption>
+    </figure>
+    <div class="callout note"><span class="lb">用語：分子相同性（免疫交差反応）</span>
+      <p>病原体の成分と自分の組織の成分が<span class="hl">似た構造</span>をもつこと。菌に対してできた抗体が、間違えて自分の組織を攻撃してしまう原因になる。</p>
+    </div>
+    <div class="exbox">
+      <span class="eh">2024年 問16（記述）</span>
+      <p class="q">カンピロバクター感染後に合併する神経疾患の名前と、その発生機序を「分子相同性」という言葉を用いて説明しなさい。</p>
+      <details><summary></summary><div class="a"><p class="v">解答例</p>
+      <p><b>ギラン・バレー症候群</b>。カンピロバクターの菌体表面の多糖が末梢神経のガングリオシドと<span class="hl">分子相同性</span>をもつため、菌に対してできた抗体が自己の末梢神経を攻撃し（免疫交差反応）、脱髄や軸索障害を起こす。</p></div></details>
+    </div>
+  </div>
+
+  <!-- 9 ピロリ -->
+  <div class="kicker">CHAPTER 9</div>
+  <h2 id="pylori">ヘリコバクター（ピロリ菌）</h2>
+  <div class="card">
+    <p>胃粘膜に住む<span class="hl">微好気性のグラム陰性</span>らせん菌。長軸の両極に4〜8本の鞭毛をもつ。<span class="hl">全世界の人口の約50%</span>が感染と推計され、日本では20代で10%、60歳以上で50%。母子感染や消毒不十分な胃カメラで感染する。</p>
+    <h3>検査</h3>
+    <dl class="kv">
+      <dt>尿素呼気試験</dt><dd>非侵襲的で、<span class="hl">最も精度が高い</span>。</dd>
+      <dt>その他</dt><dd>抗体・抗原検査、内視鏡による生検、迅速ウレアーゼ検査。</dd>
+    </dl>
+    <h3>病原因子</h3>
+    <dl class="kv">
+      <dt>ウレアーゼ</dt><dd>尿素を<span class="hl">CO₂とアンモニア</span>に分解し、胃酸を局所的に中和して住みつく。アンモニアは胃粘膜を傷害する。</dd>
+      <dt>空胞化毒素<br>VacA</dt><dd>胃上皮細胞の受容体に結合し、空胞形成・アポトーシス・転写撹乱など細胞を傷害する。</dd>
+      <dt>CagA<br>（病原遺伝子群）</dt><dd><span class="hl">東アジア株が大半で保有</span>し、<span class="hl">胃がんの発生の地域差と相関</span>。IV型分泌装置で上皮細胞内にCagAを移送し、シグナル伝達を撹乱、DNA修復酵素をリン酸化して修復できなくし発がんにつながる。</dd>
+    </dl>
+    <div class="callout note"><span class="lb">用語：ウレアーゼ／尿素呼気試験</span>
+      <p><b>ウレアーゼ</b>＝尿素を分解する酵素。アンモニアをつくって胃酸を中和する。<br>
+      <b>尿素呼気試験</b>＝目印をつけた尿素を飲み、ウレアーゼで分解されて出る二酸化炭素を呼気で測る検査。菌がいれば陽性になる。</p>
+    </div>
+    <h3>関連疾患と治療</h3>
+    <p>慢性活動性胃炎、胃・十二指腸潰瘍、萎縮性胃炎→腸上皮化生、<span class="hl">胃がん</span>、胃MALTリンパ腫、特発性血小板減少性紫斑病、鉄欠乏性貧血など。</p>
+    <div class="callout point"><span class="lb">除菌（3剤併用）</span>
+      <p><span class="hl">プロトンポンプ阻害剤（PPI）＋アモキシシリン＋クラリスロマイシン</span>の3剤。アモキシシリン＝細胞壁合成阻害、クラリスロマイシン＝タンパク質合成阻害（50S）、PPI＝胃酸を下げる。</p>
+      <p><b>PPIで「増殖を促す」のがポイント：</b>細胞壁を壊す薬（アモキシシリン）は<span class="hl">増殖して細胞壁を作っている菌にしか効かない</span>。ピロリ菌は強い胃酸の中ではあまり活発に増えていないので、<span class="hl">PPIで胃酸を下げて中性寄りにし、菌を活発に増殖させる</span>（ピロリ菌は胃酸に強いが中性をより好む）。すると細胞壁を作る菌＝薬の標的が揃い、抗生物質が効きやすくなる。胃酸が下がると抗菌薬自体も胃で壊れにくくなる。</p>
+    </div>
+    <p class="src">発見：1985年 Warren と Marshall が胃粘膜から分離培養に成功。2005年ノーベル医学生理学賞。</p>
+    <div class="exbox">
+      <span class="eh">2025年 問12 類題</span>
+      <p class="q">ピロリ菌について正しいのはどれか。</p>
+      <ol class="ch"><li>ウレアーゼで尿素をCO₂とアンモニアに分解し胃酸を中和する</li><li>胃酸に弱く強酸性の胃内では生きられない</li><li>感染率は全世界で約5%と低い</li><li>グラム陽性球菌である</li></ol>
+      <details><summary></summary><div class="a"><p class="v">答え：1</p>
+      <p>②中性を好むが、ウレアーゼで局所を中和して胃に住む。③全世界で約50%。④らせん状のグラム陰性菌。</p></div></details>
+    </div>
+  </div>
+
+  <a class="cta" href="index.html">らせん菌の問題を解く →</a>
+  <div class="links">
+    <a href="soron.html">総論テキスト</a>
+    <a href="gram-positive.html">グラム陽性菌テキスト</a>
+    <a href="gram-negative.html">グラム陰性菌テキスト</a>
+    <a href="mycobacteria.html">抗酸菌テキスト</a>
+    <a href="mycoplasma.html">マイコプラズマテキスト</a>
+    <a href="chlamydia.html">クラミジア・リケッチアテキスト</a>
+  </div>
+  <footer>らせん菌テキスト</footer>
+</div>
+
+<script>
+(function(){
+  const secs=[["analysis","過去問分析"],["names","学名"],["overview","分類"],["treponema","梅毒トレポネーマ"],["course","梅毒の経過"],["serology","血清診断"],["treat","治療"],["borrelia","ボレリア"],["leptospira","レプトスピラ"],["campylo","カンピロバクター"],["pylori","ピロリ菌"]];
+  const nav=document.getElementById('nav');
+  secs.forEach(([id,t])=>{const a=document.createElement('a');a.href='#'+id;a.textContent=t;nav.appendChild(a)});
+  const navEl=document.querySelector('.nav');
+  function setNavH(){document.documentElement.style.setProperty('--navh',navEl.getBoundingClientRect().height+'px')}
+  setNavH();window.addEventListener('resize',setNavH);
+  nav.querySelectorAll('a').forEach(a=>a.addEventListener('click',e=>{e.preventDefault();const el=document.getElementById(a.getAttribute('href').slice(1));if(el)el.scrollIntoView({behavior:'smooth',block:'start'})}));
+})();
+</script>
+
+</body>
+</html>

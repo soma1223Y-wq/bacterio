@@ -1,0 +1,1354 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>細菌学短答対策問題集</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<style>
+/* Layout: 1カラムの読み物。上部固定ナビ → 表紙 → 使い方 → 出題傾向 → 分野一覧 → 分野ごとの問題カード（Apple HIG のグループ化リスト風） */
+:root{
+  --bg:#F2F2F7; --card:#FFFFFF; --fg:#1C1C1E; --fg2:#3C3C4399; --fg2s:#6C6C70;
+  --sep:#C6C6C8; --fill:#E9E9EE; --accent:#C21A63; --accentFill:#FF2D55;
+  --accentSoft:#FCE4EC; --ok:#248A3D; --okSoft:#E3F5E7; --ng:#D70015; --ngSoft:#FDE7E9;
+  --warn:#C93400; --warnSoft:#FFF0E3; --nav:rgba(242,242,247,.86);
+  --font:"Helvetica Neue", Arial, "Hiragino Kaku Gothic ProN", "Hiragino Sans", Meiryo, sans-serif;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#000000; --card:#1C1C1E; --fg:#F2F2F7; --fg2:#EBEBF599; --fg2s:#98989F;
+  --sep:#38383A; --fill:#2C2C2E; --accent:#FF6FA3; --accentFill:#FF375F;
+  --accentSoft:#3A1526; --ok:#30D158; --okSoft:#12331B; --ng:#FF6961; --ngSoft:#3A1517;
+  --warn:#FF9F0A; --warnSoft:#3A2608; --nav:rgba(18,18,20,.86); color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#000000; --card:#1C1C1E; --fg:#F2F2F7; --fg2:#EBEBF599; --fg2s:#98989F;
+  --sep:#38383A; --fill:#2C2C2E; --accent:#FF6FA3; --accentFill:#FF375F;
+  --accentSoft:#3A1526; --ok:#30D158; --okSoft:#12331B; --ng:#FF6961; --ngSoft:#3A1517;
+  --warn:#FF9F0A; --warnSoft:#3A2608; --nav:rgba(18,18,20,.86); color-scheme:dark}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:calc(env(safe-area-inset-top,0px) + var(--navh,49px) + 64px)}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+body{background:var(--bg);color:var(--fg);font-family:var(--font);font-size:16px;line-height:1.6;-webkit-text-size-adjust:100%}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:11;background:var(--nav)}
+a{color:var(--accent);text-decoration:none}
+.nav{position:sticky;top:env(safe-area-inset-top,0px);z-index:10;background:var(--nav);
+  -webkit-backdrop-filter:saturate(180%) blur(20px);backdrop-filter:saturate(180%) blur(20px);
+  border-bottom:.5px solid var(--sep)}
+.nav-in{display:flex;gap:4px;overflow-x:auto;scrollbar-width:none;max-width:760px;margin:0 auto;
+  padding-block:8px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.nav-in::-webkit-scrollbar{display:none}
+.nav a{flex:none;font-size:14px;font-weight:500;padding:6px 12px;border-radius:980px;color:var(--accent);white-space:nowrap}
+.nav a:hover,.nav a:focus-visible{background:var(--accentSoft);outline:none}
+.wrap{max-width:760px;margin:0 auto;padding-block:8px 64px;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+header.top{padding:32px 4px 8px}
+header.top .eyebrow{font-size:13px;font-weight:600;color:var(--accent);letter-spacing:.04em}
+h1{font-size:34px;line-height:1.2;font-weight:700;margin:4px 0 6px;letter-spacing:-.01em;text-wrap:balance}
+.byline{color:var(--fg2s);font-size:14px;margin:0}
+h2{font-size:22px;font-weight:700;margin:36px 4px 10px;text-wrap:balance}
+.group{background:var(--card);border-radius:12px;overflow:hidden}
+.group p{margin:0;padding:14px 16px;font-size:15px}
+.legend{display:flex;flex-direction:column;gap:8px;padding:0 16px 14px;font-size:14px;color:var(--fg2s)}
+.legend div{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.list a{display:flex;align-items:center;gap:12px;padding:12px 16px;color:var(--fg);border-top:.5px solid var(--sep)}
+.list a:first-child{border-top:0}
+.list a:hover{background:var(--fill)}
+.list .nm{flex:1;min-width:0;font-weight:500}
+.list .ct{color:var(--fg2s);font-size:14px;font-variant-numeric:tabular-nums}
+.list .sc{font-size:13px;color:var(--accent);font-variant-numeric:tabular-nums;min-width:4.5em;text-align:right}
+.list .chev{color:var(--fg2s);font-size:18px}
+.soonrow{display:flex;align-items:center;gap:12px;padding:12px 16px;border-top:.5px solid var(--sep)}
+.soonrow .nm{flex:1;color:var(--fg2s)}.soonrow .ct{color:var(--fg2s);font-size:14px}
+.trend{display:grid;grid-template-columns:5.2em 1fr;gap:12px;padding:12px 16px;font-size:15px;border-top:.5px solid var(--sep)}
+.trend:first-child{border-top:0}
+.trend .k{font-size:13px;font-weight:700;color:var(--accent);padding-top:2px}
+.trend .v{min-width:0}
+section.sec{scroll-margin-top:60px}
+.sechead{display:flex;align-items:flex-end;justify-content:space-between;gap:12px;flex-wrap:wrap;margin:44px 4px 6px}
+.sechead h2{margin:0}
+.secdesc{margin:0 4px 12px;color:var(--fg2s);font-size:14px}
+.score{position:sticky;top:calc(env(safe-area-inset-top,0px) + var(--navh,49px));z-index:5;display:flex;align-items:center;justify-content:space-between;gap:12px;
+  background:var(--card);border-radius:12px;padding:10px 12px 10px 16px;margin-bottom:12px;box-shadow:0 1px 0 var(--sep),0 6px 16px -10px rgba(0,0,0,.25)}
+.score .nm{font-weight:700;margin-right:6px}
+.score .acts{display:flex;gap:6px;flex:none}
+.set{border-top:.5px solid var(--sep)}
+.set label{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 16px;border-bottom:.5px solid var(--sep);cursor:pointer;font-size:15px}
+.set .note{padding:10px 16px 14px;font-size:13px;color:var(--fg2s)}
+.sw{appearance:none;-webkit-appearance:none;flex:none;width:51px;height:31px;border-radius:16px;background:var(--fill);position:relative;cursor:pointer;transition:background .2s;margin:0}
+.sw::after{content:"";position:absolute;top:2px;left:2px;width:27px;height:27px;border-radius:50%;background:#fff;box-shadow:0 2px 4px rgba(0,0,0,.25);transition:transform .2s}
+.sw:checked{background:var(--accentFill)}
+.sw:checked::after{transform:translateX(20px)}
+.sw:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.score b{font-variant-numeric:tabular-nums}
+.score .bar{flex:1;height:4px;background:var(--fill);border-radius:2px;overflow:hidden;max-width:220px}
+.score .bar i{display:block;height:100%;width:0;background:var(--accentFill);transition:width .3s}
+.btn{font:inherit;font-size:14px;font-weight:600;color:var(--accent);background:var(--accentSoft);border:0;border-radius:980px;padding:6px 14px;cursor:pointer}
+.btn:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.qs{display:flex;flex-direction:column;gap:14px}
+.q{background:var(--card);border-radius:14px;padding:16px}
+.qhead{display:flex;align-items:center;gap:6px;flex-wrap:wrap;margin-bottom:8px}
+.qno{font-weight:700;font-size:15px;margin-right:4px}
+.chip{font-size:12px;font-weight:600;line-height:1;padding:5px 8px;border-radius:6px;white-space:nowrap}
+.c-past{background:var(--accentSoft);color:var(--accent)}
+.c-sim{background:var(--fill);color:var(--fg2s)}
+.c-streak{background:var(--warnSoft);color:var(--warn)}
+.c-imp{background:transparent;color:var(--accent);padding-left:2px;letter-spacing:.06em}
+.stem{margin:0 0 10px;font-size:16px;white-space:pre-line}
+.items{list-style:none;margin:0 0 12px;padding:10px 12px;background:var(--fill);border-radius:10px;display:flex;flex-direction:column;gap:6px;font-size:15px}
+.items li{display:grid;grid-template-columns:1.6em 1fr;gap:4px}
+.items li span:first-child{font-weight:700;color:var(--accent)}
+.opts{display:flex;flex-direction:column;gap:8px}
+.opt{display:grid;grid-template-columns:28px 1fr;gap:10px;align-items:start;width:100%;text-align:left;font:inherit;font-size:15px;color:var(--fg);
+  background:transparent;border:1px solid var(--sep);border-radius:10px;padding:10px 12px;cursor:pointer;transition:background .15s,border-color .15s}
+.opt:hover{background:var(--fill)}
+.opt:focus-visible{outline:2px solid var(--accent);outline-offset:1px}
+.opt .lt{display:grid;place-items:center;width:26px;height:26px;border-radius:50%;background:var(--fill);font-weight:700;font-size:14px}
+.opt .tx{min-width:0;padding-top:2px;overflow-wrap:anywhere}
+.opt .nt{display:block;font-size:13px;color:var(--fg2s);margin-top:4px}
+.q.done .opt{cursor:default}
+.q.done .opt:hover{background:transparent}
+.opt.right{border-color:var(--ok);background:var(--okSoft)}
+.opt.right .lt{background:var(--ok);color:var(--card)}
+.opt.wrong{border-color:var(--ng);background:var(--ngSoft)}
+.opt.wrong .lt{background:var(--ng);color:var(--card)}
+.q.done .opt.right:hover{background:var(--okSoft)}
+.q.done .opt.wrong:hover{background:var(--ngSoft)}
+.verdict{font-weight:700;margin:12px 0 0;font-size:15px}
+.verdict.ok{color:var(--ok)}.verdict.ng{color:var(--ng)}
+details.ex{margin-top:12px;border-top:.5px solid var(--sep);padding-top:10px}
+details.ex summary{cursor:pointer;font-weight:600;color:var(--accent);font-size:15px;list-style:none}
+details.ex summary::-webkit-details-marker{display:none}
+details.ex summary::before{content:"›";display:inline-block;margin-right:6px;transition:transform .2s}
+details.ex[open] summary::before{transform:rotate(90deg)}
+.exb{padding-top:8px;font-size:15px}
+.exb .ans{font-weight:700;margin:0 0 6px}
+.exb p{margin:0 0 8px}
+.exb ul{margin:6px 0 0;padding-left:0;list-style:none;display:flex;flex-direction:column;gap:4px}
+.exb li{display:grid;grid-template-columns:3.6em 1fr;gap:4px}
+.exb li b{white-space:nowrap}
+.exb li b.o{color:var(--ok)}.exb li b.x{color:var(--ng)}
+.wa p{margin:0 0 8px}
+.wa dl{margin:0 0 8px;display:grid;grid-template-columns:auto 1fr;gap:6px 12px}
+.wa dt{font-weight:700;white-space:nowrap;color:var(--accent)}
+.wa dd{margin:0;min-width:0}
+.wa .src{font-size:13px;color:var(--fg2s)}
+.wa code{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:14px;background:var(--fill);padding:2px 6px;border-radius:5px;overflow-wrap:anywhere}
+.links{display:flex;flex-wrap:wrap;gap:8px;margin:14px 2px 0}
+.links a{display:inline-flex;align-items:center;gap:6px;font-size:14px;font-weight:600;color:var(--accent);background:var(--accentSoft);padding:7px 14px;border-radius:980px;text-decoration:none}
+.links a::before{content:"↗";font-size:12px}
+.links a.cur{background:var(--fill);color:var(--fg2s)}
+.links a.cur::before{content:"●";color:var(--accent)}
+.notes{margin:0;padding:12px 16px 12px 34px;font-size:15px}
+.notes li{margin:0 0 6px}
+.back{display:block;text-align:center;margin:18px 0 0;font-size:15px}
+footer{color:var(--fg2s);font-size:13px;text-align:center;margin-top:40px}
+@media (max-width:420px){h1{font-size:28px}.score .bar{display:none}.wa dl{grid-template-columns:1fr}.wa dt{margin-top:4px}}
+</style>
+<style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{-webkit-text-size-adjust:100%}body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
+</head>
+<body>
+
+
+<nav class="nav" aria-label="分野"><div class="nav-in" id="nav"><a href="#top">目次</a></div></nav>
+<div class="wrap" id="top">
+  <header class="top">
+    <div class="eyebrow">横浜市立大学 医学部 微生物学（細菌学分野）試験対策</div>
+    <h1>細菌学短答対策問題集</h1>
+  </header>
+  <h2>使い方</h2>
+  <div class="group">
+    <p>過去問（2024・2025年度）、細菌リスト、シケプリをもとに作成した短答式の問題集です。選択肢をタップすると採点され、解答・解説が開きます。各分野の正答数の横にある「やり直す」で、その分野の解答をリセットできます。正答数と「やり直す」はスクロールしても画面上部に表示されます。各分野の問題は重要度の高い順に並んでいますが、下の設定で問題や選択肢の順番をランダムにできます。過去問の正答は公式発表がないため、シケプリをもとに作成しています。</p>
+    <div class="legend">
+      <div><span class="chip c-past">2024年 問3 そのまま</span>過去問をそのまま掲載（「2つ選べ」は組合せ形式に変換）</div>
+      <div><span class="chip c-past">2025年 問4 類題</span>過去問（記述を含む）を元に作成した問題</div>
+      <div><span class="chip c-sim">オリジナル</span>シケプリから作成した問題</div>
+      <div><span class="chip c-sim">補足あり</span>解説にシケプリ範囲外の補足を含む</div>
+      <div><span class="chip c-streak">2年連続</span>同じテーマが2024・2025年に連続して出題</div>
+      <div><span class="chip c-imp">★★★</span>重要度（★★★＝最優先）</div>
+    </div>
+  </div>
+  <h2>出題傾向</h2>
+  <div class="group">
+    <div class="trend"><div class="k">毎年</div><div class="v"><b>学名</b>が大量に出る（2025年は学名⇔日本語名で25問、2024年は10問）。対象は細菌リストの赤字の菌のみ。頭文字の省略や誤字は減点。</div></div>
+    <div class="trend"><div class="k">2年連続</div><div class="v"><b>ペプチドグリカンの構造</b>、<b>形質転換・形質導入・接合</b>、<b>莢膜</b>（組成・免疫回避・ワクチン）。</div></div>
+    <div class="trend"><div class="k">2024年</div><div class="v">原核生物にないもの、芽胞形成菌、フェントン反応とSOD・カタラーゼ、グラム染色の決定要因。</div></div>
+    <div class="trend"><div class="k">2025年</div><div class="v">「2つ選べ」と記述が中心。常在細菌叢、バイオフィルム、破傷風菌とボツリヌス菌、緑膿菌、結核・梅毒・ピロリ菌・マイコプラズマなど各論も出題。</div></div>
+  </div>
+  <h2>出題設定</h2>
+  <div class="group set">
+    <label for="rq"><span>問題の順番をランダムにする</span><input type="checkbox" class="sw" id="rq"></label>
+    <label for="ro"><span>選択肢の順番をランダムにする</span><input type="checkbox" class="sw" id="ro"></label>
+    <div class="note">設定を切り替えると全分野の解答がリセットされます。ランダムがオンのときは「やり直す」を押すたびに、その分野の順番が並べ替わります。「2つ選べ」形式のア〜オの文の順番は、解説と対応させるため固定です。</div>
+  </div>
+  <h2>テキスト</h2>
+  <div class="group list">
+    <a href="soron.html"><span class="nm">総論テキスト</span><span class="ct">公開中</span><span class="chev" aria-hidden="true">›</span></a>
+    <a href="gram-positive.html"><span class="nm">グラム陽性菌テキスト</span><span class="ct">公開中</span><span class="chev" aria-hidden="true">›</span></a>
+    <a href="gram-negative.html"><span class="nm">グラム陰性菌テキスト</span><span class="ct">公開中</span><span class="chev" aria-hidden="true">›</span></a>
+    <a href="spirochete.html"><span class="nm">らせん菌テキスト</span><span class="ct">公開中</span><span class="chev" aria-hidden="true">›</span></a>
+    <a href="mycobacteria.html"><span class="nm">抗酸菌テキスト</span><span class="ct">公開中</span><span class="chev" aria-hidden="true">›</span></a>
+    <a href="mycoplasma.html"><span class="nm">マイコプラズマテキスト</span><span class="ct">公開中</span><span class="chev" aria-hidden="true">›</span></a>
+    <a href="chlamydia.html"><span class="nm">クラミジア・リケッチアテキスト</span><span class="ct">公開中</span><span class="chev" aria-hidden="true">›</span></a>
+  </div>
+
+  <h2>分野一覧</h2>
+  <div class="group list" id="toc"></div>
+  <div id="secs"></div>
+  <h2>シケプリの気になる点</h2>
+  <div class="group"><ul class="notes">
+    <li>O抗原の説明に「グラム陽性菌の細胞壁外膜」とありますが、外膜とリポ多糖をもつのはグラム<b>陰性</b>菌です。</li>
+    <li>「通気嫌気性菌」は一般に「通性嫌気性菌」と書きます。</li>
+    <li>「Bacillius属」は「<i>Bacillus</i>属」の誤記です。2024年過去問再現の「Hemophilus」も正しくは「<i>Haemophilus</i>」です。</li>
+    <li>ニューモシスチスは細菌ではなく真菌です（日和見感染の例としては正しい）。</li>
+  </ul></div>
+  <footer>細菌学短答対策問題集（細菌学総論・細菌リスト範囲）</footer>
+</div>
+<script>
+/* ---------- 学名データ（細菌リストの赤字の菌） ---------- */
+const B=[
+["A","黄色ブドウ球菌","Staphylococcus aureus","aureus＝黄金色の","皮膚・粘膜に定着。エンテロトキシンによる食中毒など。","2024・2025"],
+["A","表皮ブドウ球菌","Staphylococcus epidermidis","epidermidis＝表皮","コアグラーゼ陰性ブドウ球菌。皮膚常在菌で医療器具関連感染。",""],
+["A","化膿レンサ球菌","Streptococcus pyogenes","pyogenes＝膿を生じる","A群レンサ球菌。咽頭炎、猩紅熱、リウマチ熱、急性糸球体腎炎など。","2024・2025"],
+["A","肺炎球菌","Streptococcus pneumoniae","pneumoniae＝肺炎","莢膜をもち、肺炎・中耳炎・髄膜炎の原因。","2025"],
+["A","腸球菌","Enterococcus faecalis","entero＝腸、faecalis＝糞便","腸管常在菌。尿路感染症、心内膜炎など。","2025"],
+["B","リステリア・モノサイトジェネス","Listeria monocytogenes","monocytogenes＝単球","食品由来感染。細胞内で生存し、新生児などで重症化。",""],
+["B","炭疽菌","Bacillus anthracis","bacillus＝小さな棒、anthracis＝炭疽","芽胞形成菌。皮膚病変は黒い。","2025"],
+["B","枯草菌","Bacillus subtilis","subtilis＝微細な","芽胞形成菌。",""],
+["B","破傷風菌","Clostridium tetani","tetanos＝緊張・痙攣","芽胞形成菌。神経毒素で筋硬直・痙攣。","2024"],
+["B","ボツリヌス菌","Clostridium botulinum","botulus＝ソーセージ","芽胞形成菌。神経毒素で弛緩性麻痺。",""],
+["B","ウェルシュ菌","Clostridium perfringens","perfringens＝貫通・破裂","芽胞形成菌。ガス壊疽や食中毒。","2025"],
+["B","ディフィシル菌","Clostridium difficile","difficile＝困難な","芽胞形成菌。抗菌薬関連下痢症・偽膜性腸炎（菌交代現象）。",""],
+["B","乳酸桿菌","Lactobacillus casei","lac＝乳、caseus＝チーズ","小腸などの常在菌。",""],
+["B","ジフテリア菌","Corynebacterium diphtheriae","Coryne＝棍棒状","ジフテリア毒素がタンパク質合成を阻害。","2025"],
+["C","淋菌","Neisseria gonorrhoeae","Neisser（研究者）、gonorrhoeae＝淋病","グラム陰性双球菌。性感染症。","2024・2025"],
+["C","髄膜炎菌","Neisseria meningitidis","meningitidis＝髄膜炎","髄膜炎・敗血症。低温に弱い。","2025"],
+["C","モラクセラ・カタラーリス","Moraxella catarrhalis","catarrhalis＝カタル","市中肺炎、COPD急性増悪。",""],
+["C","アシネトバクター・バウマニ","Acinetobacter baumannii","Acinetobacter＝運動性がない","ESKAPEに含まれる多剤耐性菌。",""],
+["C","インフルエンザ菌","Haemophilus influenzae","haemo＝血液、philus＝好む","X因子・V因子を要求。莢膜b型が最も病原性が強い。","2024・2025"],
+["C","軟性下疳菌","Haemophilus ducreyi","ducreyi＝研究者名","軟性下疳（性感染症）の原因菌。",""],
+["D","大腸菌","Escherichia coli","Escherich（研究者）、coli＝大腸","腸管常在菌。病原性大腸菌は下痢症など。","2024・2025"],
+["D","赤痢菌","Shigella dysenteriae","Shigella＝志賀潔、dysenteriae＝赤痢","細菌性赤痢の原因菌。","2025"],
+["D","チフス菌","Salmonella enterica subsp. enterica serovar. Typhi","Salmon（研究者）、Typhi＝腸チフス","腸チフスの原因菌。",""],
+["D","パラチフス菌","Salmonella enterica subsp. enterica serovar. Paratyphi","para＝近縁","パラチフスの原因菌。",""],
+["D","ネズミチフス菌","Salmonella enterica subsp. enterica serovar. Typhimurium","Typhimurium＝ネズミのチフス","宿主はげっ歯類だが、食品から感染し食中毒。","2025"],
+["D","肺炎桿菌","Klebsiella pneumoniae","Klebs（研究者）、pneumoniae＝肺炎","莢膜をもつ。肺炎や尿路感染症。","2024・2025"],
+["D","ペスト菌","Yersinia pestis","Yersin（研究者）、pestis＝疫病","ペストの原因菌。1類感染症。","2025"],
+["D","エルシニア・エンテロコリチカ","Yersinia enterocolitica","entero＝腸、colo＝結腸","食品などを介して腸炎。","2025"],
+["D","仮性結核菌","Yersinia pseudotuberculosis","pseudo＝偽の","結核様病変を起こすことがある。",""],
+["D","コレラ菌","Vibrio cholerae","vibrio＝湾曲・振動","コレラ毒素で大量の水様性下痢。","2025"],
+["D","腸炎ビブリオ","Vibrio parahaemolyticus","haemolyticus＝溶血","好塩性。魚介類による食中毒。",""],
+["D","緑膿菌","Pseudomonas aeruginosa","aeruginosa＝青緑色","湿潤環境に分布。院内感染・薬剤耐性・菌交代現象。","2024・2025"],
+["D","百日咳菌","Bordetella pertussis","Bordet（研究者）、pertussis＝激しい咳","ヒトが唯一の保菌者。","2025"],
+["D","レジオネラ・ニューモフィラ","Legionella pneumophila","在郷軍人会の集団発生、pneumophila＝肺を好む","アメーバ内で増殖。マクロファージに感染。",""],
+["D","コクシエラ・バーネッティイ","Coxiella burnetii","Cox（研究者）","偏性細胞内寄生菌。Q熱の原因菌。",""],
+["D","バクテロイデス・フラジリス","Bacteroides fragilis","fragilis＝脆い","偏性嫌気性の腸内常在菌。腸管外で感染症。",""],
+["D","セラチア菌","Serratia marcescens","marcescens＝消えゆく（赤色色素が褪色）","院内感染。赤色色素。",""],
+["E","結核菌","Mycobacterium tuberculosis","myco＝菌類、tuberculosis＝結核","細胞内寄生性の抗酸菌。","2024"],
+["E","らい菌","Mycobacterium leprae","leprae＝らい","ハンセン病の原因菌。人工培地での培養が困難。","2025"],
+["F","梅毒トレポネーマ","Treponema pallidum subsp. pallidum","pallidum＝淡い（染色されにくい）","体外培養不可。非特異的検査と特異的検査がある。","2024・2025"],
+["F","ライム病ボレリア","Borrelia burgdorferi","Borrel・Burgdorfer（研究者）","マダニの吸血で伝播。","2025"],
+["F","カンピロバクター・ジェジュニ","Campylobacter jejuni","campylo＝曲がった、jejuni＝空腸","加熱不十分な鶏肉による胃腸炎。",""],
+["F","ピロリ菌","Helicobacter pylori","helico＝らせん、pylori＝幽門","ウレアーゼを産生。胃炎・消化性潰瘍。","2025"],
+["G","肺炎マイコプラズマ","Mycoplasma pneumoniae","plasma＝形、pneumoniae＝肺炎","マイコプラズマ肺炎。",""],
+["G","マイコプラズマ・ジェニタリウム","Mycoplasma genitalium","genitalium＝生殖器","性感染症。",""],
+["H","ツツガムシ病リケッチア","Orientia tsutsugamushi","Oriens＝東洋","ツツガムシの幼虫に刺されて感染。",""],
+["H","発疹チフスリケッチア","Rickettsia prowazekii","Ricketts・Prowazek（研究者）","シラミの糞便が傷口から入り感染。","2025"],
+["H","トラコーマ・クラミジア","Chlamydia trachomatis","Chlamydia＝マント、trachomatis＝トラコーマ","トラコーマ、封入体結膜炎、泌尿生殖器感染症。",""],
+["H","肺炎クラミジア","Chlamydophila pneumoniae","Chlamydophila＝クラミジア＋好む","市中肺炎、非定型肺炎。","2025"],
+["H","オウム病クラミジア","Chlamydophila psittaci","psittaci＝オウム","鳥類から感染。",""]
+].map(([g,ja,la,et,ft,past],i)=>({i,g,ja,la,et,ft,past,genus:la.split(" ")[0],ep:la.split(" ")[1]}));
+
+/* ---------- 5択問題 ---------- */
+// t: タグ配列 [種類, ラベル]  種類: past / rep / orig / ext
+const P=(l)=>["past",l], REP=["rep","2年連続"], ORI=["orig","オリジナル"], EXT=["ext","補足あり"];
+const STRUCT=[
+{k:1,st:3,t:[REP,P("2024 問11・2025 問2 類題")],q:"ペプチドグリカンの構造について正しいのはどれか。",o:[
+["NAGとNAMがβ-1,4-グリコシド結合で交互に連結した糖鎖をもつ",1,"N-アセチルグルコサミン（NAG）とN-アセチルムラミン酸（NAM）が交互に並んだ糖鎖です。"],
+["ペプチド側鎖はNAGから伸びている",0,"ペプチド側鎖はNAMから伸び、NAMとNAMをペプチドで架橋します。"],
+["ペプチド側鎖同士の架橋はβ-lactamaseが行う",0,"架橋（クロスリンキング）を行うのはトランスペプチダーゼ（PBP）です。"],
+["リゾチームはペプチドの架橋を切断する",0,"リゾチームはNAGとNAMの間のβ-1,4-グリコシド結合を切断します。"],
+["バンコマイシンはβラクタム環をもちPBPに結合する",0,"バンコマイシンはNAMに結合したアミノ酸鎖に結合して架橋を阻害します。βラクタム環をもつのはペニシリンです。"]]},
+{k:2,st:3,t:[REP,P("2024 問11 類題")],q:"ペニシリンの作用と耐性について正しいものを2つ選べ。",o:[
+["ペニシリンはPBPに結合してペプチドグリカンの架橋を阻害する",1,"架橋形成を妨げ、細胞壁が十分に合成できなくなった菌を弱体化します。"],
+["PBP2'はペニシリンが結合しやすい変異型PBPである",0,"PBP2'はペニシリンが<strong>結合しにくい</strong>変異型PBPで、阻害を受けにくくなります。"],
+["β-lactamaseはβラクタム環を加水分解して開裂させる",1,"ペニシリンの作用を失わせる耐性機構です。"],
+["β-lactamaseはNAGとNAMの結合を切断する",0,"それはリゾチームの作用です。"],
+["ペニシリンはDNAジャイレースを阻害する",0,"DNAジャイレースを阻害するのはニューキノロンです。"]]},
+{k:1,st:3,t:[REP,P("2024 問8・2025 問3 類題")],q:"遺伝情報の変化と、最も関連の深い語句の組み合わせで正しいのはどれか。",o:[
+["形質転換 ― バクテリオファージ",0,"形質転換は、菌体から抽出したDNA（遊離DNA）を他の細胞に取り込ませることです。"],
+["形質導入 ― バクテリオファージ",1,"ファージ（ウイルス）を介して遺伝情報が他の細菌に導入されます。"],
+["接合 ― 遊離DNA",0,"接合は性線毛を介してプラスミドを移入します。"],
+["欠失と挿入 ― 制限酵素",0,"欠失と挿入はトランスポゾンによって起こります。"],
+["形質転換 ― 性線毛",0,"性線毛を介するのは接合です。"]]},
+{k:2,st:3,t:[REP,P("2024 問8・2025 問3 類題")],q:"細菌の遺伝情報の変化について正しいものを2つ選べ。",o:[
+["接合では性線毛を介してプラスミドが移入される",1,"移入を受けた菌も性線毛をもつようになります。"],
+["プラスミドは薬剤耐性遺伝子の主な格納庫である",1,"染色体とは独立した環状2本鎖DNAです。このため接合は薬剤耐性の獲得と強く関わります。"],
+["グリフィスの実験は形質導入と同じ原理である",0,"グリフィスの実験は形質転換と同じ原理です。"],
+["形質転換では生きた菌同士が直接接触する必要がある",0,"形質転換は遊離DNAを取り込むので、菌同士の接触は不要です。直接つながるのは接合です。"],
+["欠失と挿入は相同組換えによって起こる",0,"欠失と挿入はトランスポゾンによります。相同組換えは「組換え」です。"]]},
+{k:2,st:3,t:[P("2024 問3 そのまま")],q:"次の分子あるいは細胞内小器官のうち、原核生物には存在しないものを2つ選べ。",o:[
+["リボソーム",0,"原核生物もタンパク質合成に必須のリボソーム（70S）をもちます。"],
+["小胞体",1,"膜で囲まれた小器官（小胞体・ゴルジ体など）は原核生物にはありません。"],
+["tRNA",0,"tRNAはリボソームとともにタンパク質合成を担い、原核生物にもあります。"],
+["細胞膜",0,"細胞壁の内側に細胞膜（脂質二重層）があります。"],
+["ミトコンドリア",1,"原核生物にミトコンドリアはありません。呼吸鎖は細胞膜にあります。"]]},
+{k:2,st:3,t:[P("2024 問7 そのまま")],q:"芽胞を形成することのできる菌を2つ選べ。",o:[
+["カンピロバクター・ジェジュニ",0,"らせん菌（湾曲した桿菌）で、芽胞は形成しません。"],
+["レジオネラ菌",0,"グラム陰性桿菌で、芽胞は形成しません。"],
+["炭疽菌",1,"<i>Bacillus</i>属のグラム陽性桿菌で、芽胞を形成します。"],
+["髄膜炎菌",0,"グラム陰性双球菌で、芽胞は形成しません。"],
+["ボツリヌス菌",1,"<i>Clostridium</i>属のグラム陽性桿菌で、芽胞を形成します。"]]},
+{k:1,st:3,t:[REP,P("2025 問4 類題")],q:"莢膜について誤っているのはどれか。",o:[
+["多糖体やポリペプチドで構成される",0,"正しい記述です。2025年は組成が問われました。"],
+["ヒト体内にある糖やアミノ酸で構成され、擬自己化して貪食を逃れる",0,"正しい記述です。"],
+["負電荷をもち、同じく負に帯電した食細胞と反発する",0,"正しい記述です。"],
+["補体による孔形成やオプソニン化を阻害する",0,"正しい記述です。"],
+["H抗原として、TLR5に認識される",1,"<strong>誤り。</strong>莢膜はK抗原です。H抗原は鞭毛のフラジェリンで、TLR5のリガンドです。"]]},
+{k:2,st:3,t:[P("2024 問4 そのまま"),EXT],q:"細菌による免疫回避機構とは関連性が低いものを2つ選べ。",o:[
+["リゾチーム",1,"唾液や涙に含まれる宿主側の酵素で、自然免疫の一つです。細菌の回避機構ではありません。"],
+["プロテインA",0,"黄色ブドウ球菌がつくり、免疫グロブリンの定常部をマスクして貪食を阻害します。"],
+["莢膜",0,"擬自己化、負電荷、オプソニン化や補体の阻害で免疫を回避します。"],
+["コアグラーゼ",0,"黄色ブドウ球菌の酵素です（細菌リストではコアグラーゼ試験として登場）。補足：フィブリンで菌体を覆い、貪食を逃れるのに役立ちます。"],
+["補体",1,"宿主側の防御因子です。細胞膜に穴を開け、C5aは白血球を動員します。"]]},
+{k:1,st:2,t:[P("2025 問5 そのまま"),EXT],q:"莢膜抗原に対する免疫応答の特徴として誤っているものを1つ選べ。",o:[
+["食細胞による抗原提示に依存する",1,"<strong>誤り。</strong>抗原提示はタンパク質を分解しMHCに乗せたペプチドを提示するもので、多糖の莢膜抗原は乗りません。補足：多糖はT細胞非依存性抗原です。"],
+["幼児では、この種の抗原に対する抗体産生が弱くなる傾向がある",0,"正しい記述です（補足：2歳未満では多糖抗原への応答が未熟）。"],
+["免疫記憶が形成されにくいことが知られている",0,"正しい記述です（補足：T細胞の助けがないため）。"],
+["莢膜の繰り返し構造が、免疫応答の活性化に重要である",0,"正しい記述です（補足：繰り返し構造がB細胞受容体を多数架橋して活性化します）。"],
+["免疫応答を高めるため、タンパク質と結合させたワクチンが開発されている",0,"正しい記述です（補足：結合型ワクチン。タンパク質部分がT細胞の助けを引き出します）。"]]},
+{k:2,st:3,t:[P("2024 問12・13 類題")],q:"活性酸素とその消去について正しいものを2つ選べ。",o:[
+["過酸化水素はFe²⁺によるフェントン反応でヒドロキシラジカルになる",1,"Fe²⁺ + H₂O₂ → Fe³⁺ + ・OH + OH⁻。2024年は反応名と化学式が問われました。"],
+["細菌で活性酸素の消去に重要な酵素はSODとカタラーゼである",1,"有酸素下で生存するために必須です。"],
+["SODは過酸化水素を水と酸素に分解する",0,"SODはO₂⁻を過酸化水素にします。過酸化水素を水と酸素にするのはカタラーゼです。"],
+["最も致死的な活性酸素はスーパーオキシドである",0,"致死的障害を起こすのはヒドロキシラジカル（・OH）です。"],
+["ヒドロキシラジカルは脂質を還元して細胞膜を保護する",0,"脂質を過酸化し、DNAと細胞膜を直接傷害します。"]]},
+{k:1,st:2,t:[P("2024 問9 類題")],q:"グラム染色の染色性を決定する要因はどれか。",o:[
+["細胞壁（ペプチドグリカン層）の厚さ",1,"アルコールで脱色されるのは細胞壁が薄いグラム陰性菌だけです。"],
+["莢膜の有無",0,"莢膜はグラム染色では周囲が白く抜けて見えますが、陽性・陰性は決めません。"],
+["鞭毛の有無",0,"鞭毛は染色性に関係しません。"],
+["芽胞の有無",0,"芽胞は耐久構造で、染色性を決める要因ではありません。"],
+["菌の形態（球菌か桿菌か）",0,"形態と染色性は別の軸です（陽性球菌・陰性桿菌などと組み合わせて分類）。"]]},
+{k:2,st:2,t:[P("2024 問9 類題")],q:"グラム染色で染色されない細菌を2つ選べ。",o:[
+["結核菌",1,"抗酸菌はグラム染色できません。チール・ネールゼン染色で赤く染めます。"],
+["肺炎球菌",0,"グラム陽性双球菌です。"],
+["マイコプラズマ",1,"小さすぎてグラム染色できません。"],
+["大腸菌",0,"グラム陰性桿菌です。"],
+["淋菌",0,"グラム陰性双球菌です。"]]},
+{k:1,st:2,t:[ORI],q:"グラム陰性菌の細胞壁について正しいのはどれか。",o:[
+["厚いペプチドグリカン層をもつ",0,"厚いペプチドグリカン層はグラム陽性菌の特徴です。"],
+["タイコ酸がペプチドグリカン層を貫く",0,"タイコ酸・リポタイコ酸はグラム陽性菌です。"],
+["外膜にリポ多糖をもつ",1,"薄いペプチドグリカン層の外側を、リン脂質とリポ多糖からなる外膜が覆います。"],
+["外膜をもたない",0,"外膜をもつのが陰性菌の特徴です。"],
+["細胞膜は細胞壁の外側に位置する",0,"細胞膜は細胞壁の内側にある脂質二重層です。"]]},
+{k:1,st:1,t:[ORI],q:"グラム染色の手順について正しいのはどれか。",o:[
+["最初にサフラニンで染色する",0,"最初はクリスタルバイオレット。サフラニンは最後に脱色された菌を赤く染めます。"],
+["ルゴールは脱色のために用いる",0,"ルゴールは色を濃くするため。脱色はアルコールです。"],
+["アルコールで脱色されるのはグラム陰性菌である",1,"細胞壁が薄いため色が抜けます。"],
+["グラム陽性菌は最終的に赤色に見える",0,"陽性は紫、陰性は赤です。"],
+["塗抹後は加熱せずにそのまま染色する",0,"塗抹・乾燥し、加熱固定してから染色します。"]]},
+{k:1,st:1,t:[ORI],q:"細菌の構造と抗原について正しい組み合わせはどれか。",o:[
+["鞭毛 ― K抗原",0,"鞭毛はH抗原です。"],
+["莢膜 ― H抗原",0,"莢膜はK抗原です。"],
+["フラジェリン ― TLR5のリガンド",1,"鞭毛繊維を構成するタンパク質です。"],
+["性線毛 ― 組織への付着",0,"性線毛は遺伝子の伝達。組織に付着するのは体線毛です。"],
+["リピドA ― O抗原",0,"リピドAは内毒素の本体。O抗原はO側鎖多糖です。"]]},
+{k:1,st:1,t:[ORI],q:"リボソームについて正しいのはどれか。",o:[
+["原核生物のリボソームは30Sと60Sからなる",0,"原核生物は30Sと50Sで70Sです。"],
+["真核生物のリボソームは40Sと60Sが合わさり100Sとなる",0,"80Sです。Sは単純な足し算になりません。"],
+["16S rRNAは原核生物の小サブユニットに含まれる",1,"30Sサブユニットに含まれ、菌の同定に使われます。"],
+["18S rRNAは原核生物がもつ",0,"18Sは真核生物の40Sサブユニットに含まれます。"],
+["「S」は分子量を表す",0,"Sは沈降係数（遠心でどれだけ速く沈むか）です。"]]},
+{k:1,st:1,t:[ORI],q:"細菌の増殖・代謝について正しいのはどれか。",o:[
+["細菌では転写と翻訳が同時に進行する",1,"mRNAの転写とタンパクへの翻訳は同時に進みます。"],
+["液体培地での増殖曲線は3期に分けられる",0,"誘導期・対数増殖期・静止期・衰退期の4期です。"],
+["細菌の呼吸鎖はミトコンドリアに存在する",0,"細菌の呼吸鎖は細胞膜にあります。"],
+["嫌気的呼吸の終末電子受容体は酸素である",0,"酸素を使うのは好気的呼吸。嫌気的呼吸は酸素以外を使います。"],
+["解糖系は同化の例である",0,"解糖系は異化の例。同化の例は核酸やペプチドグリカンの合成です。"]]},
+{k:1,st:1,t:[ORI],q:"酸素要求性について正しいのはどれか。",o:[
+["嫌気性菌は酸素があると生育できない",1,"定義どおりです。"],
+["通性嫌気性菌は酸素がないと生育できない",0,"酸素があってもなくても生育できます（あるほうが良い）。"],
+["好気性菌はSODやカタラーゼをもたない",0,"呼吸に酸素を利用する菌は活性酸素消去系をもちます。"],
+["エントナー・ドゥドロフ経路はヒトにも共通する経路である",0,"細菌に固有の代謝経路です（もう一つは発酵）。"],
+["発酵は酸化的リン酸化でATPを産生する",0,"酸化的リン酸化は呼吸鎖による呼吸の説明です。"]]},
+{k:1,st:2,t:[ORI],q:"感染と感染症について正しいのはどれか。",o:[
+["感染が成立しても症状が出ていない状態を不顕性感染といい、キャリアーになりえる",1,"感染は「侵入・定着・増殖」、感染症は「症状や病気が起こること」です。"],
+["感染と感染症は同じ意味である",0,"感染しても症状が出ないこと（不顕性感染）があります。"],
+["感染症は死亡した個体にも起こる",0,"生きている個体にのみ起こります。"],
+["不顕性感染の人は他人に菌をうつさない",0,"キャリアー（保菌者）として菌を拡散しえます。"],
+["病原体は微生物を包含する概念である",0,"逆で、病原体は微生物に包含されます。"]]},
+{k:1,st:1,t:[ORI],q:"細菌とウイルスの違いについて正しいのはどれか。",o:[
+["ウイルスは自分の細胞をもたず、他の細胞内でのみ増殖する",1,"ウイルスには代謝系がなく、細菌より小さいです。"],
+["細菌はウイルスより小さい",0,"ウイルスのほうが小さいです。"],
+["ウイルスは独自の代謝系をもつ",0,"ウイルスには代謝系がありません。"],
+["細菌は他の細胞内でしか増殖できない",0,"細菌は自分の細胞をもち、単独で増殖できます。"],
+["原核細胞はミトコンドリアをもつ",0,"原核細胞に膜で囲まれた小器官（ミトコンドリアなど）はありません。"]]},
+{k:1,st:1,t:[ORI],q:"細菌の構造について正しいのはどれか。",o:[
+["プラスミドは染色体とは独立した環状2本鎖DNAで、薬剤耐性遺伝子の主な格納庫である",1,"核様体は核膜に包まれない繊維状の2本鎖DNAです。"],
+["性線毛は組織への付着に関わる",0,"性線毛は遺伝子の伝達、組織に付着するのは体線毛です。"],
+["核様体は核膜に包まれている",0,"核膜に包まれず繊維状で存在します。"],
+["莢膜はH抗原である",0,"莢膜はK抗原、H抗原は鞭毛のフラジェリンです。"],
+["プラスミドは線状1本鎖DNAである",0,"環状2本鎖DNAです。"]]},
+{k:1,st:2,t:[ORI],q:"細胞内で起こる遺伝情報の変化について正しいのはどれか。",o:[
+["欠失と挿入は、染色体を動き回るトランスポゾンによって起こる",1,"ほかに突然変異（複製時の塩基置換）と組換え（相同組換え）があります。"],
+["突然変異はバクテリオファージを介して起こる",0,"複製時にDNAポリメラーゼが誤って塩基を置換することで起こります。ファージは形質導入です。"],
+["組換えとはプラスミドが接合で移入することである",0,"接合は細胞外からの変化。組換えは相同組換えのことです。"],
+["欠失と挿入は制限酵素によって起こる",0,"トランスポゾンによります。"],
+["細胞内の変化には形質転換が含まれる",0,"形質転換は細胞外からの変化です。"]]},
+{k:1,st:1,t:[ORI],q:"リポ多糖（LPS）について正しいのはどれか。",o:[
+["リピドAが内毒素の本体で、O側鎖多糖がO抗原である",1,"リピドAを認識した免疫細胞が炎症を起こすため内毒素と呼ばれます。"],
+["O側鎖多糖が内毒素の本体である",0,"内毒素の本体はリピドAです。"],
+["リポ多糖はグラム陽性菌の細胞壁成分である",0,"グラム陰性菌の外膜成分です。"],
+["リピドAはそれ自体が細胞を壊す毒である",0,"免疫細胞が反応して炎症を起こすもので、それ自体が毒ではありません。"],
+["内毒素はホルマリンで無毒化できる",0,"内毒素は無毒化できません（外毒素はできる）。"]]}
+];
+const PATHO=[
+{k:2,st:3,t:[P("2025 問10 類題")],q:"常在細菌叢が宿主に有利に働く理由として正しいものを2つ選べ。",o:[
+["外界との境界面を覆い、病原菌と拮抗して定着を阻害する",1,"病原菌の定着阻害です。"],
+["ヒトが分解できない食物繊維を分解する",1,"ほかに、ヒトができない代謝産物の産生、免疫調節もあります。"],
+["抗菌薬の投与で増加し、感染を防ぐ",0,"抗菌薬で常在菌が消えると、耐性菌や真菌が増えて感染症が成立します（菌交代現象）。"],
+["免疫系に非自己として強く攻撃され、炎症を維持する",0,"寛容により、有益な非自己に対して過剰に応答しないよう抑えられています。"],
+["腸内細菌数は小腸で最も多い",0,"小腸→大腸→肛門と、外界に近づくほど多くなります。"]]},
+{k:1,st:3,t:[P("2025 問7 類題"),EXT],q:"血管内カテーテル留置患者の血液培養から表皮ブドウ球菌が検出された。感受性試験で効くはずのセフェム系の効果が不十分だった。最も考えられる理由はどれか。",o:[
+["バイオフィルムを形成し、薬剤が届きにくくなっている",1,"体外の感受性と生体内の効果が乖離する原因は組織移行性（例：バイオフィルム）と体内動態です。補足：対応はカテーテルの抜去・交換が基本です。"],
+["芽胞を形成して休眠している",0,"芽胞をつくるのはBacillus属やClostridium属などのグラム陽性桿菌です。"],
+["グラム陰性菌の外膜で薬剤を遮断している",0,"表皮ブドウ球菌はグラム陽性球菌で、外膜をもちません。"],
+["β-lactamaseを産生している",0,"それなら試験管内の感受性試験でも耐性と出るはずです。"],
+["内毒素で全身性の炎症が起きている",0,"内毒素はグラム陰性菌の成分で、薬が効かない理由の説明になりません。"]]},
+{k:1,st:2,t:[ORI],q:"菌交代現象と日和見感染について正しいのはどれか。",o:[
+["菌交代現象では抗菌スペクトルから外れた菌が増加する",1,"耐性菌、スペクトル外の細菌や真菌が増えます。"],
+["クロストリジウム・ディフィシルは莢膜で抗菌薬に対抗する",0,"芽胞を形成して対抗します。"],
+["日和見感染は病原性の強い菌によって起こる",0,"免疫の異常な低下により、非病原性微生物で起こります。"],
+["ニューモシスチス肺炎は菌交代現象の代表例である",0,"日和見感染の例です（ニューモシスチスは真菌）。"],
+["定着とは炎症反応が上昇している状態をいう",0,"定着は菌量が少なく、炎症反応の上昇がない状態です。"]]},
+{k:1,st:2,t:[ORI],q:"菌と疾患の組み合わせで正しいのはどれか。",o:[
+["クラミジア ― Q熱",0,"クラミジアはオウム病。Q熱はコクシエラです。"],
+["コクシエラ ― 発疹チフス",0,"発疹チフスはリケッチアです。"],
+["レジオネラ ― 在郷軍人病",1,"貪食細胞内で増殖する菌です。"],
+["バルトネラ ― 野兎病",0,"バルトネラは猫ひっかき病（非貪食細胞内で増殖）です。"],
+["フランシセラ ― 結核",0,"フランシセラは野兎病。結核は抗酸菌です。"]]},
+{k:1,st:2,t:[ORI],q:"病原体の免疫回避について正しいのはどれか。",o:[
+["黄色ブドウ球菌のプロテインAは免疫グロブリンの定常部をマスクする",1,"オプソニン化を阻害し、貪食を防ぎます。"],
+["レンサ球菌はプロテインAで貪食を阻害する",0,"レンサ球菌はプロテインGです。"],
+["レジオネラはファゴソームとリソソームの融合を促進する",0,"融合を<strong>阻害</strong>し、ファゴソーム内で増殖します。"],
+["LPSのO抗原を変化させてTLR5の認識を阻害する",0,"O抗原の変化はTLR4、鞭毛の変化はTLR5の認識を阻害します。"],
+["バイオフィルムは1個の菌体表面を覆う膜構造である",0,"それは莢膜。バイオフィルムは細胞表面に付着・集合した細菌の集団です。"]]},
+{k:1,st:2,t:[ORI],q:"内毒素と外毒素について正しいのはどれか。",o:[
+["外毒素はリポ多糖である",0,"リポ多糖は内毒素。外毒素は菌体外に放出されるタンパク質です。"],
+["内毒素は自然免疫のTLR4に認識される",1,"リポ多糖をパターンとして認識し、複数のグラム陰性菌を認識できます。"],
+["内毒素はホルマリン処理で無毒化できる",0,"内毒素は無毒化できません。外毒素はできます。"],
+["内毒素はグラム陽性菌の外膜成分である",0,"グラム陰性菌の外膜成分です。"],
+["外毒素は加熱しても失活しないのが原則である",0,"熱で失活する場合が多いです（例外：黄色ブドウ球菌のエンテロトキシン）。"]]},
+{k:1,st:2,t:[ORI],q:"抗菌薬と作用点の組み合わせで正しいのはどれか。",o:[
+["ペニシリン ― DNAジャイレース",0,"ペニシリンはPBPに結合し、架橋を阻害します。"],
+["アミノグリコシド ― 50Sサブユニット",0,"アミノグリコシドは30Sに結合し、mRNAの誤読を起こします。"],
+["ニューキノロン ― DNAジャイレース",1,"核酸合成阻害薬です。"],
+["リゾチーム ― PBP",0,"リゾチームはβ-1,4-グリコシド結合を切断します（抗菌薬には含めない）。"],
+["マクロライド ― 30Sサブユニット",0,"マクロライドは50Sに結合し、ペプチド鎖の伸長を阻害します。"]]},
+{k:1,st:2,t:[ORI],q:"抗菌薬の評価について正しいのはどれか。",o:[
+["MICは菌の発育を阻止するのに必要な最低濃度である",1,"最小阻止濃度の定義です。"],
+["時間依存性の抗菌薬ではCmaxを大きくすることが重要である",0,"時間依存性ではMIC以上の濃度を保つことが重要です。"],
+["濃度依存性の抗菌薬ではMIC以上の時間を保つことが最重要である",0,"濃度依存性ではCmaxを大きく（1回量を最大化）します。"],
+["質量分析でMRSAかどうか判定できる",0,"質量分析では薬剤耐性や病原性は調べられません。"],
+["菌種の特定には16S rRNAの保存領域を用いる",0,"菌種特異的な可変領域を用います。"]]},
+{k:1,st:1,t:[ORI],q:"人物と業績の組み合わせで正しいのはどれか。",o:[
+["レーウェンフック ― 種痘の開発",0,"レーウェンフックは細菌の発見。種痘はジェンナーです。"],
+["ジェンナー ― 自然発生説の否定",0,"自然発生説を否定したのはパスツールです。"],
+["コッホ ― 純粋培養法の確立",1,"コロニーを取り出して単一の菌を単離しました。"],
+["北里柴三郎 ― 赤痢菌の発見",0,"赤痢菌は志賀潔。北里は抗毒素と血清療法です。"],
+["秦佐八郎 ― ジフテリア抗毒素の開発",0,"ジフテリア抗毒素はベーリング。秦はサルバルサンです。"]]},
+{k:1,st:1,t:[ORI],q:"コッホの4原則について正しいのはどれか。",o:[
+["スピロヘータは体内でしか増殖せず分離できないため、原則2を満たさない",1,"例外の代表です（らい菌も似ています）。"],
+["原則2は「感染動物から再び同一微生物を分離できること」である",0,"それは原則4です。"],
+["肝炎ウイルスは原則4を満たさない例である",0,"ヒトにしか感染せず実験できないため、満たさないのは原則3です。"],
+["原則3は「健康な動物にはその微生物が存在しないこと」である",0,"それは原則1です。"],
+["コッホの4原則に例外はない",0,"例外があります。"]]},
+{k:2,st:2,t:[ORI],q:"グラム染色で染まらない（当てはまりにくい）菌として正しいものを2つ選べ。",o:[
+["抗酸菌（結核菌・らい菌）",1,"脂質に富む厚い細胞壁のため染まりません。"],
+["マイコプラズマ",1,"小さすぎて染まりません。ほかにスピロヘータ・クラミジア・リケッチアも。"],
+["大腸菌",0,"グラム陰性桿菌として染まります。"],
+["黄色ブドウ球菌",0,"グラム陽性球菌として染まります。"],
+["肺炎球菌",0,"グラム陽性双球菌として染まります。"]]},
+{k:1,st:2,t:[ORI],q:"細胞内で増殖する菌の分類について正しいのはどれか。",o:[
+["レジオネラ・抗酸菌・フランシセラは貪食（免疫）細胞内で増殖する",1,"クラミジア・コクシエラ・リケッチアは「細胞の中でしか増殖しない」、バルトネラは「非貪食細胞内で増殖」します。"],
+["クラミジアは細胞外でも自律的に増殖できる",0,"細胞の中でしか増殖しません。"],
+["リケッチアは発疹チフス、コクシエラは野兎病を起こす",0,"コクシエラはQ熱。野兎病はフランシセラです。"],
+["バルトネラは貪食細胞内で増殖する",0,"非貪食細胞内で増殖し、猫ひっかき病を起こします。"],
+["抗酸菌は細胞外でのみ増殖する",0,"マクロファージに貪食されても殺菌されず、貪食細胞内で増殖します。"]]},
+{k:1,st:1,t:[ORI],q:"感染症法について正しいのはどれか。",o:[
+["危篤性や重要性から1〜5類に分けられ、1類が最も危険である",1,"感染症サーベイランスで報告・分析・情報提供を行います。"],
+["5類が最も危険度が高い",0,"1類が最も危険です。"],
+["指定感染症は一度定めると解除できない",0,"必要に応じて1年間限定で指定します。"],
+["感染症サーベイランスとは治療法の開発のことである",0,"報告・分析・フィードバックと情報提供の仕組みです。"],
+["ペスト菌は5類感染症である",0,"ペスト菌は病原細菌で唯一の1類感染症です。"]]},
+{k:1,st:2,t:[ORI],q:"化学療法の基本について正しいのはどれか。",o:[
+["濃度依存性ではCmaxを大きく、時間依存性ではMIC以上を保つ時間を大きくする",1,"殺菌的作用（死滅）と静菌的作用（増殖抑制）があります。"],
+["静菌的作用とは細菌を死滅させる作用である",0,"静菌的は増殖抑制、死滅させるのは殺菌的作用です。"],
+["抗生物質とはヒトが化学合成した薬だけを指す",0,"特に微生物が作った化学物質を抗生物質といいます。"],
+["時間依存性ではCmaxを大きくするのが最重要である",0,"時間依存性ではMIC以上を保つ時間が重要です。"],
+["MICは最高血中濃度のことである",0,"MICは菌の発育を阻止する最低濃度です。"]]},
+{k:1,st:1,t:[ORI],q:"Respiratory burst（呼吸バースト）について正しいのはどれか。",o:[
+["食細胞が酸素を使って活性酸素種を大量に産生し、病原体の破壊に用いる",1,"生体防御反応の一つです。"],
+["細菌が酸素を使ってATPを大量に作ることである",0,"食細胞による活性酸素の産生のことです。"],
+["過酸化水素を水と酸素に分解する反応である",0,"それはカタラーゼの働きです。"],
+["嫌気性菌が酸素を無毒化する仕組みである",0,"食細胞の殺菌機構です。"],
+["ヒドロキシラジカルを安全に処理する反応である",0,"活性酸素を産生して病原体を攻撃する反応です。"]]}
+];
+const SPECIES=[
+{k:2,st:3,t:[P("2025 問8 類題"),EXT],q:"破傷風菌とボツリヌス菌について正しいものを2つ選べ。",o:[
+["どちらもグラム陽性桿菌である",1,"<i>Clostridium</i>属です。2025年はグラム染色分類が問われました。"],
+["どちらも芽胞を形成する",1,"土壌などに芽胞で存在します。"],
+["破傷風菌の毒素は弛緩性麻痺を起こす",0,"破傷風は筋硬直・痙攣（痙性麻痺）です。補足：抑制性ニューロンからの伝達物質の放出を阻害します。"],
+["ボツリヌス菌の毒素は痙攣を起こす",0,"ボツリヌスは弛緩性麻痺です。補足：神経筋接合部でアセチルコリンの放出を阻害します。"],
+["どちらも好気性菌である",0,"<i>Clostridium</i>属は偏性嫌気性菌です。"]]},
+{k:2,st:3,t:[P("2025 問9 類題")],q:"緑膿菌（<i>Pseudomonas aeruginosa</i>）が院内感染の起因菌として問題になる理由として正しいものを2つ選べ。",o:[
+["湿潤環境に広く分布し、水さえあれば生きられる",1,"洗面台や医療器具などの水回りで生き延びます。"],
+["薬剤耐性が問題となり、抗菌薬投与で菌交代現象を起こす",1,"日和見感染・院内感染の起因菌です。"],
+["芽胞を形成し、消毒薬が効かない",0,"緑膿菌はグラム陰性桿菌で、芽胞はつくりません。"],
+["偏性嫌気性で、体内の深部でしか増えない",0,"シュードモナス属は好気性菌です。"],
+["グラム陽性球菌で、皮膚に常在する",0,"グラム陰性桿菌です。皮膚常在は表皮ブドウ球菌です。"]]},
+{k:2,st:2,t:[P("2025 問13・15 類題")],q:"抗酸菌（結核菌・らい菌）について正しいものを2つ選べ。",o:[
+["チール・ネールゼン染色で赤く染まる",1,"細胞壁に脂質が多く抗酸性を示し、グラム染色はできません。"],
+["貪食細胞（マクロファージ）内で増殖する",1,"貪食細胞内で増殖する菌の代表です。"],
+["芽胞を形成し、嫌気的環境でよく増殖する",0,"抗酸菌は芽胞を形成しません。"],
+["らい菌は人工培地で容易に培養できる",0,"人工培地での培養は困難です（コッホの原則2を満たさない例に似る）。"],
+["増殖が速く、数時間でコロニーができる",0,"抗酸菌は増殖が遅い菌です。"]]},
+{k:2,st:2,t:[P("2025 問11・17 類題")],q:"梅毒トレポネーマについて正しいものを2つ選べ。",o:[
+["体外での培養ができない",1,"コッホの原則2を満たさないスピロヘータの例です。"],
+["血清診断には非特異的検査と特異的検査がある",1,"2025年は原理と病期との関係が記述で問われました（記述対策を参照）。"],
+["グラム陽性に濃く染まる",0,"スピロヘータはグラム染色できません。pallidum＝淡い（染まりにくい）。"],
+["マダニの吸血で伝播する",0,"マダニで伝播するのはライム病ボレリアです。"],
+["秦佐八郎はペニシリンを梅毒の特効薬として開発した",0,"秦がエールリッヒと開発したのはサルバルサン606号です。"]]},
+{k:2,st:2,t:[P("2025 問18 類題")],q:"リケッチアとクラミジアについて正しいものを2つ選べ。",o:[
+["細胞の中でしか増殖しない",1,"どちらも小さすぎてグラム染色できない菌でもあります。"],
+["発疹チフスリケッチアはシラミの糞便が傷口から入って感染する",1,"<i>Rickettsia prowazekii</i>です。"],
+["ツツガムシ病リケッチアはマダニが媒介する",0,"ツツガムシの幼虫に刺されて感染します。"],
+["オウム病クラミジアはヒトからヒトへの性感染が主である",0,"オウム病は鳥類から感染します。性感染症はトラコーマ・クラミジアです。"],
+["グラム陰性桿菌としてよく染まる",0,"小さすぎてグラム染色できません。"]]},
+{k:1,st:2,t:[P("2025 問12 類題")],q:"ピロリ菌（<i>Helicobacter pylori</i>）について正しいのはどれか。",o:[
+["ウレアーゼを産生する",1,"らせん状でウレアーゼを産生し、胃炎・消化性潰瘍に関係します。"],
+["グラム陽性球菌である",0,"らせん菌です。helico＝らせん。"],
+["学名のpyloriは空腸に由来する",0,"pylori＝幽門。空腸（jejuni）はカンピロバクターです。"],
+["芽胞を形成する",0,"芽胞は形成しません。"],
+["腸炎ビブリオと同じ属である",0,"腸炎ビブリオは<i>Vibrio</i>属です。"]]},
+{k:2,st:2,t:[P("2025 問16 類題")],q:"マイコプラズマについて正しいものを2つ選べ。",o:[
+["小さすぎてグラム染色できない",1,"グラム染色できない菌の例です。"],
+["<i>Mycoplasma genitalium</i>は性感染症を起こす",1,"genitalium＝生殖器。<i>M. pneumoniae</i>は肺炎を起こします。"],
+["芽胞を形成する",0,"芽胞は形成しません。"],
+["グラム陰性双球菌である",0,"グラム陰性双球菌は淋菌・髄膜炎菌です。"],
+["ツツガムシに刺されて感染する",0,"それはツツガムシ病リケッチアです。"]]},
+{k:1,st:1,t:[ORI],q:"菌と特徴の組み合わせで正しいのはどれか。",o:[
+["腸炎ビブリオ ― 好塩性",1,"魚介類による食中毒の原因菌です。"],
+["セラチア菌 ― 青緑色の色素",0,"セラチアは赤色色素。青緑色（aeruginosa）は緑膿菌です。"],
+["百日咳菌 ― ヒト以外の動物も保菌する",0,"ヒトが唯一の保菌者です。"],
+["髄膜炎菌 ― 低温に強い",0,"低温に弱い菌です。"],
+["バクテロイデス・フラジリス ― 好気性",0,"偏性嫌気性の腸内常在菌です。"]]}
+];
+
+/* ---------- 記述対策 ---------- */
+const WRITE=[
+{st:3,t:[REP,P("2025 問2・2024 問11")],q:"ペプチドグリカンの構造を、NAG・NAM・架橋・トランスペプチダーゼ・β-1,4-グリコシド結合をすべて用いて説明しなさい。",a:`<p>N-アセチルグルコサミン（NAG）とN-アセチルムラミン酸（NAM）が<b>β-1,4-グリコシド結合</b>で交互に連結した糖鎖をもつ。NAMから伸びるペプチド側鎖同士が<b>トランスペプチダーゼ（PBP）</b>によって<b>架橋</b>され、強固な網目状の細胞壁を形成する。</p><p class="src">2024年は穴埋め：ペニシリンはPBPに結合して架橋を阻害する／ペニシリンが結合できない変異型PBPがPBP2'。</p>`},
+{st:3,t:[REP,P("2025 問3・2024 問8"),EXT],q:"形質転換・形質導入・接合の違いを、媒介する因子と、自然界での薬剤耐性獲得との関連性（強い・弱い）から説明しなさい。",a:`<dl><dt>形質転換</dt><dd>遊離DNA（菌体から出た染色体DNAやプラスミドDNA）を取り込む。薬剤耐性との関連は<b>弱い</b>。グリフィスの実験と同じ原理。</dd><dt>形質導入</dt><dd>バクテリオファージ（ウイルス）が媒介する。関連は<b>弱い</b>。</dd><dt>接合</dt><dd>性線毛を介してプラスミドが移入される。プラスミドは薬剤耐性遺伝子の主な格納庫なので、関連は<b>強い</b>。</dd></dl><p class="src">強弱の判定は補足（シケプリには「プラスミド＝薬剤耐性遺伝子の主たる格納庫」の記述のみ）。</p>`},
+{st:3,t:[REP,P("2025 問4")],q:"莢膜の主な組成を答えなさい。さらに、莢膜による免疫回避機構を4つ挙げなさい。",a:`<dl><dt>組成</dt><dd>多糖体やポリペプチド</dd><dt>回避1</dt><dd>ヒト体内にある糖やアミノ酸で構成され、擬自己化して貪食を逃れる</dd><dt>回避2</dt><dd>負電荷をもち、同じく負に帯電した食細胞と反発する</dd><dt>回避3</dt><dd>オプソニン化を阻害する</dd><dt>回避4</dt><dd>補体による孔形成を阻害する</dd></dl>`},
+{st:3,t:[REP,P("2024 問18"),EXT],q:"莢膜抗原は多糖であるにもかかわらず、肺炎球菌ワクチンで抗体産生を誘導できる機序を説明しなさい。",a:`<p>莢膜多糖の<b>繰り返し構造</b>がB細胞受容体を多数架橋し、T細胞の助けなしにB細胞を活性化する（T細胞非依存性抗原）。ただし免疫記憶ができにくく、幼児では応答が弱い。そこで莢膜多糖をタンパク質と結合させた<b>結合型ワクチン</b>により、T細胞の助けを引き出して応答を高めている。</p><p class="src">シケプリ範囲外の補足。2025年問5も同じテーマ。</p>`},
+{st:3,t:[P("2024 問12・13")],q:"細胞内で過酸化水素からヒドロキシラジカルを産生する反応名と化学式、および活性酸素の消去に重要な酵素を2つ答えなさい。",a:`<dl><dt>反応名</dt><dd>フェントン反応</dd><dt>化学式</dt><dd><code>Fe²⁺ + H₂O₂ → Fe³⁺ + ・OH + OH⁻</code></dd><dt>酵素</dt><dd>SOD（スーパーオキシドジスムターゼ：O₂⁻→H₂O₂）、カタラーゼ（H₂O₂→H₂O + O₂）</dd></dl>`},
+{st:2,t:[P("2024 問9")],q:"グラム染色の染色性を決定する要因と、グラム染色では染色されない細菌を1つ挙げなさい。",a:`<dl><dt>要因</dt><dd>細胞壁（ペプチドグリカン層）の厚さ。薄いグラム陰性菌はアルコールで脱色される</dd><dt>染まらない菌</dt><dd>抗酸菌（結核菌・らい菌）、スピロヘータ（梅毒トレポネーマ）、マイコプラズマ、クラミジア、リケッチアのいずれか</dd></dl>`},
+{st:2,t:[P("2025 問10")],q:"常在細菌叢の存在が宿主に有利に働く理由を2つ説明しなさい。",a:`<p>①外界との境界面をびっしり覆うことで病原菌と拮抗し、病原菌の定着・感染を防ぐ。②ヒトができない食物繊維の分解や代謝産物の産生を行う。ほかに免疫調節でも可。</p>`},
+{st:2,t:[P("2025 問7"),EXT],q:"カテーテル留置患者の血液培養から表皮ブドウ球菌が検出され、感受性ありのセフェム系の効果が不十分だった。理由と取るべき対応を答えなさい。",a:`<dl><dt>理由</dt><dd>カテーテル表面にバイオフィルムを形成し、食細胞が近づけず抗菌薬も届きにくい（組織移行性の低下）ため、体外の感受性試験と生体内の効果が乖離した。</dd><dt>対応</dt><dd>カテーテルを抜去（交換）する。補足：あわせてバイオフィルムに移行しやすい薬剤を検討する。</dd></dl>`},
+{st:2,t:[P("2025 問8"),EXT],q:"破傷風菌とボツリヌス菌のグラム染色分類を答え、2菌の毒素による麻痺の分子機序の違いを説明しなさい。",a:`<dl><dt>分類</dt><dd>どちらもグラム陽性桿菌（芽胞形成・偏性嫌気性）</dd><dt>破傷風</dt><dd>毒素が中枢の抑制性ニューロンに運ばれ、抑制性伝達物質（GABA・グリシン）の放出を阻害する。抑制が外れて筋硬直・痙攣（痙性麻痺）。</dd><dt>ボツリヌス</dt><dd>神経筋接合部でアセチルコリンの放出を阻害し、弛緩性麻痺を起こす。</dd></dl><p class="src">分子機序はシケプリ範囲外の補足。</p>`},
+{st:2,t:[P("2025 問9")],q:"緑膿菌が院内感染の起因菌として問題となる理由を2つ挙げ、具体例を示しなさい。",a:`<p>①湿潤環境に広く分布し、水さえあれば生きられる（例：洗面台、加湿器、医療器具の水回り）。②薬剤耐性が問題で、抗菌薬投与中の菌交代現象や免疫低下患者の日和見感染を起こす（例：広域抗菌薬投与中の肺炎・尿路感染）。</p>`},
+{st:2,t:[P("2024 問17"),EXT],q:"抗酸菌が貪食されたマクロファージ内で、殺菌されずに増殖できる理由を2つ挙げなさい。",a:`<p>①ファゴソームとリソソームの融合を阻害し、殺菌を逃れる（レジオネラと同様の戦略）。②ミコール酸など脂質に富む細胞壁をもち、活性酸素などの殺菌作用に抵抗する。</p><p class="src">シケプリ範囲外の補足。</p>`},
+{st:1,t:[P("2025 問11"),EXT],q:"梅毒の血清診断における非特異的検査と特異的検査の原理・特徴・病期との関係を説明しなさい。",a:`<dl><dt>非特異的</dt><dd>カルジオリピンを抗原とする検査（RPR法など）。感染早期から陽性になり、治療で抗体価が下がるので治療効果の判定に使う。生物学的偽陽性がある。</dd><dt>特異的</dt><dd>トレポネーマ抗原を用いる検査（TPHA・TPPA、FTA-ABSなど）。特異性が高いが、治癒後も陽性が続くので治療効果の判定には使えない。</dd></dl><p class="src">シケプリ範囲外の補足。</p>`},
+{st:1,t:[P("2024 問14"),EXT],q:"腸管出血性大腸菌が産生しHUSの原因となる毒素名、HUSの主症状3つ、腎機能を傷害する分子機構を答えなさい。",a:`<dl><dt>毒素</dt><dd>志賀毒素（ベロ毒素）</dd><dt>主症状</dt><dd>溶血性貧血、血小板減少、急性腎障害</dd><dt>機構</dt><dd>毒素が腎糸球体の血管内皮細胞の受容体（Gb3）に結合して取り込まれ、リボソームの28S rRNAを切断してタンパク質合成を阻害する。内皮が傷害されて微小血栓ができ、腎機能が低下する。</dd></dl><p class="src">シケプリ範囲外の補足（志賀毒素は志賀潔が発見）。</p>`},
+{st:1,t:[P("2024 問16"),EXT],q:"カンピロバクター感染後に合併する神経疾患の名前と、その発生機序を「分子相同性」という言葉を用いて説明しなさい。",a:`<p>ギラン・バレー症候群。カンピロバクターの菌体表面のリポオリゴ糖が末梢神経のガングリオシド（GM1など）と<b>分子相同性</b>をもつため、菌に対してできた抗体が自己の末梢神経を攻撃し、脱髄や軸索障害を起こす。</p><p class="src">シケプリ範囲外の補足。</p>`},
+{st:1,t:[P("2024 問15"),EXT],q:"レンサ球菌を血液寒天培地で培養したところ、溶血の様子が一様ではなかった。考えられることを説明しなさい。",a:`<p>レンサ球菌は溶血性で分類され、複数の菌種が混在している可能性がある。完全溶血（β溶血：化膿レンサ球菌など）、不完全溶血で緑色化（α溶血：肺炎球菌など）、非溶血（γ）がある。</p><p class="src">細菌リストに「溶血性などで分類」の記載。詳細は補足。</p>`},
+/* 15 */ {st:2,t:[ORI],q:"マイコプラズマにβ-ラクタム系やバンコマイシンが無効な理由と、有効な抗菌薬の考え方を説明しなさい。",a:`<p>マイコプラズマは<b>細胞壁（ペプチドグリカン）をもたない</b>ため、細胞壁合成を阻害するβ-ラクタム系やバンコマイシンは標的がなく無効。代わりに、ヒトにはなく微生物にのみある分子を標的にする薬（<b>マクロライド</b>＝50Sに結合しタンパク質合成阻害、テトラサイクリン、ニューキノロン＝DNAジャイレース阻害）が有効。</p>`},
+/* 16 */ {st:1,t:[ORI,EXT],q:"マイコプラズマ肺炎で組織障害や肺外症状が起こる機序を説明しなさい。",a:`<p>組織障害は毒素だけでなく、<b>過剰な免疫応答による2次的な自己組織の障害</b>が主である。菌体成分が宿主の自己組織と似ているため、免疫が自分自身を攻撃する<b>交差反応</b>が起こり、肺外症状を生じることがある。重症例ではステロイドを併用する。</p>`},
+/* 17 */ {st:2,t:[P("2025 問18 類題")],q:"病原性クラミジアの増殖サイクルを、EB・RB・異形体の語を用いて説明しなさい。",a:`<p>感染力をもつ<b>基本小体（EB）</b>が宿主細胞の食作用で取り込まれ、ファゴソームとリソソームの融合を阻害して封入体を形成する。封入体内でEBが<b>網様体（RB）</b>に移行して分裂増殖し、再びEBに転換して放出され隣接細胞に感染する。アミノ酸欠乏・抗菌薬・IFN-γの環境ではRBが<b>異形体</b>に変化して持続感染する。</p>`},
+/* 18 */ {st:2,t:[ORI],q:"リケッチアとクラミジアの共通点を2つ挙げ、リケッチアの感染経路の特徴を説明しなさい。",a:`<dl><dt>共通点</dt><dd>①偏性細胞内寄生性で代謝を宿主に依存する。②小さすぎてグラム染色に当てはまりにくい。</dd><dt>リケッチア</dt><dd>シラミ・ノミ・ダニなどの<b>節足動物（ベクター）を媒介</b>して感染し、無細胞培地では培養できない。</dd></dl>`},
+/* 19 */ {st:2,t:[ORI],q:"抗酸菌がグラム染色で染まらない理由を、細胞壁の成分に触れて説明しなさい。",a:`<p>抗酸菌の細胞壁には<b>ミコール酸という長鎖脂肪酸</b>が多く含まれ、脂質に富むため、グラム染色の色素が細胞壁を通過しづらいから。染色には石炭酸で脂質を溶かすチール・ネールゼン染色（石炭酸フクシン法）を用いる。</p>`},
+/* 20 */ {st:2,t:[ORI],q:"ツベルクリン反応（TST）とIGRAの違いを、BCGの影響に触れて説明しなさい。",a:`<p>TSTはPPDを皮内投与して発赤を見るが、PPDはBCGや非結核性抗酸菌と類似するため<b>BCG接種者でも陽性</b>になる。IGRAは<b>BCGに含まれない結核菌特異的抗原</b>への反応で放出されるIFN-γを測るため、<b>BCGの影響を受けず</b>結核感染を判定でき、感度は90%超。</p>`},
+/* 21 */ {st:1,t:[ORI],q:"抗酸菌の増殖が遅い理由を2つ説明しなさい。",a:`<p>①細胞壁が厚く脂質に富むため、栄養の取り込みや細胞壁の構築・改造に時間がかかる。②リボソーム遺伝子のコピー数が少なく、タンパク質合成・代謝が遅いため。</p>`},
+/* 22 */ {st:3,t:[P("2025 問6")],q:"黄色ブドウ球菌が原因で発症する食中毒の、臨床経過の特徴と機序を説明しなさい。",a:`<dl><dt>特徴</dt><dd>摂取後1〜6時間と潜伏期が短く急性胃腸炎を起こす。通常12時間以内に軽快する。</dd><dt>機序</dt><dd>食品中で菌が<b>あらかじめ産生したエンテロトキシン</b>（耐熱性・耐酸性のスーパー抗原）を摂取して発症する毒素型食中毒。菌が腸管で増えて起こるのではない。</dd></dl>`},
+/* 23 */ {st:3,t:[P("2024 問14")],q:"ベロ毒素（志賀毒素）が細胞を傷害する作用機構を順に説明しなさい。",a:`<p>①毒素のBサブユニットが受容体<b>GB3</b>に結合、②エンドソーム→ゴルジ体→小胞体へ逆行輸送、③<b>リボソームを障害</b>、④タンパク質合成停止、⑤細胞死。GB3は糸球体血管内皮・尿細管上皮・神経細胞に多く、ここが傷害されてHUSを起こす。</p>`},
+/* 24 */ {st:1,t:[ORI],q:"非病原性大腸菌が病原性を獲得する機構を説明しなさい。",a:`<p>非病原性大腸菌が<b>バクテリオファージなどの遺伝因子を取り込んで形質導入</b>し、病原性大腸菌と<b>接合</b>することで病原性を獲得する。</p>`},
+/* 25 */ {st:2,t:[ORI,EXT],q:"ピロリ菌の除菌で、PPI（プロトンポンプ阻害剤）を併用する意味を説明しなさい。",a:`<p>細胞壁を壊すアモキシシリンは<b>増殖して細胞壁を作っている菌にしか効かない</b>。ピロリ菌は強い胃酸の中ではあまり活発に増えていないので、PPIで胃酸を下げて中性寄りにし、<b>菌を活発に増殖させて薬の標的を作る</b>。胃酸低下で抗菌薬自体も胃で壊れにくくなり、効果が上がる。</p>`},
+/* 26 */ {st:2,t:[ORI],q:"梅毒の第1期・第2期の症状と、治療のタイミングについて説明しなさい。",a:`<dl><dt>第1期</dt><dd>侵入部位の局所に硬性下疳ができ、滲出液に多量のトレポネーマがいて接触感染する。3〜4週で消失し潜伏梅毒へ。</dd><dt>第2期</dt><dd>1〜3ヶ月後にバラ疹・丘疹性梅毒疹・扁平コンジローマなどの全身性病変。<b>ここまでにペニシリンで治療</b>しないといけない。</dd></dl>`},
+/* 27 */ {st:2,t:[ORI],q:"内毒素と外毒素の違いを、正体・認識・無毒化の観点から説明しなさい。",a:`<dl><dt>内毒素</dt><dd>リポ多糖（LPS）＝グラム陰性菌の菌体成分。自然免疫のTLR4が認識して炎症を起こす。<b>無毒化できない</b>。例：敗血症性ショック。</dd><dt>外毒素</dt><dd>菌体外に放出されるタンパク質。熱で失活しやすく、ホルマリン処理で<b>無毒化（トキソイド）</b>できる。例：ジフテリア毒素・破傷風毒素。</dd></dl>`}
+];
+
+/* ---------- グラム陽性菌（シケプリ「グラム陽性菌」） ---------- */
+const POSNEW=[
+{k:2,st:3,t:[P("2024 問6 そのまま")],q:"スーパー抗原の作用機序として正しい説明を2つ選べ。",o:[
+["細胞非特異的にアポトーシスを誘導する",0,"スーパー抗原の作用はT細胞の活性化で、アポトーシス誘導ではありません。"],
+["MHCとT細胞受容体を抗原非特異的に架橋する",1,"抗原提示細胞のMHCとT細胞のTCRを、抗原の種類に関係なく架橋します。"],
+["細菌が宿主細胞に侵入するのを促進する",0,"侵入を促すのはⅢ型分泌装置などで、スーパー抗原の作用ではありません。"],
+["細菌の分裂を加速化する",0,"宿主のT細胞に作用する毒素で、菌の増殖には関係しません。"],
+["リンパ球をポリクローナルに活性化する",1,"多くのT細胞が一斉に活性化し、サイトカインストーム（全身の炎症）が起きます。"]]},
+{k:1,st:3,t:[P("2025 問6 類題")],q:"黄色ブドウ球菌による食中毒について正しいのはどれか。",o:[
+["摂取後1〜6時間と早く発症する急性胃腸炎である",1,"食品中ですでに産生されたエンテロトキシンを摂取して起こる毒素性食中毒です。"],
+["摂取した菌が腸管内で増殖し、毒素を産生して発症する",0,"摂取した菌ではなく、食品中ですでに産生された毒素で起こります。"],
+["エンテロトキシンは100℃の加熱で失活する",0,"100℃では失活せず、120℃20分で失活します。胃酸にも強い毒素です。"],
+["抗菌薬による治療が必須である",0,"通常12時間以内に軽快するので、抗生物質は使わず症状が治まるのを待ちます。"],
+["潜伏期間は8〜16時間と長い",0,"それはセレウス菌の下痢型です。黄色ブドウ球菌は1〜6時間です。"]]},
+{k:2,st:3,t:[P("2024 問5 そのまま"),EXT],q:"バンコマイシン耐性腸球菌（VRE）が病棟の複数患者から検出された場合に取るべき対策として、適切ではない行動を2つ選べ。",o:[
+["速やかに病棟を閉鎖し、当該病棟にいた患者を他病棟へ移動する",1,"<strong>不適切。</strong>患者を他病棟へ移すと、かえって菌を広げます。"],
+["ベッドや洗面所、トイレ等の潜在的汚染区域をクリーニングする",0,"適切な対策です。VREは医原性感染症の代表で、環境からの伝播を断ちます。"],
+["使用中の抗菌薬を中止し、プロトンポンプ阻害剤・マクロライド系・ペニシリン系の3剤併用療法に切り替える",1,"<strong>不適切。</strong>この3剤はピロリ菌の除菌療法です。VREには効く抗菌薬が少なく、重症でなければ抗菌薬を中止し経過観察します。"],
+["手洗いやガウンテクニックを強化し、感染の拡大防止に努める",0,"適切な対策です。"],
+["周辺患者の糞便培養を提出する",0,"適切な対策です。腸球菌は腸管の常在菌なので、保菌者を便で探します。"]]},
+{k:1,st:3,t:[P("2024 問10 そのまま")],q:"レンサ球菌感染症に対する第一選択薬として最もふさわしいものを選べ。ただし、薬剤耐性菌はないものとする。",o:[
+["バンコマイシン",0,"MRSAなどの耐性菌に用いる薬です。耐性がなければ第一選択ではありません。"],
+["アミノグリコシド系抗菌薬",0,"30Sに結合する薬で、レンサ球菌の第一選択ではありません。"],
+["ニューキノロン系抗菌薬",0,"DNAジャイレース阻害薬で、第一選択ではありません。"],
+["ペニシリンG",1,"レンサ球菌にはペニシリンが効きます。"],
+["第2世代セフェム系抗菌薬",0,"第一選択はペニシリンGです。"]]},
+{k:1,st:2,t:[P("2024 問15 類題")],q:"レンサ球菌の血液寒天培地での溶血性の組み合わせで正しいのはどれか。",o:[
+["α溶血（不完全溶血） ― 肺炎球菌",1,"コロニーの周りが緑色になるα溶血です。"],
+["β溶血（完全溶血） ― 腸球菌",0,"腸球菌はγ溶血（溶血しない）です。"],
+["γ溶血（溶血しない） ― 化膿レンサ球菌",0,"化膿レンサ球菌はβ溶血（完全溶血）です。"],
+["α溶血 ― 化膿レンサ球菌",0,"化膿レンサ球菌はβ溶血です。β溶血毒素ストレプトリジンO・Sを産生します。"],
+["β溶血 ― 肺炎球菌",0,"肺炎球菌はα溶血です。"]]},
+{k:1,st:2,t:[ORI],q:"ブドウ球菌の鑑別について正しいのはどれか。",o:[
+["コアグラーゼ試験で黄色ブドウ球菌はウサギ血漿を凝固させる",1,"黄色ブドウ球菌はコアグラーゼ陽性（CPS）、表皮ブドウ球菌は陰性（CNS）です。"],
+["マンニット食塩培地で表皮ブドウ球菌は培地を黄変させる",0,"黄変させるのはマンニトールを分解できる黄色ブドウ球菌です。"],
+["血液寒天培地で黄色ブドウ球菌は白いコロニーをつくる",0,"黄色ブドウ球菌は黄色、表皮ブドウ球菌は白いコロニーです。"],
+["ヒトの保菌率は表皮ブドウ球菌で20〜30%である",0,"表皮ブドウ球菌は約100%（常在菌）、黄色ブドウ球菌が20〜30%です。"],
+["ブドウ球菌は耐塩性がなく、食塩を含む培地では育たない",0,"10%NaClでも増殖でき、マンニット食塩培地（7.5%NaCl）は耐塩性を利用した選択培地です。"]]},
+{k:1,st:2,t:[ORI],q:"黄色ブドウ球菌の病原因子と作用の組み合わせで正しいのはどれか。",o:[
+["プロテインA ― 免疫グロブリンのFc領域に結合し、食細胞の貪食を抑える",1,"抗体をマスクしてオプソニン化を阻害します。"],
+["コアグラーゼ ― 細胞膜に穴をあける",0,"コアグラーゼは血液を凝固させ、白血球や抗体の送達を妨害します。"],
+["PVL ― 抗体をマスクする",0,"PVL（白血球溶解毒素）は細胞膜に穴をあける細胞損傷性毒素です。"],
+["表皮剥脱性毒素 ― 毒素性ショック症候群",0,"表皮剥脱性毒素は表皮を破壊し、とびひやSSSSを起こします。"],
+["TSST-1 ― 食中毒",0,"TSST-1はスーパー抗原で毒素性ショック症候群を起こします。食中毒はエンテロトキシンです。"]]},
+{k:2,st:2,t:[ORI],q:"黄色ブドウ球菌による感染症のうち、毒素性疾患であるものを2つ選べ。",o:[
+["毒素性ショック症候群（TSS）",1,"TSST-1やエンテロトキシンなどのスーパー抗原が血流に入って急激に発症します。"],
+["ブドウ球菌性熱傷様皮膚症候群（SSSS）",1,"表皮剥脱性毒素によるもので、病変部位で菌が増殖しているわけではありません。"],
+["蜂窩織炎",0,"菌そのものによる化膿性炎症疾患です。"],
+["心内膜炎",0,"カテーテルなどで増殖した菌塊が血流で運ばれる血流感染症（化膿性炎症疾患）です。"],
+["毛包炎・せつ",0,"皮膚軟部組織の化膿性炎症疾患です。"]]},
+{k:2,st:2,t:[ORI],q:"MRSAについて正しいものを2つ選べ。",o:[
+["医療機関での黄色ブドウ球菌のメチシリン耐性率は約50%である",1,"健常者では約20%です。病院で黄色ブドウ球菌が見つかったらMRSAとして初期対応します。"],
+["PBP2'を産生するため、βラクタム系抗生物質が効かない",1,"ペニシリンが結合しにくい変異型PBPです。"],
+["MRSAはバンコマイシンにも本来耐性である",0,"MRSAに対処可能になったのがバンコマイシンです（その後バンコマイシン耐性菌も出現）。"],
+["健常者でのメチシリン耐性率は約50%である",0,"健常者は約20%、医療機関で約50%です。"],
+["β-ラクタマーゼはPBPに結合して失活させる",0,"β-ラクタマーゼはβ-ラクタム環を開裂させます。PBPに結合するのはβ-ラクタム薬です。"]]},
+{k:1,st:2,t:[ORI],q:"バンコマイシンと耐性について正しいのはどれか。",o:[
+["耐性菌では酵素VanXがペンタペプチドの一部を切断し、バンコマイシンが結合できなくなる",1,"ペンタペプチドの構造が変わり、バンコマイシンが結合する足場を失います。"],
+["バンコマイシンはβ-ラクタム環をもつ",0,"βラクタム環をもつのはペニシリンなどです。"],
+["バンコマイシンはNAGとNAMのグリコシド結合を切断する",0,"それはリゾチームです。バンコマイシンはペンタペプチドに結合して架橋を阻害します。"],
+["VREはプラスミドでは耐性を広げない",0,"VREはプラスミドにより耐性を広げていきます。"],
+["バンコマイシンは30Sリボソームに結合する",0,"細胞壁合成阻害薬です。"]]},
+{k:1,st:2,t:[ORI],q:"レンサ球菌属について正しいのはどれか。",o:[
+["肺炎球菌は厚い莢膜をもつ双球菌である",1,"ムコイド様の粘液状コロニーをつくり、グラム染色の診断価値が高い菌です。"],
+["化膿レンサ球菌は短連鎖をつくる",0,"化膿レンサ球菌は長連鎖、腸球菌が短連鎖です。"],
+["肺炎球菌はランスフィールドのA群に分類される",0,"肺炎球菌はランスフィールド群抗原性をもちません。"],
+["酸素がないとグルコースを発酵できない",0,"ホモ乳酸発酵で、酸素の有無に関わらずグルコースを乳酸に分解します。"],
+["鞭毛と芽胞をもつ",0,"無鞭毛・無芽胞です。"]]},
+{k:2,st:2,t:[ORI],q:"化膿レンサ球菌（A群レンサ球菌）による疾患について正しいものを2つ選べ。",o:[
+["咽頭炎が化膿した場合、1〜5週間後にリウマチ熱や急性糸球体腎炎を合併するおそれがある",1,"化膿しなければ3〜5日で自然治癒します。"],
+["急性糸球体腎炎は、免疫複合体が腎臓の糸球体に沈着して起こる",1,"免疫細胞が活性化して腎炎を起こします。高血圧・蛋白尿・浮腫が症状です。"],
+["丹毒は皮下組織まで炎症が及ぶ",0,"丹毒の病変は表皮に限局します。境界が不明瞭で深いのは蜂巣炎です。"],
+["劇症型溶血性レンサ球菌感染症の致死率は約3%である",0,"致死率は約30%です。壊死性筋膜炎や敗血症性ショックで急激に悪化します。"],
+["リウマチ熱は菌が関節や心筋で増殖して起こる",0,"菌に対する抗体が関節や心筋と交差反応して起こると考えられています。"]]},
+{k:1,st:2,t:[ORI],q:"年齢と髄膜炎の主な起因菌の組み合わせで正しいのはどれか。",o:[
+["生後すぐ ― B群レンサ球菌",1,"新生児髄膜炎の起因菌です。"],
+["1歳くらいまで ― リステリア",0,"1歳くらいまでは大腸菌。リステリアは高齢者（肺炎球菌とともに）です。"],
+["4歳くらいまで ― 肺炎球菌",0,"4歳くらいまではインフルエンザ桿菌type bです。"],
+["小児・成人 ― 大腸菌",0,"小児・成人は肺炎球菌と髄膜炎菌です。"],
+["高齢者 ― B群レンサ球菌",0,"高齢者は肺炎球菌とリステリアです。"]]},
+{k:1,st:2,t:[ORI],q:"腸球菌について正しいのはどれか。",o:[
+["γ溶血（溶血しない）を示す",1,"ヒト腸管の常在細菌叢の構成菌です。"],
+["疾患の原因のほとんどは<i>E. faecium</i>である",0,"疾患の原因のほとんどは<i>E. faecalis</i>。<i>E. faecium</i>は多剤耐性傾向で臨床上重要です。"],
+["芽胞と莢膜をもつ",0,"鞭毛・莢膜・芽胞はいずれもありません。"],
+["偏性嫌気性菌である",0,"通性嫌気性です。"],
+["VREに対しては効く抗菌薬が多く、すぐに治療を開始する",0,"VREに効く抗菌薬は少なく、重症でなければ抗菌薬を投与しない、または中止して経過観察します。"]]},
+{k:1,st:2,t:[ORI],q:"<i>Bacillus</i>属について正しいのはどれか。",o:[
+["炭疽菌は莢膜をもち、鞭毛はもたない",1,"原因因子は莢膜とタンパク質毒素です。4類感染症。"],
+["肺炭疽の未治療での致死率は10〜20%である",0,"肺炭疽は90%以上。10〜20%は皮膚炭疽です。"],
+["セレウス菌の嘔吐型は、腸内で産生された毒素で起こる",0,"嘔吐型は食品中で産生された毒素で起こり、潜伏期1〜6時間です。腸内で産生されるのは下痢型です。"],
+["<i>Bacillus</i>属は偏性嫌気性である",0,"<i>Bacillus</i>属は好気性（通性嫌気性）、偏性嫌気性は<i>Clostridium</i>属です。"],
+["セレウス菌は莢膜をもつ",0,"セレウス菌は周毛性鞭毛あり、莢膜なしです。"]]},
+{k:2,st:2,t:[ORI],q:"破傷風について正しいものを2つ選べ。",o:[
+["毒素テタノスパスミンが運動神経を過度に興奮させ、強直性けいれんを起こす",1,"潜伏期3〜21日、致死率50%以上。"],
+["四種混合ワクチンに含まれている",1,"治療は免疫グロブリン、筋弛緩薬、ペニシリン系の大量投与です。"],
+["芽胞を経口摂取して感染する",0,"芽胞が創傷から侵入し、発芽・増殖して毒素を産生します。"],
+["破傷風菌は莢膜をもつ",0,"周毛性鞭毛あり、莢膜なしです。"],
+["潜伏期は1〜2時間である",0,"潜伏期間は3〜21日です。"]]},
+{k:1,st:2,t:[ORI],q:"ボツリヌス菌について正しいのはどれか。",o:[
+["乳児ボツリヌス症は、経口摂取した芽胞が大腸で発芽・増殖して起こる",1,"生後3週〜1歳の乳児に多く、はちみつが原因であることが多いです。"],
+["食餌性ボツリヌス症は芽胞を摂取して腸内で毒素がつくられて起こる",0,"食品中ですでに産生された毒で起こる毒素性食中毒です。"],
+["ボツリヌス神経毒素は痙性麻痺を起こす",0,"アセチルコリンなどの放出を阻害し、弛緩性麻痺を起こします。"],
+["端在性芽胞をもつ",0,"亜端在性芽胞です。端在性の芽胞は破傷風菌です。"],
+["莢膜をもつ",0,"周毛性鞭毛あり、莢膜なしです。"]]},
+{k:2,st:2,t:[ORI],q:"ウェルシュ菌（ガス壊疽菌）について正しいものを2つ選べ。",o:[
+["α毒素のホスホリパーゼC活性により組織を損傷する",1,"ガス産生を伴う急激で広範な筋肉の壊死を起こします。"],
+["血液寒天培地でα溶血環とβ溶血環の二重溶血環が見られる",1,"糖分解能が強く、ガス産生が著しい大型菌です。"],
+["鞭毛をもち活発に運動する",0,"鞭毛なし、莢膜ありです。"],
+["食中毒は少量の菌の摂取で起こる",0,"芽胞で増殖している菌を多量に摂取して発生します。"],
+["ガス壊疽の治療は抗菌薬の内服だけでよい",0,"デブリードマンと高圧酸素療法が治療です。"]]},
+{k:1,st:2,t:[ORI],q:"クロストリジウム・ディフィシル菌について正しいのはどれか。",o:[
+["抗菌薬の長期投与に伴う抗菌薬関連下痢症を起こす",1,"偽膜性腸炎が重症化すると中毒性巨大結腸症に発展することがあります。治療は抗菌薬の中止とバンコマイシン。"],
+["莢膜をもたない",0,"莢膜をもち、強い抗貪食作用があります。"],
+["好気性菌である",0,"偏性嫌気性です。"],
+["院内感染はまれである",0,"院内感染をしばしば起こす医原性の疾患です。"],
+["芽胞を形成しない",0,"楕円形で端在性の芽胞を形成します。"]]},
+{k:1,st:2,t:[ORI],q:"リステリア菌について正しいのはどれか。",o:[
+["細胞内寄生細菌で、マクロファージに貪食されても殺菌されない",1,"芽胞を形成しないグラム陽性桿菌です。"],
+["芽胞を形成する",0,"芽胞を形成しないグラム陽性桿菌です。"],
+["37℃で4本の周毛性鞭毛をもつ",0,"30℃以下で4本の周毛性鞭毛、37℃では鞭毛なしです。"],
+["新生児リステリア症の早発型は生後7〜14日に発症する",0,"早発型は生後7日未満（子宮内感染）、遅発型が生後7〜14日（髄膜炎が多く予後不良）です。"],
+["偏性嫌気性である",0,"通性嫌気性〜微好気性です。"]]},
+{k:1,st:2,t:[ORI],q:"セレウス菌の食中毒について正しいのはどれか。",o:[
+["嘔吐型は食品中で産生されたセレウリドで発症し、潜伏期が1〜6時間と短い",1,"黄色ブドウ球菌の食中毒に似ています。"],
+["下痢型は食品中で産生された毒素で発症する",0,"下痢型は宿主の腸内で産生されたエンテロトキシンで発症します。"],
+["嘔吐型は潜伏期が8〜16時間と長い",0,"嘔吐型は1〜6時間と短く、下痢型が8〜16時間と長めです。"],
+["セレウス菌は莢膜をもち鞭毛をもたない",0,"周毛性鞭毛あり・莢膜なしです。"],
+["偏性嫌気性である",0,"通性嫌気性です。"]]},
+{k:1,st:2,t:[ORI],q:"丹毒と蜂巣炎（蜂窩織炎）の違いについて正しいのはどれか。",o:[
+["丹毒は境界明瞭で病変が表皮に限局し、蜂巣炎は境界が不明瞭で皮下に及ぶ",1,"どちらも化膿レンサ球菌が関与します。"],
+["丹毒は皮下組織まで炎症が及ぶ",0,"丹毒の病変は表皮に限局します。"],
+["蜂巣炎は境界が明瞭である",0,"蜂巣炎は発赤の境界が不明瞭です。"],
+["どちらも黄色ブドウ球菌にはペニシリンがよく効く",0,"黄色ブドウ球菌はペニシリン耐性のことが多く、鑑別が重要です。"],
+["丹毒はウイルス感染である",0,"レンサ球菌による感染です。"]]},
+{k:1,st:2,t:[ORI],q:"ブドウ球菌性熱傷様皮膚症候群（SSSS）について正しいのはどれか。",o:[
+["表皮剥脱性毒素（ET）が表皮を破壊し、ニコルスキー現象が見られる。病変部で菌が増えているわけではない",1,"とびひ→ETが血流に入り全身へ→SSSSと進みます。"],
+["TSST-1が血流に入って急激に発症する",0,"それは毒素性ショック症候群（TSS）です。"],
+["病変部位で菌が大量に増殖している",0,"毒素によるもので、病変部で菌が増殖しているわけではありません。"],
+["エンテロトキシンによる食中毒である",0,"食中毒は別。SSSSは表皮剥脱性毒素によります。"],
+["コアグラーゼ陰性菌が原因である",0,"黄色ブドウ球菌（コアグラーゼ陽性）の毒素性疾患です。"]]},
+{k:1,st:2,t:[ORI],q:"猩紅熱と劇症型溶血性レンサ球菌感染症について正しいのはどれか。",o:[
+["どちらも発赤毒素（スーパー抗原）が関与し、猩紅熱ではイチゴ舌が見られる",1,"劇症型は壊死性筋膜炎・敗血症性ショックで致死率約30%です。"],
+["猩紅熱はブドウ球菌の毒素による",0,"化膿レンサ球菌の発赤毒素によります。"],
+["イチゴ舌は劇症型の特徴である",0,"イチゴ舌は猩紅熱の特徴です（川崎病が鑑別）。"],
+["劇症型の致死率はほぼ0%である",0,"致死率は約30%です。"],
+["発赤毒素は細胞壁合成を阻害する毒素である",0,"スーパー抗原としてサイトカインストームを起こします。"]]}
+];
+
+/* ---------- グラム陰性菌（シケプリ「グラム陰性菌」文責：岩井） ---------- */
+const NEGNEW=[
+{k:2,st:3,t:[P("2025 問9 類題")],q:"緑膿菌が院内感染の起因菌として問題になる理由として正しいものを2つ選べ。",o:[
+["湿潤環境を好み、低栄養環境でも発育する",1,"水回りや点滴回路で生き延びます。"],
+["多くの抗菌薬に耐性を示し、耐性化しやすい",1,"日和見感染症・院内感染症の原因菌です。"],
+["芽胞を形成し、消毒薬が効かない",0,"緑膿菌はグラム陰性好気性桿菌で、芽胞はつくりません。"],
+["偏性嫌気性で、体内深部でしか増えない",0,"シュードモナス属は好気性菌です。"],
+["赤色の水溶性色素を産生する",0,"緑膿菌は緑色の水溶性色素ピオシアニンを産生します。赤色色素はセラチア菌です。"]]},
+{k:2,st:3,t:[ORI],q:"緑膿菌が多剤耐性になりやすい仕組みとして正しいものを2つ選べ。",o:[
+["細胞外膜の透過性が低く、侵入した薬もくみ出しポンプで排出する",1,"多剤耐性の仕組みの1つ目です。"],
+["メタロβ-ラクタマーゼを産生し、ラクタム系抗菌薬を分解する",1,"抗菌薬不活化酵素の産生です。3つ目は抗菌薬の標的分子の変異です。"],
+["芽胞を形成して抗菌薬から身を守る",0,"緑膿菌は芽胞をつくりません。"],
+["PBP2'を産生する",0,"PBP2'はMRSAの耐性機構です。"],
+["莢膜でβ-ラクタム環を加水分解する",0,"莢膜に酵素活性はありません。"]]},
+{k:1,st:2,t:[ORI],q:"緑膿菌の感染経路について正しいのはどれか。",o:[
+["外因性感染は、点滴回路の汚染などで人為的に菌が侵入するもので、複数患者から同時に検出されたら緊急の対応が必要である",1,"内因性感染は、腸管内の菌が血液へ侵入して敗血症などを起こすものです。"],
+["内因性感染は、点滴回路の汚染によるものをいう",0,"それは外因性感染です。"],
+["外因性感染は、腸管内の菌が血液へ侵入するものをいう",0,"それは内因性感染です。"],
+["健常者に強い病原性を示し、市中で集団感染を起こす",0,"日和見感染症の原因菌です。"],
+["緑膿菌は酸素がなくても生育できる",0,"好気性桿菌です。"]]},
+{k:1,st:3,t:[P("2024 問14 類題")],q:"腸管出血性大腸菌（O157など）と溶血性尿毒症症候群（HUS）について正しいのはどれか。",o:[
+["主要な病原因子はベロ毒素（志賀毒素）で、患者の約2〜7%がHUSを合併する",1,"産生されたベロ毒素が腎臓などに作用します。"],
+["HUSの主症状は、溶血性貧血・血小板減少・急性腎機能障害である",0,"この3つは正しいですが、「HUSを合併するのは約2〜7%」のほうがより正確な正解です（この選択肢も内容は正しい）。"],
+["ベロ毒素は赤痢菌のA亜群がつくる志賀毒素とは全く別の毒素である",0,"ベロ毒素は志賀毒素と同じもので、赤痢菌A亜群も産生します。"],
+["腸管出血性大腸菌は常在菌であり病原性はない",0,"常在菌とは別の病原性大腸菌です。"],
+["ベロ毒素は腸管でのみ働き、腎臓には到達しない",0,"GB3受容体が多い腎臓などに作用してHUSを起こします。"]]},
+{k:1,st:3,t:[P("2024 問14 類題")],q:"ベロ毒素（志賀毒素）の作用について正しいのはどれか。",o:[
+["最終的にリボソームを障害してタンパク質合成を止め、上皮細胞を死なせる",1,"Bサブユニットが受容体GB3に結合し、細胞内に取り込まれて作用します。"],
+["細胞膜に穴をあけて直接細胞を溶かす",0,"ベロ毒素はリボソームを障害してタンパク質合成を止めます。"],
+["DNAを切断して細胞死を起こす",0,"標的はリボソーム（タンパク質合成）です。"],
+["GB3受容体はどの細胞にも均一に発現している",0,"糸球体の血管内皮・尿細管上皮・神経細胞などで発現が多く、ここが障害されます。"],
+["ベロ毒素は耐熱性エンテロトキシンと同じものである",0,"別の毒素です。耐熱性・非耐熱性エンテロトキシンは毒素原性大腸菌が産生します。"]]},
+{k:2,st:2,t:[ORI],q:"病原性大腸菌について正しいものを2つ選べ。",o:[
+["腸管病原性大腸菌はⅢ型分泌装置で分子を注入し、上皮細胞にA/E病変を起こす",1,"上皮細胞に線毛が付着して定着します。"],
+["毒素原性大腸菌は耐熱性・非耐熱性のエンテロトキシンで上皮から水を分泌させ、下痢を起こす",1,"毒素によって水を分泌させるタイプです。"],
+["非病原性大腸菌は腸管外に迷入しても感染症を起こさない",0,"腸管外に迷入すると尿路感染症などの異所性感染を起こし、血管に入ると敗血症を起こします。"],
+["大腸菌は本来すべて病原性をもつ",0,"ヒトを含む動物の腸管内に常在し、消化吸収やビタミン合成を担う有益な共生細菌でもあります。"],
+["O抗原は鞭毛を構成するタンパク質である",0,"O抗原はLPS。鞭毛（タンパク質）はH抗原、莢膜（多糖）はK抗原です。"]]},
+{k:1,st:2,t:[ORI],q:"赤痢菌（シゲラ属）について正しいのはどれか。",o:[
+["10数個の少量の菌体侵入でも発症する",1,"M細胞に付着して細胞内に侵入し、上皮細胞を破壊します。3類感染症。"],
+["腸内細菌の中では活発に運動する鞭毛をもつ",0,"例外的に鞭毛をもたない非運動性の細菌です。"],
+["発症には大量の菌数が必要である",0,"少量（10数個）の菌で発症します。大量の菌が必要なのはサルモネラ症です。"],
+["A亜群はコレラ毒素を産生する",0,"A亜群はベロ毒素（志賀毒素）を産生します。"],
+["便意がまったく起こらないのが特徴である",0,"便意があるのに十分に出ないしぶり腹（テネスムス）が特徴です。"]]},
+{k:1,st:2,t:[ORI],q:"サルモネラ属について正しいのはどれか。",o:[
+["チフス菌は莢膜をもち、パラチフス菌は莢膜をもたない",1,"ヒトのサルモネラ属の区別です。"],
+["非チフス性サルモネラによるサルモネラ症は、ヒト→ヒト感染が主体である",0,"サルモネラ症はヒト→ヒト感染が少なく、発症に大量の菌数が必要です。"],
+["チフス症は中間宿主を介して伝播する",0,"中間宿主を介さずヒト→ヒトに伝播します。"],
+["チフス菌の健康保菌者は存在しない",0,"症状が表に出ない不顕性感染・健康保菌者（キャリア）として菌を拡散します（Typhoid Mary）。"],
+["チフス症の第1病週は頻脈が特徴である",0,"第1病週は比較的徐脈・バラ疹・肝脾腫が特徴です。"]]},
+{k:1,st:2,t:[ORI],q:"ペスト菌について正しいのはどれか。",o:[
+["感染症法で病原細菌では唯一の1類感染症に分類される",1,"齧歯類から吸血したノミを媒介してヒトに感染します。"],
+["腺ペストは飛沫を介してヒト→ヒト感染する",0,"飛沫でヒト→ヒト感染しパンデミックを起こすのは肺ペストです。腺ペストはノミや感染動物との接触によります。"],
+["肺ペストの死亡率は約10%である",0,"肺ペストの死亡率は100%に近いです。"],
+["LPSの構造は体温によらず一定である",0,"37℃では脂質Aが4本鎖構造になり、TLR4を介した自然免疫の活性化が弱まります（重症化の一因）。"],
+["ペスト菌は鞭毛で活発に運動する",0,"T3SSでYopタンパク質を注入して食細胞の働きを阻害します。"]]},
+{k:1,st:2,t:[ORI],q:"ナイセリア属について正しいのはどれか。",o:[
+["髄膜炎菌は乾燥や低温に弱く、検体を4℃で保存すると検出できなくなる",1,"主に飛沫感染し、気道から血中に入り菌血症を起こして髄膜炎に発展します。"],
+["淋菌は男性のほうが自覚症状に乏しく重症化しやすい",0,"男性は尿道炎など症状が顕著で発見が早く、女性のほうが自覚症状に乏しく重症化しやすいです。"],
+["ナイセリア属はグラム陽性桿菌である",0,"グラム陰性双球菌（赤くて丸い）です。"],
+["淋菌の治療ではパートナーの治療は不要である",0,"パートナーも同時に治療しピンポン感染を防止します。"],
+["髄膜炎菌感染症にワクチンはない",0,"予防として髄膜炎菌ワクチンがあります。"]]},
+{k:1,st:2,t:[ORI],q:"コレラ菌について正しいのはどれか。",o:[
+["小腸で定着・増殖した菌がコレラ毒素を産生して発症する（感染＋毒素）",1,"“米のとぎ汁様”と形容される水様性下痢を起こします。"],
+["コレラの治療の根幹は抗菌薬である",0,"治療の根幹は補液（水の補給）です。脱水はツルゴール評価法で評価します。"],
+["コレラ菌は酸性条件を好む",0,"アルカリ性（pH8.5）でも増殖します。"],
+["すべてのO抗原型がコレラ毒素を産生する",0,"O1とO139がコレラ毒素を産生します。"],
+["ジョン・スノウは空気感染説を証明した",0,"疫学調査（マッピング）で原因が水であることを突き止め、井戸の使用を禁じて流行を鎮静化しました。"]]},
+{k:1,st:2,t:[ORI],q:"インフルエンザ菌（<i>Haemophilus influenzae</i>）について正しいのはどれか。",o:[
+["莢膜型のb型株（Hib）が最も病原性が強い",1,"血液や髄液など本来無菌の部位から菌が分離される侵襲性感染症を起こします。小児肺炎ワクチンの対象。"],
+["発育にX因子・V因子は不要である",0,"発育にX因子・V因子を要求します。"],
+["無莢膜型が最も病原性が強い",0,"莢膜型のb型株が最も病原性が強いです。"],
+["ウイルスであり抗菌薬は無効である",0,"細菌（グラム陰性桿菌）です。"],
+["ピロリ菌と同じらせん菌である",0,"ヘモフィルス属のグラム陰性桿菌です。"]]},
+{k:1,st:2,t:[ORI],q:"百日咳菌について正しいのはどれか。",o:[
+["カタル期のあと、喘息のような発作性咳嗽が出現する",1,"百日咳毒素（PT）が重要で、予防に4種混合ワクチンが有効です。"],
+["芽胞を形成して長期間生存する",0,"芽胞形成の記載はなく、ヒトが唯一の保菌者です。"],
+["4種混合ワクチンには含まれない",0,"予防として4種混合ワクチンが有効です。"],
+["感染初期から激しい発作性の咳が出る",0,"初期は1〜2週間続くカタル期で、徐々に悪化します。"],
+["グラム陽性球菌である",0,"ボルデテラ属のグラム陰性桿菌です。"]]},
+{k:1,st:2,t:[ORI],q:"人獣共通感染症を起こすグラム陰性菌の組み合わせで正しいのはどれか。",o:[
+["コクシエラ属 ― Q熱",1,"4類感染症のQ熱（コクシエラ症）の原因菌です。"],
+["フランシセラ属 ― 在郷軍人病",0,"フランシセラ属は野兎病。在郷軍人病はレジオネラ属です。"],
+["レジオネラ属 ― 野兎病",0,"レジオネラ属は在郷軍人病。野兎病はフランシセラ属です。"],
+["ブルセラ属 ― ペスト",0,"ブルセラ属はブルセラ症。ペストはペスト菌（エルシニア属）です。"],
+["バクテロイデス属 ― Q熱",0,"バクテロイデス属は偏性嫌気性の腸内常在菌で、混合感染を起こします。"]]},
+{k:1,st:2,t:[ORI],q:"レジオネラ属について正しいのはどれか。",o:[
+["アメーバ原虫や藻類の中で分裂増殖し、在郷軍人病という肺炎を起こす",1,"水環境で増え、貪食細胞内で増殖します。"],
+["ヒトの腸管の常在菌である",0,"水環境・アメーバ内で増殖する菌です。"],
+["芽胞を形成するグラム陽性桿菌である",0,"グラム陰性好気性桿菌です。"],
+["野兎病の原因菌である",0,"野兎病はフランシセラ属です。レジオネラは在郷軍人病です。"],
+["Q熱の原因菌である",0,"Q熱はコクシエラ属です。"]]},
+{k:1,st:2,t:[ORI],q:"腸内細菌科の菌について正しいのはどれか。",o:[
+["肺炎桿菌（クレブシエラ属）は例外的に鞭毛をもたない非運動性で、呼吸器感染症を起こす",1,"赤痢菌と同じく非運動性の腸内細菌です。"],
+["大腸菌は腸内細菌の中で唯一運動性をもたない",0,"非運動性なのは赤痢菌と肺炎桿菌です。"],
+["腸炎エルシニアは接触感染でヒト→ヒトにのみ伝播する",0,"汚染飲食物やペットから経口感染する食中毒原因菌の一つです。"],
+["仮性結核菌は結核菌と同じ抗酸菌である",0,"仮性結核菌はエルシニア属のグラム陰性桿菌で、スーパー抗原を産生します。"],
+["バクテロイデス属は好気性で単独感染が多い",0,"偏性嫌気性の常在菌で、他の菌との混合感染が多く薬剤耐性が強いです。"]]},
+{k:1,st:2,t:[ORI],q:"淋菌について正しいのはどれか。",o:[
+["女性は骨盤内に進展した場合に自覚症状が乏しく、重症化しやすい",1,"男性は尿道炎など症状が顕著で発見が早いです。パートナーも同時治療します。"],
+["男性のほうが自覚症状に乏しく発見が遅れる",0,"男性は症状が顕著で発見が早いです。"],
+["グラム陽性桿菌である",0,"グラム陰性双球菌（赤くて丸い）です。"],
+["パートナーの治療は不要である",0,"ピンポン感染を防ぐため同時に治療します。"],
+["芽胞を形成して体外で生存する",0,"芽胞は形成しません。"]]},
+{k:1,st:1,t:[ORI],q:"モラクセラ・カタラーリスと髄膜炎菌について正しいのはどれか。",o:[
+["どちらもグラム陰性双球菌で、モラクセラは市中肺炎やCOPD急性増悪を起こす",1,"髄膜炎菌は乾燥・低温に弱く、飛沫感染で菌血症→髄膜炎を起こします。"],
+["モラクセラ・カタラーリスはグラム陽性桿菌である",0,"グラム陰性双球菌（赤くて丸い）です。"],
+["髄膜炎菌は乾燥や低温に強い",0,"乾燥・低温に弱く、検体を4℃で保存すると死滅します。"],
+["髄膜炎菌にはワクチンがない",0,"予防として髄膜炎菌ワクチンがあります。"],
+["モラクセラは腸管の常在菌で食中毒を起こす",0,"気道に侵入して呼吸器感染症を起こします。"]]},
+{k:1,st:2,t:[ORI],q:"チフス症について正しいのはどれか。",o:[
+["中間宿主を介さずヒト→ヒトに伝播し、健康保菌者が菌を拡散することがある",1,"世界初の健康保菌者がTyphoid Maryです。"],
+["発症には大量の菌数が必要で、ヒト→ヒト感染は少ない",0,"それはサルモネラ症（非チフス性）の特徴です。"],
+["第1病週は頻脈が特徴である",0,"第1病週は比較的徐脈・バラ疹・肝脾腫が特徴です。"],
+["チフス菌は莢膜をもたない",0,"チフス菌は莢膜をもち、パラチフス菌はもちません。"],
+["よく起こる軽症の食中毒型腸炎である",0,"稀だが重症化します。よく起こるのはサルモネラ症です。"]]},
+{k:1,st:2,t:[ORI],q:"病原性大腸菌の分類について正しいのはどれか。",o:[
+["腸管病原性大腸菌はⅢ型分泌装置で分子を注入し、上皮にA/E病変を起こす",1,"毒素原性は毒素で水を分泌、腸管出血性はベロ毒素でHUS、腸管組織侵入性は上皮破壊で血便です。"],
+["毒素原性大腸菌はベロ毒素でHUSを起こす",0,"ベロ毒素・HUSは腸管出血性大腸菌です。毒素原性はエンテロトキシンです。"],
+["腸管出血性大腸菌はエンテロトキシンで水を分泌させる",0,"腸管出血性はベロ毒素。水を分泌させるのは毒素原性です。"],
+["非病原性大腸菌は腸管外でも感染症を起こさない",0,"異所性感染（尿路感染症）や敗血症を起こします。"],
+["O抗原は鞭毛のタンパク質である",0,"O抗原はLPSの側鎖。鞭毛はH抗原です。"]]},
+{k:1,st:2,t:[ORI],q:"インフルエンザ菌について正しいのはどれか。",o:[
+["莢膜型のb型株（Hib）が最も病原性が強く、侵襲性感染症を起こす",1,"血液や髄液など無菌部位から菌が分離されます。小児肺炎ワクチンの対象です。"],
+["無莢膜型が最も病原性が強い",0,"莢膜b型株（Hib）が最も病原性が強いです。"],
+["ウイルスなので抗菌薬は無効である",0,"グラム陰性桿菌です。"],
+["発育にX因子・V因子は不要である",0,"X因子・V因子を要求します。"],
+["ピロリ菌と同じらせん菌である",0,"ヘモフィルス属のグラム陰性桿菌です。"]]}
+];
+
+/* ---------- らせん菌（シケプリ「らせん菌」文責：中園） ---------- */
+const SPIRO=[
+{k:1,st:3,t:[P("2025 問11 類題")],q:"梅毒トレポネーマについて正しいのはどれか。",o:[
+["体外（人工培地）での培養ができない",1,"熱にも寒さにも弱く、環境の変化に非常に弱い菌です。"],
+["芽胞と莢膜をもつ",0,"芽胞・莢膜はありません。"],
+["好気性で、酸素があるほどよく増える",0,"偏性嫌気性〜微好気性です。"],
+["菌体表面に抗原となるタンパク質が多く、免疫で排除されやすい",0,"菌体表面に抗原となるタンパク質がほとんどなく、免疫逃避に優れています。"],
+["マダニの吸血によって伝播する",0,"性行為や滲出液の接触で伝播します。マダニ媒介はライム病ボレリアです。"]]},
+{k:1,st:3,t:[ORI],q:"梅毒の第1期について正しいのはどれか。",o:[
+["侵入部位の局所に硬性下疳ができ、滲出液に多量のトレポネーマがいて接触感染する",1,"症状は3〜4週で消失し、潜伏梅毒となります。"],
+["バラ疹や扁平コンジローマなどの全身性病変が出る",0,"それは第2期です。"],
+["ゴム腫や進行麻痺・脊髄癆などの神経症状が出る",0,"それは第3期（晩期顕性梅毒）です。"],
+["この時期にはトレポネーマは体内に存在しない",0,"滲出液に多量のトレポネーマがいて感染源になります。"],
+["症状が一度出ると自然には消えない",0,"症状は3〜4週間で自然に消失し、潜伏梅毒になります。"]]},
+{k:2,st:3,t:[P("2025 問11"),EXT],q:"梅毒の血清学的診断について正しいものを2つ選べ。",o:[
+["非特異的検査（STS・RPR法）はカルジオリピンを抗原とし、疾患活動性と相関して治療効果の判定に有効である",1,"組織破壊で露出する自己抗原に対する抗体を見ます。偽陽性（生物学的偽陽性）があります。"],
+["特異的検査（TP法：TPHA・FTA-ABS）は治療後も陽性が続き、治療効果の判定には使えない",1,"トレポネーマの菌体成分を抗原とし、疾患特異性が高い検査です。"],
+["STS陽性かつTP陰性は、必ず治癒後の状態を示す",0,"STS＋TP−は初期梅毒か生物学的偽陽性を考えます。"],
+["特異的検査はカルジオリピンを抗原とする",0,"カルジオリピンは非特異的検査の抗原です。特異的検査はトレポネーマ菌体成分です。"],
+["非特異的検査は感染初期には必ず陰性である",0,"非特異的検査は比較的早期から陽性になります。初期に出にくいのはむしろ抗体全般の話です。"]]},
+{k:1,st:2,t:[ORI],q:"先天梅毒について正しいのはどれか。",o:[
+["妊婦から胎盤を経由して胎児に感染し、約40%が死亡する",1,"ハッチンソン三徴（ハッチンソン歯・実質性角膜炎・内耳性難聴）が見られることがあります。"],
+["分娩直前に治療すれば確実に予防できる",0,"治療に約4週間かかるため、分娩4週間前までに治療を始めれば予防できます。"],
+["ペニシリンは胎児に重大な影響を与えるため使えない",0,"ペニシリンの胎児への影響は今のところなく、治療に用います。"],
+["ハッチンソン三徴は第1期梅毒の特徴である",0,"先天梅毒の徴候です。"],
+["母体が梅毒でも胎児には感染しない",0,"胎盤を経由して感染します。"]]},
+{k:1,st:2,t:[ORI],q:"梅毒の治療で、病原菌が短期間に大量に破壊されて毒素が血液に混入することで起こる反応はどれか。",o:[
+["ヤーリッシュ・ヘルクスハイマー反応",1,"治療開始時に見られます。抗菌薬は飲み続けることが大事です。"],
+["アナフィラキシーショック",0,"IgEを介する即時型アレルギーで、別の機序です。"],
+["菌交代現象",0,"常在菌が抗菌薬で減り、耐性菌や真菌が増える現象です。"],
+["サイトカインストーム",0,"スーパー抗原などによるT細胞の過剰活性化です。"],
+["ニコルスキー現象",0,"表皮がすぐ剥がれる現象で、SSSSなどで見られます。"]]},
+{k:1,st:2,t:[ORI],q:"ライム病ボレリアについて正しいのはどれか。",o:[
+["鳥やネズミからマダニを介して伝播し、初期に遊走性紅斑が出る",1,"微好気性でゆるやかならせん状のグラム陰性菌です。"],
+["性行為によって伝播する",0,"マダニ媒介です。性行為で伝播するのは梅毒トレポネーマです。"],
+["芽胞を形成して土壌中で長期間生存する",0,"芽胞形成の記載はありません。"],
+["グラム陽性球菌である",0,"グラム陰性のらせん菌です。"],
+["ヒトからヒトへ飛沫感染する",0,"マダニ媒介の人獣共通感染症です。"]]},
+{k:1,st:2,t:[ORI],q:"レプトスピラ（ワイル病）について正しいのはどれか。",o:[
+["感染動物の尿を介して皮膚や粘膜から感染し、発熱・黄疸・腎不全を起こす",1,"偏性好気性で、両極性鞭毛をもち鉤状に曲がっています。"],
+["偏性嫌気性で酸素があると死滅する",0,"偏性好気性です。"],
+["治療にはペニシリンが無効である",0,"ペニシリン・テトラサイクリン・マクロライドで治療します。"],
+["マダニの刺し口が特徴である",0,"刺し口が特徴なのは日本紅斑熱やツツガムシ病（リケッチア）です。"],
+["ヒトからヒトへの飛沫感染が主である",0,"感染動物の尿を介した人獣共通感染症です。"]]},
+{k:1,st:3,t:[ORI],q:"カンピロバクター腸炎について正しいのはどれか。",o:[
+["生や加熱不十分の鶏肉が主な原因で、潜伏期間が1〜7日と長い",1,"細菌性食中毒の原因の中でトップです。"],
+["57℃の加熱でも死滅しない耐熱性菌である",0,"57℃の加熱で1分以内に死滅します。"],
+["グラム陽性球菌である",0,"S字・カーブ状のグラム陰性桿菌です。"],
+["芽胞を形成する",0,"芽胞形成の記載はありません。"],
+["潜伏期間が数時間と短いのが特徴である",0,"潜伏期間が1〜7日と長いのが特徴です。"]]},
+{k:2,st:3,t:[P("2024 問16"),EXT],q:"カンピロバクター感染後に合併するギラン・バレー症候群について正しいものを2つ選べ。",o:[
+["四肢の筋力低下や腱反射の消失を特徴とする脱髄性の多発性末梢神経障害である",1,"食中毒の数日後から、手足の軽い麻痺が下肢から上肢へと両側性に進みます。"],
+["菌の細胞壁多糖と神経のガングリオシドの分子相同性により、免疫交差反応で起こる",1,"菌への抗体が自己の神経（軸索や髄鞘）を攻撃します。"],
+["菌が直接神経細胞に侵入して破壊することで起こる",0,"菌の侵入ではなく、免疫交差反応（自己免疫）で起こります。"],
+["麻痺は必ず片側性に起こる",0,"両側性に起こります。片側性は脳梗塞などです。"],
+["抗体が多糖に対するものなので免疫記憶が強く残り、再発を繰り返す",0,"多糖に対する抗体はメモリー化しにくく、免疫応答を一定期間抑えて神経障害を防ぐことが重要です。"]]},
+{k:1,st:3,t:[P("2025 問12 類題")],q:"ピロリ菌（<i>Helicobacter pylori</i>）について正しいのはどれか。",o:[
+["ウレアーゼで尿素をCO₂とアンモニアに分解し、胃酸を局所的に中和して生存する",1,"アンモニアは胃粘膜を傷害します。微好気性のグラム陰性菌です。"],
+["胃酸に弱く、強酸性の胃内では生きられない",0,"中性をより好みますが、ウレアーゼでアンモニアをつくり局所を中和して胃に住みつきます。"],
+["感染率は全世界で約5%と低い",0,"全世界の人口の約50%が感染と推計され、日本では20代で10%、60歳以上で50%です。"],
+["らせん菌ではなくグラム陽性球菌である",0,"長軸両極に4〜8本の鞭毛をもつらせん状のグラム陰性菌です。"],
+["芽胞を形成して胃内で休眠する",0,"芽胞形成の記載はありません。"]]},
+{k:1,st:2,t:[ORI],q:"ピロリ菌の検査・治療について正しいのはどれか。",o:[
+["尿素呼気試験は非侵襲的で、診断精度が最も高い検査である",1,"ほかに抗体・抗原検査、内視鏡生検、迅速ウレアーゼ検査があります。"],
+["除菌にはプロトンポンプ阻害剤（PPI）は使わない",0,"PPIで胃酸を抑えてピロリ菌の増殖を促し、抗生物質の効果を上げます（PPI＋アモキシシリン＋クラリスロマイシンの3剤）。"],
+["CagAは西洋株が大半で保有し、胃がんは西洋で多い",0,"CagAは東アジア株が大半で保有し、胃がんの発生の地域差と相関します。"],
+["ピロリ菌感染は胃がんやMALTリンパ腫とは無関係である",0,"慢性活動性胃炎、胃・十二指腸潰瘍、胃がん、MALTリンパ腫などの原因となります。"],
+["VacAは尿素を分解する酵素である",0,"VacAは空胞化毒素で、胃上皮細胞に空胞形成やアポトーシスを起こします。尿素分解はウレアーゼです。"]]},
+{k:1,st:2,t:[ORI],q:"らせん菌の分類について正しいのはどれか。",o:[
+["トレポネーマ・ボレリア・レプトスピラはスピロヘータ目に含まれる",1,"ブラキスピラ属も含まれます。"],
+["カンピロバクターとヘリコバクターはスピロヘータ目である",0,"これらはグラム陰性のらせん菌で、スピロヘータ目とは別に扱われます。"],
+["らせん菌はグラム染色でよく染まる",0,"らせん菌（特にスピロヘータ）はグラム染色で分類できない菌です。"],
+["梅毒トレポネーマはグラム陽性に濃く染まる",0,"グラム染色されにくい菌です（pallidum＝淡い）。"],
+["鼠咬症スピリルムはグラム陽性球菌である",0,"グラム陰性のらせん菌の一つです。"]]},
+{k:1,st:2,t:[ORI],q:"梅毒の第2期について正しいのはどれか。",o:[
+["バラ疹・丘疹性梅毒疹・扁平コンジローマなどの全身性病変が出る",1,"自然消失するが、ここまでにペニシリンで治療しないといけません。"],
+["侵入部位の局所に硬性下疳ができる",0,"それは第1期です。"],
+["ゴム腫や進行麻痺・脊髄癆が出る",0,"それは第3期（晩期顕性梅毒）です。"],
+["症状が出たら自然には消えない",0,"第2期の病変も自然消失し、潜伏梅毒へ移行します。"],
+["ハッチンソン三徴が特徴である",0,"ハッチンソン三徴は先天梅毒の徴候です。"]]},
+{k:1,st:2,t:[ORI],q:"カンピロバクターの性状について正しいのはどれか。",o:[
+["S字状・カーブ状のグラム陰性桿菌で、57℃の加熱で1分以内に死滅する",1,"生や加熱不十分の鶏肉が主な感染源で、食中毒原因の細菌トップです。"],
+["熱に強く、57℃では死滅しない",0,"57℃で1分以内に死滅します。"],
+["グラム陽性球菌である",0,"S字・カーブ状のグラム陰性桿菌です。"],
+["芽胞を形成する",0,"芽胞形成の記載はありません。"],
+["潜伏期間が数時間と短い",0,"潜伏期間は1〜7日と長いのが特徴です。"]]},
+{k:1,st:2,t:[ORI],q:"梅毒の感染について正しいのはどれか。",o:[
+["性行為だけでなく、滲出液の接触でも感染するため医療従事者も注意が必要である",1,"母体から胎児に感染することもあります（先天梅毒）。"],
+["血液を介してのみ感染する",0,"滲出液の接触や性行為、母子感染で伝播します。"],
+["体外でよく増えるため環境中から感染する",0,"体外では培養できず、環境中で増えません。"],
+["一度感染すると二度と再感染しない",0,"抗原が少なく変異するため何度でも再感染します。"],
+["グラム染色で容易に検出できる",0,"グラム染色されにくく、培養もできません。"]]}
+];
+
+/* ---------- マイコプラズマ（シケプリ「マイコプラズマ」文責：鷲尾） ---------- */
+const MYCO=[
+{k:2,st:3,t:[P("2025 問16 類題")],q:"マイコプラズマの特徴について正しいものを2つ選べ。",o:[
+["細胞壁をもたず、細胞膜にコレステロールを取り込んで構造を安定させている",1,"細胞膜の脂質二重層のコレステロール割合が高く、耐熱性・可塑性が高いです。"],
+["人工培地（細胞外）で自律的に増殖できる最小の生物である",1,"細胞内寄生性はありません。"],
+["細胞内寄生性で、人工培地では培養できない",0,"人工培地で自律的に増殖できます（細胞内寄生性はない）。"],
+["厚いペプチドグリカン層をもつ",0,"細胞壁（ペプチドグリカン）をもちません。"],
+["光学顕微鏡で容易に観察できる大型菌である",0,"光学顕微鏡で観察できないほど小さい菌です。"]]},
+{k:2,st:3,t:[P("2025 問16 類題")],q:"マイコプラズマに有効な抗菌薬として正しいものを2つ選べ。",o:[
+["マクロライド系（リボソーム50Sに結合しタンパク質合成を阻害）",1,"第一選択です。23S rRNAに結合します。"],
+["テトラサイクリン系（タンパク質合成阻害）",1,"マクロライド耐性株にはテトラサイクリンやニューキノロンへ変更します。"],
+["β-ラクタム系（細胞壁合成阻害）",0,"細胞壁がないため無効・無意味です。"],
+["バンコマイシン（細胞壁合成阻害）",0,"細胞壁がないため無効です。"],
+["リゾチーム",0,"細胞壁を分解する酵素ですが、細胞壁がないマイコプラズマには無効です。"]]},
+{k:1,st:3,t:[ORI],q:"マイコプラズマがβ-ラクタム系やバンコマイシンに無効である理由として正しいのはどれか。",o:[
+["細胞壁（ペプチドグリカン）をもたないため、細胞壁合成を阻害しても意味がない",1,"そのため、ヒトにはなく微生物にのみある分子を標的にします。"],
+["厚い外膜で薬剤をはじくため",0,"細胞壁をもたないことが理由です。"],
+["β-ラクタマーゼを大量に産生するため",0,"細胞壁がないことが理由で、酵素による分解ではありません。"],
+["芽胞を形成して休眠するため",0,"芽胞は形成しません。"],
+["細胞内に寄生して薬剤が届かないため",0,"細胞内寄生性はありません。細胞壁がないことが理由です。"]]},
+{k:1,st:2,t:[ORI],q:"マイコプラズマ肺炎について正しいのはどれか。",o:[
+["組織障害は、過剰な免疫応答による2次的な自己組織の障害が主である",1,"交差反応による肺外症状が出ることもあり、重症化時はステロイドを併用します。"],
+["市中肺炎の原因病原体の約90%を占める",0,"約10%ほどです。小児・学童期以降に好発します。"],
+["定型肺炎の代表である",0,"非定型肺炎です（定型は肺炎球菌・インフルエンザ桿菌）。"],
+["毒素による組織破壊のみで起こり、免疫は関与しない",0,"分泌因子によるものもありますが、過剰な免疫応答による障害が主です。"],
+["第一選択薬はβ-ラクタム系である",0,"第一選択はマクロライドです。細胞壁がないためβ-ラクタムは無効です。"]]},
+{k:1,st:2,t:[ORI],q:"マイコプラズマの形態・増殖について正しいのはどれか。",o:[
+["分離培養でコロニーが目玉焼き状になることで見分けられる",1,"多型性で形は一定ではなく、分枝分裂（長く伸びてから数珠状に分裂）で増殖します。"],
+["球菌が房状に集まった形をとる",0,"多型性で形は一定ではありません。"],
+["二分裂で規則正しく増殖する",0,"分枝分裂で、長く伸びてから数珠状に分裂します。"],
+["厚い莢膜をもちコロニーが粘液状になる",0,"目玉焼き状のコロニーが特徴です。"],
+["グラム陽性に濃く染まる",0,"小さすぎてグラム染色できない菌の一つです。"]]},
+{k:1,st:2,t:[ORI],q:"マイコプラズマと菌名・疾患の組み合わせで正しいのはどれか。",o:[
+["<i>Mycoplasma pneumoniae</i> ― 非定型肺炎",1,"市中肺炎の起因菌の一つです。"],
+["<i>Mycoplasma genitalium</i> ― 非定型肺炎",0,"<i>M. genitalium</i>は性感染症です。"],
+["<i>Mycoplasma pneumoniae</i> ― 性感染症",0,"<i>M. pneumoniae</i>は非定型肺炎です。"],
+["<i>Mycoplasma genitalium</i> ― 食中毒",0,"<i>M. genitalium</i>は性感染症です。"],
+["<i>Mycoplasma pneumoniae</i> ― 胃潰瘍",0,"胃潰瘍はピロリ菌です。"]]},
+{k:1,st:1,t:[ORI,EXT],q:"マイコプラズマが寄生に特化していることの説明として正しいのはどれか。",o:[
+["宿主に栄養を依存することで、不要になった遺伝子を排除しゲノムを縮小できる",1,"安定した生育環境と栄養を確保できるのが寄生のメリットです。"],
+["自分でアミノ酸や脂肪酸を合成できるので培地に栄養を加えなくても育つ",0,"自分では合成できず、培地に栄養を加えないと培養できません（寄生のデメリット）。"],
+["細胞内寄生性で、宿主細胞の中でしか増殖できない",0,"人工培地で自律的に増殖でき、細胞内寄生性はありません。"],
+["独自の代謝系が豊富で、宿主に依存しない",0,"独自の代謝系がほとんどなく、粘膜に付着して寄生・共生します。"],
+["芽胞を作って宿主の外でも長く生き延びる",0,"芽胞は作りません。"]]},
+{k:1,st:1,t:[ORI,EXT],q:"マイコプラズマ肺炎の耐性について正しいのはどれか。",o:[
+["マクロライドの濫用で耐性株が増え、テトラサイクリンやニューキノロンへ変更することがある",1,"小児への適用には注意が必要です。"],
+["β-ラクタム系が第一選択で、耐性は問題にならない",0,"細胞壁がないためβ-ラクタムは無効。第一選択はマクロライドです。"],
+["耐性菌は存在しない",0,"アジスロマイシンなどの耐性株の割合が高くなっています。"],
+["バンコマイシンが有効である",0,"細胞壁がないため無効です。"],
+["耐性化すると治療法が一切ない",0,"テトラサイクリンやニューキノロンへ変更できます。"]]},
+{k:1,st:1,t:[ORI,EXT],q:"マイコプラズマ肺炎の肺外症状が起こる理由として正しいのはどれか。",o:[
+["菌体成分が宿主の自己組織と似ており、免疫が自分を攻撃する交差反応による",1,"組織障害は過剰な免疫応答による2次的なものが主です。"],
+["菌が血流に乗って全身の臓器で増殖するから",0,"細胞内寄生性はなく、全身で増殖するわけではありません。"],
+["外毒素が全身に散布されるから",0,"主因は毒素ではなく過剰な免疫応答です。"],
+["芽胞が全身にばらまかれるから",0,"芽胞は作りません。"],
+["莢膜が全身の血管を詰まらせるから",0,"莢膜による症状ではありません。"]]}
+];
+
+/* ---------- クラミジア・リケッチア（シケプリ「クラミジア・リッケチア」文責：岩井） ---------- */
+const CHLRICK=[
+{k:1,st:3,t:[P("2025 問18 類題")],q:"病原性クラミジアの増殖サイクルについて正しいのはどれか。",o:[
+["感染力をもつ基本小体（EB）が食作用で取り込まれ、封入体内で網様体（RB）に移行して分裂増殖する",1,"RBは再びEBに転換して放出され、隣接細胞に感染します。"],
+["網様体（RB）が感染粒子として細胞外へ放出される",0,"放出されるのは基本小体（EB）に再転換したものです。RBは感染力がありません。"],
+["基本小体（EB）は感染力がなく、活発に代謝する増殖粒子である",0,"それは網様体（RB）です。EBは感染力をもつ小型の感染粒子です。"],
+["ファゴソームとリソソームの融合を促進して分解される",0,"融合を阻害して分解に抵抗します。"],
+["外毒素を産生して細胞を破壊する",0,"クラミジアは外毒素を産生しません。"]]},
+{k:1,st:3,t:[P("2025 問18 類題")],q:"クラミジアの持続感染について正しいのはどれか。",o:[
+["アミノ酸欠乏・抗菌薬・インターフェロンγにより網様体が異形体に転換し、長期間残存する",1,"抗菌薬やインターフェロンを除去すると網様体に再転換し、増殖サイクルに戻ります。"],
+["持続感染と再感染は同じ現象である",0,"再感染と持続感染は別です。"],
+["異形体は抗菌薬に非常に弱い",0,"異形体はある種の耐久構造で、抗菌薬にも抵抗します。"],
+["基本小体が分裂して持続感染する",0,"持続感染するのは異形体（網様体から転換したもの）です。"],
+["持続感染は免疫が強力に成立した結果である",0,"細胞内寄生性のため強力な感染防御免疫が成立しにくく、持続感染します。"]]},
+{k:2,st:2,t:[P("2025 問18 類題")],q:"クラミジアについて正しいものを2つ選べ。",o:[
+["マイコプラズマと違い、薄いペプチドグリカンを備えた細胞壁をもつ",1,"グラム陰性菌型の細胞壁です。"],
+["偏性細胞内寄生性で、代謝を宿主に依存する",1,"マイコプラズマ・リケッチアと並ぶ最小の細菌グループです。"],
+["外毒素を産生して細胞を破壊する",0,"外毒素は産生しません。"],
+["人工培地で自律的に増殖できる",0,"偏性細胞内寄生性で、生きた細胞内でしか増殖できません。"],
+["グラム染色で濃く染まる",0,"グラム染色に当てはまりにくい菌です。"]]},
+{k:1,st:2,t:[ORI],q:"クラミジアの菌種と疾患の組み合わせで正しいのはどれか。",o:[
+["トラコーマクラミジア ― 泌尿生殖器感染症（性感染症）",1,"トラコーマ、封入体結膜炎も起こします。治療はテトラサイクリン系。"],
+["肺炎クラミジア ― オウム病",0,"オウム病はオウム病クラミジア（鳥から感染）です。肺炎クラミジアは市中肺炎・非定型肺炎です。"],
+["オウム病クラミジア ― トラコーマ",0,"トラコーマはトラコーマクラミジアです。"],
+["トラコーマクラミジア ― Q熱",0,"Q熱はコクシエラです。"],
+["肺炎クラミジア ― 性病性リンパ肉芽腫症",0,"性病性リンパ肉芽腫症はトラコーマクラミジアです。"]]},
+{k:1,st:2,t:[ORI],q:"クラミジアの治療について正しいのはどれか。",o:[
+["細胞内移行性の高いテトラサイクリン系（ミノサイクリン・ドキシサイクリン）が有効である",1,"偏性細胞内寄生性のため、細胞内に届く薬が必要です。"],
+["細胞壁合成阻害薬のβ-ラクタム系が第一選択である",0,"細胞内移行性の高いテトラサイクリン系が有効です。"],
+["性感染症でもパートナーの治療は不要である",0,"ピンポン感染があるため、両者の治療を同時に行うことが重要です。"],
+["アミノグリコシド系が最も有効である",0,"細胞内移行性の高いテトラサイクリン系が選ばれます。"],
+["クラミジアには抗菌薬が一切効かない",0,"テトラサイクリン系が有効です。"]]},
+{k:1,st:2,t:[P("2025 問18 類題")],q:"リケッチアについて正しいのはどれか。",o:[
+["偏性細胞内寄生性で、節足動物（ベクター）を媒介して感染する",1,"代謝は宿主に依存します。"],
+["無細胞培地で容易に培養できる",0,"偏性細胞内寄生性で、無細胞培地では培養できません。"],
+["外毒素を分泌して全身症状を起こす",0,"細胞内寄生性で、節足動物媒介が特徴です。"],
+["ヒトからヒトへ直接飛沫感染する",0,"シラミ・ノミ・ダニなどの節足動物を媒介します。"],
+["グラム陽性桿菌としてよく染まる",0,"グラム染色に当てはまりにくい菌です。"]]},
+{k:1,st:2,t:[ORI],q:"リケッチア科の疾患とベクターの組み合わせで正しいのはどれか。",o:[
+["発疹チフス ― シラミ",1,"未治療の死亡率が60%を超えます（<i>Rickettsia prowazekii</i>）。"],
+["発疹熱 ― マダニ",0,"発疹熱はネズミノミが媒介します。"],
+["日本紅斑熱 ― シラミ",0,"日本紅斑熱はマダニを媒介し、刺し口を認めます。"],
+["ツツガムシ病 ― 蚊",0,"ツツガムシ病は小型のダニ（ツツガムシ）が媒介します。"],
+["発疹チフス ― 蚊",0,"発疹チフスはシラミが媒介します。"]]},
+{k:2,st:2,t:[ORI],q:"ツツガムシ病について正しいものを2つ選べ。",o:[
+["小型のダニ（ツツガムシ）に刺されて感染し、刺し口を認める",1,"重症化して死亡する危険もあります。"],
+["3主徴は、急激な発熱・体幹から四肢へ広がる発疹・刺し口である",1,"治療はテトラサイクリン系やニューキノロンです。"],
+["シラミの糞便から感染する",0,"それは発疹チフスです。ツツガムシ病はダニ媒介です。"],
+["グラム陽性球菌による感染症である",0,"リケッチア科で、グラム染色に当てはまりにくい菌です。"],
+["ヒトからヒトへ飛沫感染する",0,"ツツガムシ（ダニ）を媒介します。"]]},
+{k:1,st:2,t:[ORI],q:"グラム染色に当てはまりにくい細菌の組み合わせで正しいのはどれか。",o:[
+["抗酸菌・スピロヘータ・マイコプラズマ・クラミジア・リケッチア",1,"いずれもグラム染色で分類しにくい菌です。"],
+["大腸菌・赤痢菌・肺炎桿菌",0,"いずれもグラム陰性桿菌として染まります。"],
+["黄色ブドウ球菌・肺炎球菌・腸球菌",0,"いずれもグラム陽性菌として染まります。"],
+["淋菌・髄膜炎菌・モラクセラ",0,"いずれもグラム陰性双球菌として染まります。"],
+["炭疽菌・破傷風菌・ボツリヌス菌",0,"いずれもグラム陽性桿菌として染まります。"]]},
+{k:1,st:2,t:[ORI],q:"クラミジアの基本小体（EB）と網様体（RB）について正しいのはどれか。",o:[
+["EBは感染力をもつ小型の感染粒子、RBは感染力がなく活発に代謝する増殖粒子である",1,"EB→取り込み→RBで増殖→EBに戻って放出、というサイクルです。"],
+["EBは感染力がなく、RBが細胞外へ放出されて感染を広げる",0,"逆です。放出されるのはEBで、感染力をもちます。"],
+["RBが宿主細胞の食作用で取り込まれて感染が始まる",0,"取り込まれるのは感染力をもつEBです。"],
+["EBもRBも細胞外で自律的に増殖できる",0,"偏性細胞内寄生性で、細胞内でしか増殖しません。"],
+["EBは封入体の外で分裂して増える",0,"封入体内でEBがRBに移行して分裂増殖します。"]]},
+{k:2,st:2,t:[ORI],q:"リケッチアとクラミジアに共通する性質として正しいものを2つ選べ。",o:[
+["偏性細胞内寄生性で、代謝を宿主に依存する",1,"生きた細胞の中でしか増殖できません。"],
+["グラム染色に当てはまりにくい",1,"小さすぎてグラム染色では分類しにくい菌です。"],
+["外毒素を大量に分泌して組織を破壊する",0,"クラミジアは外毒素を産生しません。"],
+["人工培地で容易に培養できる",0,"偏性細胞内寄生性で、無細胞培地では培養できません。"],
+["芽胞を形成して体外で長期間生存する",0,"芽胞は形成しません。"]]},
+{k:1,st:2,t:[ORI],q:"トラコーマクラミジアが起こす感染症として誤っているのはどれか。",o:[
+["オウム病",1,"<strong>誤り。</strong>オウム病はオウム病クラミジア（鳥から感染）です。"],
+["トラコーマ（伝染性の慢性角膜炎）",0,"失明の原因になります。"],
+["封入体結膜炎",0,"泌尿生殖器分泌物がタオルなどを介して目に感染します。"],
+["泌尿生殖器感染症（性感染症）",0,"男女で症状に差があり、淋菌に似ます。"],
+["性病性リンパ肉芽腫症",0,"トラコーマクラミジアによる性感染症です。"]]}
+];
+
+/* ---------- 抗酸菌（シケプリ「抗酸菌」文責：鷲尾） ---------- */
+const ACID=[
+{k:2,st:3,t:[P("2025 問13・15 類題")],q:"抗酸菌の染色性について正しいものを2つ選べ。",o:[
+["一度染色すると酸やアルコールで脱色されにくい（抗酸性）",1,"結核菌・らい菌が代表です。"],
+["細胞壁にミコール酸という長鎖脂肪酸を多く含むため、グラム染色の色素が通過しづらい",1,"このためグラム染色では一様に染まらず、グラム染色は使えません。"],
+["グラム陽性に一様に濃く染まる",0,"顆粒状・ガラス状に見え、グラム染色は使えません。"],
+["チール・ネールゼン染色では染まらない",0,"石炭酸フクシン法（Z-N染色）で赤く染まります。"],
+["細胞壁をもたないため染色できない",0,"細胞壁をもち、むしろ脂質に富む厚い細胞壁が染色を妨げます。"]]},
+{k:1,st:2,t:[ORI],q:"抗酸菌の染色法について正しいのはどれか。",o:[
+["石炭酸フクシン法（Z-N法）では、石炭酸で脂質を溶解し、加温して塩基性フクシンと菌を結合させる",1,"抗酸菌を赤く染めます。"],
+["蛍光染色法はZ-N法より感度が低く、見落としが多い",0,"簡便・迅速で感度が良い一方、偽陽性が生じやすいです。"],
+["グラム染色が最も確実に染まる",0,"グラム染色は使えません。"],
+["墨汁染色で莢膜を染めて同定する",0,"墨汁染色は莢膜（クリプトコッカスなど）用で、抗酸菌の同定法ではありません。"],
+["抗酸菌は無染色でも光学顕微鏡で容易に色がつく",0,"専用の染色（Z-N法・蛍光染色）が必要です。"]]},
+{k:2,st:3,t:[ORI],q:"抗酸菌の増殖が遅い理由として正しいものを2つ選べ。",o:[
+["細胞壁が厚く脂質に富むため、栄養分の取り込みや細胞壁の構築・改造に時間がかかる",1,"結核菌の倍加時間は約15時間、らい菌は12〜13日です。"],
+["リボソーム遺伝子のコピー数が少なく、タンパク質合成・代謝が遅い",1,"これも増殖が遅い理由です。"],
+["芽胞を形成して休眠しているため",0,"抗酸菌は芽胞を形成しません。"],
+["偏性嫌気性で酸素がある環境では増えないため",0,"抗酸菌は好気性菌です（結核菌は至適温度37℃の肺を好む）。"],
+["細胞壁をもたず構造が不安定なため",0,"むしろ細胞壁が厚いことが理由です。"]]},
+{k:1,st:2,t:[ORI],q:"抗酸菌の厚い細胞壁の利点として正しいのはどれか。",o:[
+["毒や危険物が入り込みにくく、抗菌薬や免疫細胞の攻撃が効きにくい",1,"治療が長期化し、薬剤耐性菌が生じやすい一因です。"],
+["栄養分を素早く取り込める",0,"逆に取り込みに時間がかかり、増殖は遅くなります。"],
+["グラム染色でよく染まるようになる",0,"脂質が多く、グラム染色はできません。"],
+["芽胞形成を促進する",0,"抗酸菌は芽胞を形成しません。"],
+["宿主の免疫を強く活性化して排除されやすくなる",0,"免疫細胞の攻撃が効きにくくなります。"]]},
+{k:1,st:3,t:[P("2024 問17 類題")],q:"抗酸菌がマクロファージ内で殺菌されずに増殖できる理由として正しいのはどれか。",o:[
+["菌の周りをタンパク質で覆い、ファゴソームとリソソームの融合を阻害する",1,"殺菌を防ぎ、細胞内でゆっくり増殖します（レジオネラと同様の戦略）。"],
+["ファゴソームとリソソームの融合を促進して栄養を得る",0,"融合を阻害して殺菌を防ぎます。"],
+["芽胞を形成して殺菌に耐える",0,"抗酸菌は芽胞を形成しません。"],
+["細胞壁をもたないため消化を受けにくい",0,"むしろ脂質に富む厚い細胞壁が殺菌への抵抗に寄与します。"],
+["マクロファージを直接溶かす外毒素を出す",0,"融合阻害による細胞内生存が主な機構です。"]]},
+{k:1,st:2,t:[ORI],q:"抗酸菌感染における肉芽腫について正しいのはどれか。",o:[
+["排除できない菌を、マクロファージなどが集まって結節（肉芽腫）をつくり閉じ込める",1,"結核では中心部に乾酪壊死を伴う肉芽腫が見られます。"],
+["肉芽腫は菌を素早く完全に排除した結果できる",0,"排除しきれない菌を物理的に封じ込める構造です。"],
+["抗酸菌の排除はマクロファージがインターロイキン4で活性化されるかで決まる",0,"インターフェロンγ（IFN-γ）で活性化されるかどうかが重要です。"],
+["結核の肉芽腫は化膿性で膿がたまる",0,"中心部に乾酪壊死を伴うのが特徴です。"],
+["肉芽腫形成にT細胞は関与しない",0,"活性型T細胞と抑制型（制御性）T細胞のバランスが重要です。"]]},
+{k:2,st:3,t:[ORI],q:"結核の感染について正しいものを2つ選べ。",o:[
+["肺結核患者から排出された飛沫核を吸い込むことで感染する（空気感染）",1,"結核はヒト→ヒトでうつります。"],
+["肺外結核は非感染性である",1,"菌が気道から排出されないためです。"],
+["床に落ちた結核菌はほこりとともに舞い上がり、塵埃感染を起こしやすい",0,"舞い上がっても肺胞まで到達しにくく、塵埃感染は起こしにくいです。"],
+["非結核性抗酸菌（NTM）もヒト→ヒトでうつる",0,"NTMはヒト→ヒト感染がほぼなく、感染症法の対象外です。"],
+["結核菌は嫌気性で、酸素の少ない部位を好む",0,"好気性菌で、至適温度37℃の肺を好み肺結核になりやすいです。"]]},
+{k:1,st:2,t:[ORI],q:"結核の診断について正しいのはどれか。",o:[
+["培養には小川培地（ロウエンスタイン・ジェンセン培地）を用い、4〜8週間かかる",1,"ほかに抗酸菌染色・蛍光染色を行います。"],
+["結核菌は増殖が速く、数時間で培養結果が出る",0,"増殖が遅く、培養に4〜8週間かかります。"],
+["ツベルクリン反応ではBCG接種者や非結核性抗酸菌感染者は必ず陰性になる",0,"PPDがBCGや非結核性抗酸菌と類似するため、これらでも陽性になります。"],
+["IGRAはBCG接種の影響を受けて偽陽性になりやすい",0,"BCGに含まれない結核菌特異的抗原を用いるため、BCGの影響を受けません（感度90%超）。"],
+["診断にグラム染色が最も有用である",0,"抗酸菌はグラム染色できません。抗酸菌染色・蛍光染色を用います。"]]},
+{k:1,st:2,t:[ORI],q:"ツベルクリン反応（TST）とIGRAについて正しいのはどれか。",o:[
+["IGRAは結核菌特異的抗原への反応で放出されるIFN-γを測定し、BCGの影響を受けない",1,"BCGと結核菌の応答を分けられ、感度は90%を超えます。"],
+["ツベルクリン反応はPPD（結核菌由来のタンパク質）を静脈注射して判定する",0,"皮内投与し、接種部位の発赤を測定します。"],
+["ツベルクリン反応はBCG接種の影響を受けない",0,"PPDがBCGや非結核性抗酸菌と類似するため陽性反応を起こします。"],
+["IGRAはBCG接種者では必ず陽性になる",0,"BCGに含まれない抗原を使うため、BCGの影響を受けません。"],
+["どちらも抗酸菌を直接培養する検査である",0,"いずれも免疫反応を利用する検査で、培養ではありません。"]]},
+{k:1,st:2,t:[ORI],q:"結核の治療・予防について正しいのはどれか。",o:[
+["約6ヶ月間の確実な服薬が必要で、WHOは直接監視下短期化学療法（DOTS）を推奨している",1,"服薬の中断は薬剤耐性菌の出現につながります。"],
+["治療は数日間の抗菌薬で十分である",0,"約6ヶ月間の確実な服薬が必要です。"],
+["BCGワクチンは成人にのみ有効である",0,"BCGは小児でより有効です。成人肺結核にはINH（イソニアジド）予防内服が有効です。"],
+["服薬期間が長くても薬剤耐性は生じない",0,"服薬の中断・長期化が耐性化につながります。"],
+["予防内服に用いるINHはタンパク質合成を阻害する",0,"INH（イソニアジド）はミコール酸合成を阻害し、抗酸菌の細胞壁形成を妨げます。"]]},
+{k:2,st:2,t:[ORI],q:"非結核性抗酸菌（NTM）感染症について正しいものを2つ選べ。",o:[
+["土壌や水などの環境に広く存在する環境菌で、ヒト→ヒト感染はほぼない",1,"感染経路は不明で、感染症法の対象外です。"],
+["日本で最も多いのは<i>M. avium</i> complex（MAC）である",1,"近年<i>M. abscessus</i>が増加しています。"],
+["抗酸菌感染症の大半（90%以上）を占める",0,"抗酸菌感染症の10〜20%を占めます（過小評価されている）。"],
+["ヒトからヒトへ空気感染するため隔離が必要である",0,"ヒト→ヒト感染はほぼなく、感染症法の対象外です。"],
+["ブルーリ潰瘍は<i>M. kansasii</i>が産生する毒素で起こる",0,"ブルーリ潰瘍は<i>M. ulcerans</i>が産生するマイコラクトンが原因です。"]]},
+{k:1,st:3,t:[P("2025 問15 類題")],q:"ハンセン病について正しいのはどれか。",o:[
+["らい菌が末梢神経に侵入し、排除しようとする過剰な免疫が末梢神経を破壊して知覚障害を起こす",1,"痛みや温度を感じなくなり、火傷やケガをしやすくなります。早期発見・早期治療で完治可能です。"],
+["らい菌は人工培地で容易に培養できる",0,"人工培地では培養できず、感染性の証明や評価が困難です（異常な遺伝子の割合が40〜50%と高いためと推測）。"],
+["初期症状として水疱やびらんを伴う激しい皮膚病変が多発する",0,"らい菌が皮膚と末梢神経を侵し、知覚障害などを起こします。"],
+["診断にはらい菌の培養同定が第一選択となる",0,"培養ができないため、培養同定は第一選択になりません。"],
+["治療は単剤で短期間行う",0,"リファンピシンを含む多剤併用（MDT）で治療します。"]]},
+{k:1,st:2,t:[ORI],q:"ハンセン病の感染について正しいのはどれか。",o:[
+["乳幼児期に、菌を排出する患者からの感染が主と考えられている",1,"発症リスクは免疫が低下すると増加します。"],
+["成人になってからの新規感染が大半である",0,"乳幼児期の感染が主と考えられています。"],
+["らい菌はマダニによって媒介される",0,"患者からの感染が主で、媒介動物の記載はありません。"],
+["感染すると必ず発症する",0,"発症リスクは免疫が低下すると増加します。"],
+["早期に治療しても完治は不可能である",0,"早期発見・早期治療で完治可能です。"]]},
+{k:1,st:2,t:[ORI],q:"抗酸菌の染色・増殖について正しいのはどれか。",o:[
+["石炭酸フクシン法（チール・ネールゼン染色）で赤く染まり、増殖は遅い",1,"ミコール酸を多く含む厚い細胞壁のためグラム染色はできません。"],
+["グラム染色でよく染まる",0,"脂質に富む厚い細胞壁のため、グラム染色では染まりません。"],
+["増殖が速く、数時間でコロニーができる",0,"結核菌の倍加時間は約15時間と遅く、培養に4〜8週間かかります。"],
+["細胞壁をもたないので染色できない",0,"厚い細胞壁をもち、脂質が染色を妨げます。"],
+["蛍光染色はチール・ネールゼン染色より感度が低い",0,"蛍光染色は簡便・迅速で感度が良い一方、偽陽性が生じやすいです。"]]},
+{k:1,st:2,t:[ORI],q:"結核の予防・治療に用いる薬について正しいのはどれか。",o:[
+["INH（イソニアジド）はミコール酸合成を阻害し、成人肺結核の予防内服にも使われる",1,"小児にはBCGワクチンがより有効です。"],
+["BCGワクチンは成人にのみ有効である",0,"BCGは小児でより有効です。"],
+["治療は数日間の服薬で完了する",0,"約6ヶ月間の確実な服薬が必要で、WHOはDOTSを推奨します。"],
+["服薬を中断しても薬剤耐性は生じない",0,"中断・長期化が薬剤耐性菌の出現につながります。"],
+["INHはリボソームに結合してタンパク質合成を阻害する",0,"INHはミコール酸合成（細胞壁形成）を阻害します。"]]},
+{k:1,st:1,t:[ORI],q:"非結核性抗酸菌（NTM）について正しいのはどれか。",o:[
+["日本で最も多いのは<i>M. avium</i> complex（MAC）で、ブルーリ潰瘍は<i>M. ulcerans</i>の毒素マイコラクトンが原因である",1,"NTMは環境菌でヒト→ヒト感染はほぼなく、感染症法の対象外です。"],
+["ヒトからヒトへ空気感染するため隔離が必要である",0,"ヒト→ヒト感染はほぼなく、感染症法の対象外です。"],
+["抗酸菌感染症の大半（90%以上）を占める",0,"10〜20%を占めます。"],
+["<i>M. kansasii</i>には抗結核薬が無効である",0,"<i>M. kansasii</i>は日本で3番目に多く、抗結核薬が有効です。"],
+["土壌や水とは無関係で、ヒトの腸管に常在する",0,"土壌や水などの環境に広く存在する環境菌です。"]]},
+{k:1,st:1,t:[ORI],q:"ハンセン病の神経障害について正しいのはどれか。",o:[
+["らい菌が末梢神経に侵入し、排除しようとする過剰な免疫が末梢神経を破壊して知覚障害を起こす",1,"痛みや温度を感じにくくなり、火傷やケガをしやすくなります。"],
+["らい菌が直接筋肉を溶かして麻痺を起こす",0,"末梢神経への侵入と過剰な免疫反応が原因です。"],
+["中枢神経に侵入して髄膜炎を起こす",0,"末梢神経を侵し、皮膚と末梢神経に障害を起こします。"],
+["神経障害は不可逆で、治療しても改善しない",0,"早期発見・早期治療で完治可能です。"],
+["毒素による全身性の弛緩性麻痺を起こす",0,"毒素ではなく、免疫による末梢神経の破壊です。"]]}
+];
+
+/* ---------- 問題集の形式へ変換 ---------- */
+const KK=['ア','イ','ウ','エ','オ'];
+function srcOf(tags){const r={src:[],st:null};tags.forEach(([c,l])=>{
+  if(c==='rep')r.st=l;else if(c==='orig')r.src.push('オリジナル');else if(c==='ext')r.src.push('補足あり');
+  else r.src.push(l.replace(/(20\d\d) /g,'$1年 '));});return r}
+function conv(q){
+  const s=srcOf(q.t),r={src:s.src.length?s.src:['オリジナル'],imp:q.st};if(s.st)r.st=s.st;
+  if(q.k===2){
+    r.t=q.q.replace(/を2つ選べ。$/,'の組合せはどれか（2つ選ぶ）。');
+    r.it=q.o.map(x=>x[0]);r.ans=q.o.map((x,i)=>x[1]?KK[i]:'').join('');
+    r.ie=q.o.map(x=>(x[1]?'○ ':'× ')+x[2]);
+  }else{
+    r.t=q.q;r.o=q.o.map(x=>x[0]);r.a=q.o.findIndex(x=>x[1]);r.on=q.o.map(x=>x[2]);
+  }
+  return r;
+}
+function genNames(dir,groups){
+  const list=groups?B.filter(b=>groups.includes(b.g)):B;
+  return list.map(b=>{
+    const pool=B.filter(x=>x!==b&&x.ja!==b.ja).map(x=>{let s=Math.random();if(x.genus===b.genus)s+=3;if(x.ep===b.ep)s+=3;if(x.g===b.g)s+=1;return{x,s}})
+      .sort((p,q)=>q.s-p.s).slice(0,4).map(p=>p.x);
+    const opts=[b,...pool];
+    const r={src:b.past?[b.past.replace(/(20\d\d)/g,'$1年')+' 出題']:['学名ドリル'],imp:1,drill:1,
+      t:dir==='la'?`<i>${b.la}</i> の日本語名はどれか。`:`${b.ja}の学名はどれか。`,
+      o:opts.map(x=>dir==='la'?x.ja:`<i>${x.la}</i>`),a:0,
+      on:opts.map(x=>(dir==='la'?`<i>${x.la}</i> は${x.ja}。`:`${x.ja}は <i>${x.la}</i>。`)+`語源：${x.et}。`+(x===b?x.ft:'')),
+      e:`${b.ja}＝<i>${b.la}</i>。語源：${b.et}。${b.ft}`};
+    return r;
+  });
+}
+// 記述（WRITE）を index で取り出し、分野の末尾に置く
+function W(idx){const q=WRITE[idx];const s=srcOf(q.t);const r={src:s.src,imp:1,t:q.q,w:q.a};if(s.st)r.st=s.st;return r}
+const DATA=[
+ {name:'総論',short:'総論',desc:'構造・遺伝・代謝と、常在菌・病原性・化学療法。2年連続のペプチドグリカン、遺伝情報の変化、莢膜を中心に、原核細胞・芽胞・活性酸素・グラム染色・抗菌薬・細菌学の歴史まで。末尾に記述対策。',
+  qs:STRUCT.map(conv).concat(PATHO.map(conv)).concat([0,1,2,3,4,5,6,27].map(W))},
+ {name:'グラム陽性菌',short:'陽性菌',desc:'ブドウ球菌・レンサ球菌・腸球菌・芽胞形成菌（Bacillus／Clostridium）・リステリア。シケプリ「グラム陽性菌」より。末尾に記述。',
+  qs:POSNEW.map(conv).concat([14,7,8,22].map(W))},
+ {name:'グラム陰性菌',short:'陰性菌',desc:'ナイセリア・腸内細菌科・ビブリオ・ヘモフィルス・シュードモナスなど。シケプリ「グラム陰性菌」（文責：岩井）より。末尾に記述。',
+  qs:NEGNEW.map(conv).concat([9,12,23,24].map(W))},
+ {name:'らせん菌',short:'らせん菌',desc:'梅毒トレポネーマ・ボレリア・レプトスピラ・カンピロバクター・ピロリ菌。シケプリ「らせん菌」（文責：中園）より。梅毒の血清診断（浅野先生強調）とギラン・バレーの記述つき。',
+  qs:SPIRO.map(conv).concat([11,13,25,26].map(W))},
+ {name:'マイコプラズマ',short:'マイコ',desc:'細胞壁をもたない最小の自律増殖生物。β-ラクタムが無効な理由、非定型肺炎、マクロライド。シケプリ「マイコプラズマ」（文責：鷲尾）より。',
+  qs:MYCO.map(conv).concat([15,16].map(W))},
+ {name:'クラミジア・リケッチア',short:'クラミジア',desc:'偏性細胞内寄生菌。クラミジアの増殖サイクル（EB／RB／異形体）、持続感染、リケッチアとベクター。シケプリ「クラミジア・リッケチア」（文責：岩井）より。',
+  qs:CHLRICK.map(conv).concat([17,18].map(W))},
+ {name:'抗酸菌',short:'抗酸菌',desc:'ミコール酸と抗酸性、増殖が遅い理由、マクロファージ内での生存と肉芽腫、結核（診断・TST／IGRA・DOTS）、非結核性抗酸菌、ハンセン病。シケプリ「抗酸菌」（文責：鷲尾）より。末尾に記述。',
+  qs:ACID.map(conv).concat([10,19,20,21].map(W))},
+ {name:'学名ドリル：学名 → 日本語名',short:'学名→和名',desc:'細菌リストの赤字の菌（全50菌）。毎年最多出題。紛らわしい同属・同じ種小名の菌を選択肢に入れています。設定でランダム化できます。',
+  qs:genNames('la')},
+ {name:'学名ドリル：日本語名 → 学名',short:'和名→学名',desc:'2024年は「頭文字で省略してはならない」、2025年は誤字・乱筆も減点。属名と種小名の綴りまで確認しましょう。',
+  qs:genNames('ja')}
+];
+</script>
+<script>
+(function(){
+const K=['ア','イ','ウ','エ','オ'], L=['A','B','C','D','E'];
+const sub=x=>String(x);
+const $=(t,c,h)=>{const e=document.createElement(t);if(c)e.className=c;if(h!=null)e.innerHTML=h;return e};
+function combos(n,k){const r=[];(function f(s,a){if(a.length===k){r.push(a.slice());return}for(let i=s;i<n;i++){a.push(i);f(i+1,a);a.pop()}})(0,[]);return r}
+function hash(s){let h=7;for(const c of s)h=(h*31+c.charCodeAt(0))>>>0;return h}
+function shuffleIdx(n,rnd){const idx=[...Array(n).keys()];for(let i=n-1;i>0;i--){const j=Math.floor(rnd()*(i+1));[idx[i],idx[j]]=[idx[j],idx[i]]}return idx}
+function seeded(seed){let s=seed>>>0;return()=>{s=(s*1103515245+12345)>>>0;return (s>>>8)/16777216}}
+// 組合せ選択肢（正答と1個共通する紛らわしい組合せを優先、決定的）
+function baseCombo(q){
+  const ans=[...q.ans].map(c=>K.indexOf(c)).sort();
+  const all=combos(5,ans.length).filter(c=>c.join()!==ans.join());
+  const h=hash(q.t+q.ans);
+  all.sort((a,b)=>{const ov=x=>x.filter(i=>ans.includes(i)).length;const d=ov(b)-ov(a);return d!==0?d:((hash(a.join()+h)%97)-(hash(b.join()+h)%97))});
+  const pool=all.slice(0,7);const picks=[];let s=h;
+  while(picks.length<4){s=(s*1103515245+12345)>>>0;const c=pool[s%pool.length];if(!picks.includes(c))picks.push(c)}
+  const pos=h%5;picks.splice(pos,0,ans);
+  return {o:picks.map(c=>c.map(i=>K[i]).join('・')),on:null,a:pos};
+}
+function view(q,randOpt){
+  let v=q.it?baseCombo(q):{o:q.o,on:q.on||null,a:q.a};
+  let idx=null;
+  if(randOpt)idx=shuffleIdx(5,Math.random);
+  else if(!q.it)idx=shuffleIdx(5,seeded(hash(q.t)));
+  if(idx)v={o:idx.map(i=>v.o[i]),on:v.on?idx.map(i=>v.on[i]):null,a:idx.indexOf(v.a)};
+  return v;
+}
+let opt={rq:false,ro:false};
+try{const v=JSON.parse(localStorage.getItem('saikin-opt')||'{}');opt.rq=!!v.rq;opt.ro=!!v.ro}catch(e){}
+const rq=document.getElementById('rq'),ro=document.getElementById('ro');rq.checked=opt.rq;ro.checked=opt.ro;
+const nav=document.getElementById('nav'),toc=document.getElementById('toc'),secs=document.getElementById('secs');
+const state={};
+DATA.forEach((S,si)=>{
+  S.qs.forEach((q,i)=>q._i=i);
+  const id='s'+si,mcN=S.qs.filter(q=>!q.w).length,wN=S.qs.length-mcN,n=S.qs.length;
+  nav.appendChild(Object.assign($('a',null,S.short),{href:'#'+id}));
+  const ta=$('a');ta.href='#'+id;
+  ta.innerHTML=`<span class="nm">${S.name}</span><span class="ct">${mcN}問${wN?'＋記述'+wN:''}</span><span class="sc" id="${id}-tsc"></span><span class="chev" aria-hidden="true">›</span>`;
+  toc.appendChild(ta);
+  const sec=$('section','sec');sec.id=id;
+  const hd=$('div','sechead');hd.appendChild($('h2',null,S.name));sec.appendChild(hd);
+  if(S.desc)sec.appendChild($('p','secdesc',S.desc));
+  const sc=$('div','score');
+  sc.innerHTML=`<span><span class="nm">${S.short}</span>正答 <b id="${id}-c">0</b> / <b id="${id}-n">0</b><span style="color:var(--fg2s)">（全${mcN}問${wN?'＋記述'+wN:''}）</span></span><span class="bar"><i id="${id}-bar"></i></span>`;
+  const acts=$('span','acts');
+  const rb=$('button','btn','やり直す');rb.type='button';rb.id=id+'-reset';acts.appendChild(rb);sc.appendChild(acts);sec.appendChild(sc);
+  const wrap=$('div','qs');sec.appendChild(wrap);
+  const bk=$('a','back','目次へ戻る');bk.href='#top';sec.appendChild(bk);
+  secs.appendChild(sec);
+  state[id]={c:0,n:0,S,wrap};
+  rb.addEventListener('click',()=>{render(id);sec.scrollIntoView({behavior:'smooth'})});
+  render(id);
+});
+function head(q,qi){
+  const h=$('div','qhead');h.appendChild($('span','qno','問'+(qi+1)));
+  (q.src||['オリジナル']).forEach(s=>h.appendChild($('span','chip '+(/類題|オリジナル|補足|細菌リスト/.test(s)?'c-sim':'c-past'),s)));
+  if(q.st)h.appendChild($('span','chip c-streak',q.st));
+  h.appendChild($('span','chip c-imp','★'.repeat(q.imp||2)+'<span style="opacity:.25">'+'★'.repeat(3-(q.imp||2))+'</span>'));
+  return h;
+}
+function render(id){
+  const st=state[id],S=st.S,wrap=st.wrap;st.c=0;st.n=0;wrap.textContent='';
+  let qs=S.qs.slice().sort((a,b)=>(b.imp||2)-(a.imp||2)||a._i-b._i);
+  if(opt.rq){const idx=shuffleIdx(qs.length,Math.random);qs=idx.map(i=>qs[i])}
+  st.mc=qs.filter(q=>!q.w).length;
+  qs.forEach((q,qi)=>{
+    const card=$('article','q');card.id=`${id}-q${qi+1}`;
+    card.appendChild(head(q,qi));
+    card.appendChild($('p','stem',sub(q.t)));
+    if(q.w){
+      const det=$('details','ex');det.innerHTML='<summary>解答例を見る</summary>';
+      det.appendChild($('div','exb wa',q.w));card.appendChild(det);
+      wrap.appendChild(card);return;
+    }
+    const v=view(q,opt.ro);
+    if(q.it){const ul=$('ol','items');q.it.forEach((s,i)=>ul.appendChild($('li',null,`<span>${K[i]}</span><span>${sub(s)}</span>`)));card.appendChild(ul)}
+    const ob=$('div','opts');const btns=[];
+    v.o.forEach((o,oi)=>{const b=$('button','opt');b.type='button';b.id=`${card.id}-o${oi}`;
+      b.innerHTML=`<span class="lt">${L[oi]}</span><span class="tx">${sub(o)}${v.on&&v.on[oi]?`<span class="nt" hidden>${sub(v.on[oi])}</span>`:''}</span>`;
+      b.addEventListener('click',()=>answer(oi));ob.appendChild(b);btns.push(b)});
+    card.appendChild(ob);
+    const vd=$('p','verdict');vd.hidden=true;card.appendChild(vd);
+    const det=$('details','ex');det.innerHTML='<summary>解答・解説を見る</summary>';
+    const exb=$('div','exb');
+    let h=`<p class="ans">正答：${L[v.a]}${q.it?`（${v.o[v.a]}）`:''}</p>`;
+    (Array.isArray(q.e)?q.e:[q.e]).filter(Boolean).forEach(p=>h+=`<p>${sub(p)}</p>`);
+    if(q.ie){h+='<ul>'+q.ie.map((s,i)=>{const ok=s.startsWith('○');return `<li><b class="${ok?'o':'x'}">${K[i]}：${ok?'○':'×'}</b><span>${sub(s.replace(/^[○×]\s*/,'')||q.it[i])}</span></li>`}).join('')+'</ul>'}
+    if(v.on){h+='<ul>'+v.on.map((s,i)=>`<li><b class="${i===v.a?'o':'x'}">${L[i]}：${i===v.a?'○':'×'}</b><span>${sub(s)}</span></li>`).join('')+'</ul>'}
+    exb.innerHTML=h;det.appendChild(exb);card.appendChild(det);
+    wrap.appendChild(card);
+    let done=false;
+    function answer(oi){if(done)return;done=true;card.classList.add('done');
+      btns.forEach((b,i)=>{if(i===v.a)b.classList.add('right');else if(i===oi)b.classList.add('wrong');b.setAttribute('aria-disabled','true');const nt=b.querySelector('.nt');if(nt)nt.hidden=false});
+      const ok=oi===v.a;vd.hidden=false;vd.className='verdict '+(ok?'ok':'ng');vd.textContent=ok?'正解':'不正解（正答：'+L[v.a]+'）';
+      det.open=true;st.n++;if(ok)st.c++;upd(id)}
+  });
+  upd(id);
+}
+function upd(id){const st=state[id];document.getElementById(id+'-c').textContent=st.c;document.getElementById(id+'-n').textContent=st.n;
+  document.getElementById(id+'-bar').style.width=(st.n?st.c/st.n*100:0)+'%';
+  document.getElementById(id+'-tsc').textContent=st.n?`${st.c}/${st.n}`:''}
+function onOpt(){opt={rq:rq.checked,ro:ro.checked};try{localStorage.setItem('saikin-opt',JSON.stringify(opt))}catch(e){}Object.keys(state).forEach(render)}
+rq.addEventListener('change',onOpt);ro.addEventListener('change',onOpt);
+const navEl=document.querySelector('.nav');
+function setNavH(){document.documentElement.style.setProperty('--navh',navEl.getBoundingClientRect().height+'px')}
+setNavH();window.addEventListener('resize',setNavH);
+})();
+</script>
+
+</body>
+</html>

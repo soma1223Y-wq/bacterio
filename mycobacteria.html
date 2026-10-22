@@ -1,0 +1,345 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>抗酸菌テキスト</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<style>
+/* Layout: 1カラムの読み物。上部固定ナビ → 章ごとのカード（Apple HIG風）。配色は問題集と統一（アクセント=ピンク） */
+:root{
+  --bg:#F2F2F7; --card:#FFFFFF; --fg:#1C1C1E; --fg2s:#6C6C70; --sep:#C6C6C8; --fill:#E9E9EE;
+  --accent:#C21A63; --accentFill:#FF2D55; --accentSoft:#FCE4EC;
+  --ok:#248A3D; --okSoft:#E3F5E7; --ng:#D70015; --ngSoft:#FDE7E9; --warn:#C93400; --warnSoft:#FFF0E3;
+  --info:#0A6DC2; --infoSoft:#E3F0FB; --nav:rgba(242,242,247,.86);
+  --font:"Helvetica Neue", Arial, "Hiragino Kaku Gothic ProN", "Hiragino Sans", Meiryo, sans-serif;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#000000; --card:#1C1C1E; --fg:#F2F2F7; --fg2s:#98989F; --sep:#38383A; --fill:#2C2C2E;
+  --accent:#FF6FA3; --accentFill:#FF375F; --accentSoft:#3A1526;
+  --ok:#30D158; --okSoft:#12331B; --ng:#FF6961; --ngSoft:#3A1517; --warn:#FF9F0A; --warnSoft:#3A2608;
+  --info:#5AB0FF; --infoSoft:#0E2A44; --nav:rgba(18,18,20,.86); color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#000000; --card:#1C1C1E; --fg:#F2F2F7; --fg2s:#98989F; --sep:#38383A; --fill:#2C2C2E;
+  --accent:#FF6FA3; --accentFill:#FF375F; --accentSoft:#3A1526;
+  --ok:#30D158; --okSoft:#12331B; --ng:#FF6961; --ngSoft:#3A1517; --warn:#FF9F0A; --warnSoft:#3A2608;
+  --info:#5AB0FF; --infoSoft:#0E2A44; --nav:rgba(18,18,20,.86); color-scheme:dark}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:calc(env(safe-area-inset-top,0px) + var(--navh,49px) + 16px)}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+body{background:var(--bg);color:var(--fg);font-family:var(--font);font-size:16px;line-height:1.7;-webkit-text-size-adjust:100%}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:11;background:var(--nav)}
+i,em{font-style:italic}
+.nav{position:sticky;top:env(safe-area-inset-top,0px);z-index:10;background:var(--nav);-webkit-backdrop-filter:saturate(180%) blur(20px);backdrop-filter:saturate(180%) blur(20px);border-bottom:.5px solid var(--sep)}
+.nav-in{display:flex;gap:4px;overflow-x:auto;scrollbar-width:none;max-width:820px;margin:0 auto;padding-block:8px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.nav-in::-webkit-scrollbar{display:none}
+.nav a{flex:none;font-size:14px;font-weight:600;padding:6px 12px;border-radius:980px;color:var(--accent);white-space:nowrap}
+.nav a:hover,.nav a:focus-visible{background:var(--accentSoft);outline:none}
+.wrap{max-width:820px;margin:0 auto;padding-block:8px 72px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+header.top{padding:32px 2px 8px}
+header.top .eyebrow{font-size:13px;font-weight:600;color:var(--accent);letter-spacing:.04em}
+h1{font-size:33px;line-height:1.2;font-weight:700;margin:4px 0 6px;letter-spacing:-.01em;text-wrap:balance}
+.byline{color:var(--fg2s);font-size:14px;margin:0}
+.lead{font-size:15px;color:var(--fg2s);margin:14px 2px 0}
+h2{font-size:23px;font-weight:700;margin:40px 2px 4px;padding-top:6px;text-wrap:balance;scroll-margin-top:60px}
+.kicker{font-size:12px;font-weight:700;color:var(--accent);letter-spacing:.06em;margin:36px 2px 0}
+.kicker + h2{margin-top:2px}
+h3{font-size:18px;font-weight:700;margin:4px 0 2px}
+.card{background:var(--card);border-radius:14px;padding:18px 18px 20px;margin-top:12px}
+.card > :first-child{margin-top:0}
+.card p{margin:10px 0}
+.card h3{margin-top:20px;padding-top:2px;border-top:.5px solid var(--sep)}
+.card h3:first-of-type,.card > h3:first-child{border-top:0;padding-top:0}
+.hl{color:var(--accent);font-weight:600}
+.term{font-weight:700}
+ul.clean,ol.clean{margin:8px 0;padding-left:1.3em}
+ul.clean li,ol.clean li{margin:4px 0}
+dl.kv{display:grid;grid-template-columns:auto 1fr;gap:6px 14px;margin:10px 0}
+dl.kv dt{font-weight:700;white-space:nowrap}
+dl.kv dd{margin:0;min-width:0}
+.callout{border-radius:10px;padding:12px 14px;margin:12px 0;font-size:15px}
+.callout .lb{font-weight:700;display:block;margin-bottom:2px;font-size:13px;letter-spacing:.03em}
+.callout p{margin:6px 0 0}
+.callout.point{background:var(--accentSoft)}.callout.point .lb{color:var(--accent)}
+.callout.note{background:var(--infoSoft)}.callout.note .lb{color:var(--info)}
+.callout.warn{background:var(--warnSoft)}.callout.warn .lb{color:var(--warn)}
+.callout.goro{background:var(--okSoft)}.callout.goro .lb{color:var(--ok)}
+.tbl{overflow-x:auto;margin:14px 0;border-radius:10px;border:.5px solid var(--sep)}
+table{border-collapse:collapse;width:100%;font-size:14.5px;min-width:360px}
+th,td{text-align:left;padding:9px 12px;border-bottom:.5px solid var(--sep);vertical-align:top}
+thead th{background:var(--fill);font-weight:700;white-space:nowrap}
+tbody tr:last-child td{border-bottom:0}
+td .s{color:var(--fg2s);font-size:13px}
+figure{margin:16px 0 4px}
+figure svg{display:block;width:100%;height:auto;max-width:100%;background:var(--card)}
+figcaption{font-size:13px;color:var(--fg2s);margin-top:8px;line-height:1.6}
+.steps{list-style:none;counter-reset:s;margin:10px 0;padding:0}
+.steps li{position:relative;padding:4px 0 4px 34px;margin:4px 0}
+.steps li::before{counter-increment:s;content:counter(s);position:absolute;left:0;top:4px;width:24px;height:24px;border-radius:50%;background:var(--accent);color:#fff;font-size:13px;font-weight:700;display:grid;place-items:center}
+.svg-fg{fill:var(--fg)}.svg-sub{fill:var(--fg2s)}
+.exbox{border:1px solid var(--accent);border-radius:12px;padding:12px 14px;margin:16px 0 4px;background:var(--accentSoft)}
+.exbox .eh{font-size:11px;font-weight:700;color:#fff;background:var(--accent);display:inline-block;padding:2px 8px;border-radius:5px;margin-bottom:7px;letter-spacing:.03em}
+.exbox .q{font-weight:600;margin:0}
+.exbox ol.ch{margin:8px 0 0;padding-left:1.4em;font-size:14.5px}
+.exbox ol.ch li{margin:2px 0}
+.exbox details{margin-top:8px}
+.exbox summary{cursor:pointer;color:var(--accent);font-weight:700;font-size:14px;list-style:none}
+.exbox summary::-webkit-details-marker{display:none}
+.exbox summary::before{content:"▶ 答えと解説";font-size:13px}
+.exbox details[open] summary::before{content:"▼ 答えと解説"}
+.exbox .a{margin-top:8px;padding-top:10px;border-top:.5px solid var(--accent);font-size:14.5px;line-height:1.65;background:var(--card);margin-left:-14px;margin-right:-14px;padding-left:14px;padding-right:14px;padding-bottom:2px;border-radius:0 0 11px 11px}
+.exbox .a .v{font-weight:700;color:var(--ok)}
+.exbox .a p{margin:6px 0}
+.exbox .a code{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:13.5px;background:var(--fill);padding:1px 5px;border-radius:4px}
+.cta{display:block;text-align:center;background:var(--accentFill);color:#fff;font-weight:700;font-size:17px;padding:17px;border-radius:14px;text-decoration:none;margin-top:40px;box-shadow:0 6px 18px -8px var(--accentFill)}
+.cta:active{opacity:.85}
+.cta:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+.links{display:flex;flex-wrap:wrap;gap:8px;margin:12px 2px 0;justify-content:center}
+.links a{display:inline-flex;align-items:center;gap:6px;font-size:14px;font-weight:600;color:var(--accent);background:var(--accentSoft);padding:7px 14px;border-radius:980px;text-decoration:none}
+.links a::before{content:"↗";font-size:12px}
+footer{color:var(--fg2s);font-size:13px;text-align:center;margin-top:36px;padding-top:16px;border-top:.5px solid var(--sep)}
+@media (max-width:440px){h1{font-size:28px}h2{font-size:20px}.card{padding:16px 14px 18px}dl.kv{grid-template-columns:1fr}dl.kv dt{margin-top:4px}}
+</style>
+<style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{-webkit-text-size-adjust:100%}body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
+</head>
+<body>
+
+<nav class="nav" aria-label="目次"><div class="nav-in" id="nav"></div></nav>
+<div class="wrap" id="top">
+  <header class="top">
+    <div class="eyebrow">微生物学 細菌学分野</div>
+    <h1>抗酸菌テキスト</h1>
+  </header>
+
+  <!-- 過去問分析 -->
+  <div class="kicker">ANALYSIS</div>
+  <h2 id="analysis">過去問分析（抗酸菌）</h2>
+  <div class="card">
+    <p>抗酸菌は<span class="hl">グラム染色できない理由</span>、<span class="hl">マクロファージ内での生存</span>、結核の<span class="hl">TST／IGRA</span>、ハンセン病が記述でも問われやすいテーマです。</p>
+    <div class="tbl"><table>
+      <thead><tr><th>テーマ</th><th>2024</th><th>2025</th><th>章</th></tr></thead>
+      <tbody>
+        <tr><td>抗酸菌がマクロファージ内で生存する理由</td><td>問17（記述）</td><td>—</td><td><a href="#infection">3</a></td></tr>
+        <tr><td>結核菌の構造・特性</td><td>—</td><td>問13</td><td><a href="#about">1</a>・<a href="#tb">5</a></td></tr>
+        <tr><td>結核菌の誤り選択（芽胞・感染経路など）</td><td>—</td><td>問14</td><td><a href="#tb">5</a></td></tr>
+        <tr><td>ハンセン病（培養不能・神経障害）</td><td>—</td><td>問15</td><td><a href="#hansen">9</a></td></tr>
+      </tbody>
+    </table></div>
+  </div>
+
+  <!-- 1 抗酸菌とは -->
+  <div class="kicker">学名（英語で書けるように）</div>
+  <h2 id="names">覚える学名（リストの赤字の菌）</h2>
+  <div class="card">
+    <p>英語（学名）の問題は、<span class="hl">細菌リストの赤字の菌だけ</span>から出ます。この群で覚える対象は次の通りです（頭文字を省略せず、斜体は不要）。</p>
+    <div class="tbl"><table>
+      <thead><tr><th>日本語名</th><th>学名</th></tr></thead>
+      <tbody>
+        <tr><td>結核菌</td><td><i>Mycobacterium tuberculosis</i></td></tr>
+        <tr><td>らい菌</td><td><i>Mycobacterium leprae</i></td></tr>
+      </tbody>
+    </table></div>
+  </div>
+
+  <div class="kicker">CHAPTER 1</div>
+  <h2 id="about">抗酸菌とは</h2>
+  <div class="card">
+    <p>グラム染色で一度染色すると、脱色作用のある酸やアルコールでも<span class="hl">脱色されにくい</span>細菌（＝抗酸性）。代表は<span class="hl">結核菌・らい菌</span>。グラム染色すると一様に染まらず顆粒状・ガラス状に見えるため、<span class="hl">グラム染色は使えない</span>。</p>
+    <div class="callout point"><span class="lb">◎グラム染色できない理由（重要）</span>
+      <p>細胞壁に<span class="hl">ミコール酸</span>というロウのような<span class="hl">長鎖脂肪酸</span>があり、脂質を多く含むので、<span class="hl">染色色素が通過しづらい</span>ため。</p>
+    </div>
+    <h3>染色法</h3>
+    <dl class="kv">
+      <dt>石炭酸フクシン法<br>（Z-N法）</dt><dd>媒染剤の<span class="hl">石炭酸（フェノール）で脂質を溶解</span>し、加温または高濃度で塩基性フクシンと菌を結合させて<span class="hl">赤く染める</span>。</dd>
+      <dt>蛍光染色法</dt><dd>オーラミンO・アクリジンオレンジ。Z-N法より簡便・迅速。ただし<span class="hl">単に脂質を染めているだけ</span>なので抗酸菌とは限らず、感度は良いが<span class="hl">偽陽性が生じやすい</span>。</dd>
+    </dl>
+    <div class="exbox">
+      <span class="eh">記述対策</span>
+      <p class="q">抗酸菌がグラム染色で染まらない理由を、細胞壁の成分に触れて説明しなさい。</p>
+      <details><summary></summary><div class="a"><p class="v">解答例</p>
+      <p>抗酸菌の細胞壁には<span class="hl">ミコール酸という長鎖脂肪酸</span>が多く含まれ、脂質に富むため、グラム染色の色素が細胞壁を通過しづらいから。染色には石炭酸で脂質を溶かすチール・ネールゼン染色（石炭酸フクシン法）を用いる。</p></div></details>
+    </div>
+  </div>
+
+  <!-- 2 増殖速度 -->
+  <div class="kicker">CHAPTER 2</div>
+  <h2 id="growth">増殖速度</h2>
+  <div class="card">
+    <p>他の菌より増殖（分裂）が<span class="hl">非常に遅い</span>（結核菌15時間、らい菌12〜13日）。そのため抗酸菌感染症の<span class="hl">発症までに時間がかかる</span>。</p>
+    <div class="callout note"><span class="lb">増殖が遅い理由</span>
+      <p>① 細胞壁が厚く脂質に富む → 栄養の取り込みや、成長・分裂時の細胞壁の構築・改造に時間がかかる。<br>
+      ② リボソーム遺伝子のコピー数が少ない → タンパク質合成・代謝が遅い。</p>
+    </div>
+    <div class="callout point"><span class="lb">厚い細胞壁のメリット（裏返しの弱点）</span>
+      <p>毒や危険物が入り込みにくい → <span class="hl">通常の抗菌薬が効きにくく、免疫細胞の攻撃も効きにくい</span>。治療が長期化し、薬剤耐性菌が生じやすい一因。</p>
+    </div>
+    <div class="exbox">
+      <span class="eh">記述対策</span>
+      <p class="q">抗酸菌の増殖が遅い理由を2つ説明しなさい。</p>
+      <details><summary></summary><div class="a"><p class="v">解答例</p>
+      <p>①細胞壁が厚く脂質に富むため、栄養の取り込みや細胞壁の構築・改造に時間がかかる。②リボソーム遺伝子のコピー数が少なく、タンパク質合成・代謝が遅いため。</p></div></details>
+    </div>
+  </div>
+
+  <!-- 3 免疫と感染 -->
+  <div class="kicker">CHAPTER 3</div>
+  <h2 id="infection">免疫と抗酸菌感染</h2>
+  <div class="card">
+    <p>通常、マクロファージが細菌を貪食すると、<span class="hl">リソソームとファゴソームが融合して殺菌</span>される。</p>
+    <div class="callout point"><span class="lb">抗酸菌の生き残り方（重要）</span>
+      <p>抗酸菌は防御細胞に取り込まれても、<span class="hl">ファゴソームの周りをタンパク質で覆ってファゴソームとリソソームの融合を阻害</span>し、殺菌を防ぐ。これを利用して細胞内でゆっくり増殖する。</p>
+    </div>
+    <figure><svg viewBox="0 0 600 200" role="img" aria-label="抗酸菌がマクロファージ内で生存する仕組み" font-family="inherit">
+    <defs><marker id="am3" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="currentColor"/></marker></defs>
+    <g fill="currentColor">
+    <text x="150" y="24" text-anchor="middle" font-size="13" font-weight="700">通常の菌</text>
+    <text x="450" y="24" text-anchor="middle" font-size="13" font-weight="700" fill="#C21A63">抗酸菌</text>
+    <line x1="300" y1="36" x2="300" y2="186" stroke="currentColor" opacity=".12"/>
+    <circle cx="110" cy="100" r="22" fill="#0A6DC2" opacity=".18" stroke="#0A6DC2"/><text x="110" y="104" text-anchor="middle" font-size="10">ファゴ</text>
+    <circle cx="185" cy="100" r="18" fill="#248A3D" opacity=".2" stroke="#248A3D"/><text x="185" y="104" text-anchor="middle" font-size="9">リソ</text>
+    <line x1="134" y1="100" x2="162" y2="100" stroke="currentColor" opacity=".55" marker-end="url(#am3)"/>
+    <text x="150" y="146" text-anchor="middle" font-size="11">融合して<tspan font-weight="700">殺菌</tspan></text>
+    <circle cx="420" cy="100" r="22" fill="#0A6DC2" opacity=".18" stroke="#0A6DC2"/><text x="420" y="104" text-anchor="middle" font-size="10">ファゴ</text>
+    <circle cx="500" cy="100" r="18" fill="#248A3D" opacity=".2" stroke="#248A3D"/><text x="500" y="104" text-anchor="middle" font-size="9">リソ</text>
+    <line x1="455" y1="88" x2="467" y2="112" stroke="#C21A63" stroke-width="3"/><line x1="467" y1="88" x2="455" y2="112" stroke="#C21A63" stroke-width="3"/>
+    <text x="460" y="140" text-anchor="middle" font-size="11" fill="#C21A63"><tspan font-weight="700">融合を阻害</tspan></text>
+    <text x="460" y="160" text-anchor="middle" font-size="11">→ 殺菌されず<tspan font-weight="700">細胞内で増殖</tspan></text>
+    </g></svg>
+    <figcaption>通常はファゴソームとリソソームが融合して殺菌されるが、抗酸菌は<b>融合を阻害</b>して殺菌を免れ、細胞内でゆっくり増殖する（レジオネラも同じ戦略）。</figcaption></figure>
+    <p>感染時に抗酸菌を排除できるかは、マクロファージが<span class="hl">インターフェロン-γ（IFN-γ）で活性化</span>されることや、<span class="hl">活性型T細胞と抑制型T細胞のバランス</span>で決まる。</p>
+    <div class="callout note"><span class="lb">用語：肉芽腫</span>
+      <p>どうしても排除できないとき、マクロファージなどが結核菌を取り囲み<span class="hl">類上皮細胞に変化して物理的に封じ込める構造</span>。結核では<span class="hl">中心部に乾酪壊死を伴う肉芽腫</span>が見られることが多い。</p>
+    </div>
+    <div class="exbox">
+      <span class="eh">2024年 問17（記述）</span>
+      <p class="q">抗酸菌が貪食されたマクロファージ内で、殺菌されずに増殖できる理由を2つ挙げなさい。</p>
+      <details><summary></summary><div class="a"><p class="v">解答例</p>
+      <p>①ファゴソームの周りをタンパク質で覆い、<span class="hl">ファゴソームとリソソームの融合を阻害</span>して殺菌を逃れる。②ミコール酸など脂質に富む厚い細胞壁をもち、活性酸素などの殺菌作用に抵抗する。</p></div></details>
+    </div>
+  </div>
+
+  <!-- 4 病気の特徴 -->
+  <div class="kicker">CHAPTER 4</div>
+  <h2 id="feature">抗酸菌が起こす病気の特徴</h2>
+  <div class="card">
+    <ul class="clean">
+      <li>潜伏期間が長く<span class="hl">慢性感染症</span>になりやすい → 対策・診断が困難。</li>
+      <li>防御免疫と抑制性免疫が混在 → <span class="hl">良くなったり悪くなったり（軽快・増悪）</span>を繰り返して進行・再発。</li>
+      <li>治療が長期に渡りやすい → <span class="hl">薬剤耐性菌が生じやすい</span>。</li>
+    </ul>
+  </div>
+
+  <!-- 5 結核 -->
+  <div class="kicker">CHAPTER 5</div>
+  <h2 id="tb">結核</h2>
+  <div class="card">
+    <p>結核は<span class="hl">ヒト→ヒトでうつる</span>（非結核性抗酸菌はうつらない）。肺結核患者から排出された<span class="hl">飛沫核を吸い込むことのみ</span>で感染する空気感染で、<span class="hl">肺外結核は非感染性</span>。床に落ちた菌はほこりと一体になり、舞い上がっても肺胞まで届きにくいため<span class="hl">塵埃感染は起こしにくい</span>。</p>
+    <p><span class="hl">好気性で至適温度37℃</span>なので体内の肺がよい環境となり、<span class="hl">肺結核</span>になりやすい。潜伏感染後、数年〜数十年後に発症する。日本は先進国の中ではまだ結核が多い国。</p>
+    <h3>臨床・診断</h3>
+    <dl class="kv">
+      <dt>臨床所見</dt><dd>持続性の咳嗽・喀痰・発熱。</dd>
+      <dt>診断</dt><dd>培養検査・抗酸菌染色・蛍光染色。<span class="hl">培養検査が最も確実で信頼できる</span>。固形培地は<span class="hl">小川培地（Löwenstein-Jensen培地）</span>。増殖が遅いためコロニーまで<span class="hl">4〜8週間</span>かかる。</dd>
+    </dl>
+    <div class="exbox">
+      <span class="eh">記述対策</span>
+      <p class="q">結核の感染経路の特徴を、肺外結核や塵埃感染に触れて説明しなさい。</p>
+      <details><summary></summary><div class="a"><p class="v">解答例</p>
+      <p>肺結核患者が排出した<span class="hl">飛沫核を吸い込む空気感染</span>のみで感染する。肺外結核は菌が気道から出ないため<span class="hl">非感染性</span>。床に落ちた菌はほこりと一体になり、舞い上がっても肺胞まで届きにくいので<span class="hl">塵埃感染は起こりにくい</span>。</p></div></details>
+    </div>
+  </div>
+
+  <!-- 6 TST/IGRA -->
+  <div class="kicker">CHAPTER 6</div>
+  <h2 id="test">ツベルクリン反応（TST）とIGRA</h2>
+  <div class="card">
+    <dl class="kv">
+      <dt>ツベルクリン反応<br>（TST）</dt><dd>結核菌由来のタンパク質を精製した<span class="hl">PPD</span>を皮内投与し、接種部位の発赤を測定して感染を診断する。</dd>
+    </dl>
+    <div class="callout warn"><span class="lb">TSTの弱点</span>
+      <p>PPDが、牛型結核菌からの生ワクチン<span class="hl">BCG</span>や非結核性抗酸菌と高い類似性をもつため、<span class="hl">BCG接種者や非結核性抗酸菌感染でも陽性</span>になってしまう。</p>
+    </div>
+    <div class="callout point"><span class="lb">IGRA（インターフェロン-γ遊離試験）</span>
+      <p>BCGと結核菌の応答を分けるため、<span class="hl">BCGには含まれない結核菌特異的な抗原</span>への免疫応答を利用する。放出されたIFN-γを測定し、<span class="hl">BCGの影響を受けず</span>、感度は90%を超える。</p>
+    </div>
+    <div class="exbox">
+      <span class="eh">記述対策</span>
+      <p class="q">ツベルクリン反応（TST）とIGRAの違いを、BCGの影響に触れて説明しなさい。</p>
+      <details><summary></summary><div class="a"><p class="v">解答例</p>
+      <p>TSTはPPDを皮内投与して発赤を見るが、PPDはBCGや非結核性抗酸菌と類似するため<span class="hl">BCG接種者でも陽性</span>になる。IGRAは<span class="hl">BCGに含まれない結核菌特異的抗原</span>への反応で放出されるIFN-γを測るため、<span class="hl">BCGの影響を受けず</span>結核感染を判定でき、感度は90%超。</p></div></details>
+    </div>
+  </div>
+
+  <!-- 7 治療 -->
+  <div class="kicker">CHAPTER 7</div>
+  <h2 id="treat">結核の治療・予防</h2>
+  <div class="card">
+    <p><span class="hl">単剤投与では薬剤耐性菌ができる</span>ため、多くは<span class="hl">6ヶ月間・複数の抗生剤を併用（多剤併用療法）</span>して確実に服用する。服薬コンプライアンスを高めるため、WHOは<span class="hl">直接監視下短期抗結核化学療法（DOTS）</span>を推奨。</p>
+    <p>予防には、<span class="hl">小児でより有効なBCGワクチン</span>と、<span class="hl">成人肺結核にも有効なINH（イソニアジド）予防内服</span>がある。</p>
+  </div>
+
+  <!-- 8 NTM -->
+  <div class="kicker">CHAPTER 8</div>
+  <h2 id="ntm">非結核性抗酸菌（NTM）感染症</h2>
+  <div class="card">
+    <p>抗酸菌感染症の<span class="hl">10〜20%</span>を占めるが過小評価されている。NTMは土壌や水などの<span class="hl">環境菌</span>で感染経路は不明。<span class="hl">ヒト→ヒト感染はほぼなく、感染症法の対象外</span>。確定診断には臨床所見と細菌培養が必要で、少なくとも1ヶ月かかる。</p>
+    <div class="tbl"><table>
+      <thead><tr><th>菌</th><th>特徴</th></tr></thead>
+      <tbody>
+        <tr><td><i>M. avium</i> complex（MAC）</td><td>日本で最も多い。</td></tr>
+        <tr><td><i>M. abscessus</i></td><td>近年増加。</td></tr>
+        <tr><td><i>M. kansasii</i></td><td>日本で3番目に多く、男性に多い。<span class="hl">抗結核薬が有効</span>。</td></tr>
+        <tr><td><i>M. ulcerans</i></td><td><span class="hl">ブルーリ潰瘍</span>。毒素<span class="hl">マイコラクトン</span>が原因で難治性の皮膚潰瘍。</td></tr>
+      </tbody>
+    </table></div>
+  </div>
+
+  <!-- 9 ハンセン病 -->
+  <div class="kicker">CHAPTER 9</div>
+  <h2 id="hansen">ハンセン病</h2>
+  <div class="card">
+    <p>らい菌の感染で起こる<span class="hl">慢性感染症</span>。皮膚と末梢神経を侵し、皮膚病変・知覚障害・運動麻痺を起こす。</p>
+    <div class="callout note"><span class="lb">らい菌が人工培地で培養できない理由</span>
+      <p>宿主細胞内での生存に特化した結果、<span class="hl">ゲノムの縮小（ダウンサイジング）</span>が進み、エネルギー代謝などに必要な遺伝子の一部を失っているため、人工培地では自律的に増殖できない。研究ではヌードマウスの足で約1年かけて増やす。</p>
+    </div>
+    <p>感染は、乳幼児期に菌を排出する患者から<span class="hl">飛沫などで呼吸器感染</span>するのが主。曝露されても免疫で排除・不発症のこともあり、<span class="hl">発症リスクは免疫が低下すると増加</span>する。</p>
+    <div class="callout point"><span class="lb">神経障害の機序（らい菌に特異的）</span>
+      <p>末梢神経にらい菌が侵入すると、<span class="hl">らい菌を排除しようと免疫が過剰に働いて末梢神経を破壊</span>する。すると痛みや温度を感じにくくなり、火傷やケガをしやすく、手足や皮膚に障害が残りやすい。</p>
+    </div>
+    <h3>病型・治療</h3>
+    <dl class="kv">
+      <dt>T細胞免疫と病型</dt><dd>細胞性免疫が強いと菌の増殖が抑えられ<span class="hl">少菌型</span>、弱いと菌が増えて<span class="hl">多菌型</span>になりやすい。</dd>
+      <dt>治療</dt><dd><span class="hl">多剤併用療法（MDT）</span>。リファンピシンを含む3種類の薬を約1〜2年。早期診断・早期治療で<span class="hl">完治可能</span>。治療中・治療後の<span class="hl">らい反応</span>（菌への免疫応答で非可逆的障害の原因）に注意。</dd>
+    </dl>
+    <p class="src">かつて誤解から患者が強制隔離され差別を受けた歴史がある。スルホン剤の開発で「不治から可治」へ変化。感染と発症を混同せず、偏見・差別をなくすことが重要。</p>
+    <div class="exbox">
+      <span class="eh">2025年 問15 類題（記述）</span>
+      <p class="q">ハンセン病で知覚障害が起こる機序を、らい菌と免疫の関係から説明しなさい。</p>
+      <details><summary></summary><div class="a"><p class="v">解答例</p>
+      <p>らい菌が末梢神経に侵入すると、<span class="hl">それを排除しようとする免疫が過剰に働いて末梢神経自体を破壊</span>してしまうため、痛みや温度の感覚が失われる。これはらい菌に特異的な機序で、早期発見・早期治療が重要。</p></div></details>
+    </div>
+  </div>
+
+  <a class="cta" href="index.html">抗酸菌の問題を解く →</a>
+  <div class="links">
+    <a href="soron.html">総論テキスト</a>
+    <a href="gram-positive.html">グラム陽性菌テキスト</a>
+    <a href="gram-negative.html">グラム陰性菌テキスト</a>
+    <a href="spirochete.html">らせん菌テキスト</a>
+  </div>
+  <footer>抗酸菌テキスト</footer>
+</div>
+
+<script>
+(function(){
+  const secs=[["analysis","過去問分析"],["names","学名"],["about","抗酸菌とは"],["growth","増殖速度"],["infection","免疫と感染"],["feature","病気の特徴"],["tb","結核"],["test","TST／IGRA"],["treat","治療"],["ntm","NTM"],["hansen","ハンセン病"]];
+  const nav=document.getElementById('nav');
+  secs.forEach(([id,t])=>{const a=document.createElement('a');a.href='#'+id;a.textContent=t;nav.appendChild(a)});
+  const navEl=document.querySelector('.nav');
+  function setNavH(){document.documentElement.style.setProperty('--navh',navEl.getBoundingClientRect().height+'px')}
+  setNavH();window.addEventListener('resize',setNavH);
+  nav.querySelectorAll('a').forEach(a=>a.addEventListener('click',e=>{e.preventDefault();const el=document.getElementById(a.getAttribute('href').slice(1));if(el)el.scrollIntoView({behavior:'smooth',block:'start'})}));
+})();
+</script>
+
+</body>
+</html>

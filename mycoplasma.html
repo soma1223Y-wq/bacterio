@@ -1,0 +1,256 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>マイコプラズマテキスト</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<style>
+/* Layout: 1カラムの読み物。上部固定ナビ → 章ごとのカード（Apple HIG風）。配色は問題集と統一（アクセント=ピンク） */
+:root{
+  --bg:#F2F2F7; --card:#FFFFFF; --fg:#1C1C1E; --fg2s:#6C6C70; --sep:#C6C6C8; --fill:#E9E9EE;
+  --accent:#C21A63; --accentFill:#FF2D55; --accentSoft:#FCE4EC;
+  --ok:#248A3D; --okSoft:#E3F5E7; --ng:#D70015; --ngSoft:#FDE7E9; --warn:#C93400; --warnSoft:#FFF0E3;
+  --info:#0A6DC2; --infoSoft:#E3F0FB; --nav:rgba(242,242,247,.86);
+  --font:"Helvetica Neue", Arial, "Hiragino Kaku Gothic ProN", "Hiragino Sans", Meiryo, sans-serif;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#000000; --card:#1C1C1E; --fg:#F2F2F7; --fg2s:#98989F; --sep:#38383A; --fill:#2C2C2E;
+  --accent:#FF6FA3; --accentFill:#FF375F; --accentSoft:#3A1526;
+  --ok:#30D158; --okSoft:#12331B; --ng:#FF6961; --ngSoft:#3A1517; --warn:#FF9F0A; --warnSoft:#3A2608;
+  --info:#5AB0FF; --infoSoft:#0E2A44; --nav:rgba(18,18,20,.86); color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#000000; --card:#1C1C1E; --fg:#F2F2F7; --fg2s:#98989F; --sep:#38383A; --fill:#2C2C2E;
+  --accent:#FF6FA3; --accentFill:#FF375F; --accentSoft:#3A1526;
+  --ok:#30D158; --okSoft:#12331B; --ng:#FF6961; --ngSoft:#3A1517; --warn:#FF9F0A; --warnSoft:#3A2608;
+  --info:#5AB0FF; --infoSoft:#0E2A44; --nav:rgba(18,18,20,.86); color-scheme:dark}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:calc(env(safe-area-inset-top,0px) + var(--navh,49px) + 16px)}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+body{background:var(--bg);color:var(--fg);font-family:var(--font);font-size:16px;line-height:1.7;-webkit-text-size-adjust:100%}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:11;background:var(--nav)}
+i,em{font-style:italic}
+.nav{position:sticky;top:env(safe-area-inset-top,0px);z-index:10;background:var(--nav);-webkit-backdrop-filter:saturate(180%) blur(20px);backdrop-filter:saturate(180%) blur(20px);border-bottom:.5px solid var(--sep)}
+.nav-in{display:flex;gap:4px;overflow-x:auto;scrollbar-width:none;max-width:820px;margin:0 auto;padding-block:8px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.nav-in::-webkit-scrollbar{display:none}
+.nav a{flex:none;font-size:14px;font-weight:600;padding:6px 12px;border-radius:980px;color:var(--accent);white-space:nowrap}
+.nav a:hover,.nav a:focus-visible{background:var(--accentSoft);outline:none}
+.wrap{max-width:820px;margin:0 auto;padding-block:8px 72px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+header.top{padding:32px 2px 8px}
+header.top .eyebrow{font-size:13px;font-weight:600;color:var(--accent);letter-spacing:.04em}
+h1{font-size:33px;line-height:1.2;font-weight:700;margin:4px 0 6px;letter-spacing:-.01em;text-wrap:balance}
+.byline{color:var(--fg2s);font-size:14px;margin:0}
+.lead{font-size:15px;color:var(--fg2s);margin:14px 2px 0}
+h2{font-size:23px;font-weight:700;margin:40px 2px 4px;padding-top:6px;text-wrap:balance;scroll-margin-top:60px}
+.kicker{font-size:12px;font-weight:700;color:var(--accent);letter-spacing:.06em;margin:36px 2px 0}
+.kicker + h2{margin-top:2px}
+h3{font-size:18px;font-weight:700;margin:4px 0 2px}
+.card{background:var(--card);border-radius:14px;padding:18px 18px 20px;margin-top:12px}
+.card > :first-child{margin-top:0}
+.card p{margin:10px 0}
+.card h3{margin-top:20px;padding-top:2px;border-top:.5px solid var(--sep)}
+.card h3:first-of-type,.card > h3:first-child{border-top:0;padding-top:0}
+.hl{color:var(--accent);font-weight:600}
+.term{font-weight:700}
+ul.clean,ol.clean{margin:8px 0;padding-left:1.3em}
+ul.clean li,ol.clean li{margin:4px 0}
+dl.kv{display:grid;grid-template-columns:auto 1fr;gap:6px 14px;margin:10px 0}
+dl.kv dt{font-weight:700;white-space:nowrap}
+dl.kv dd{margin:0;min-width:0}
+.callout{border-radius:10px;padding:12px 14px;margin:12px 0;font-size:15px}
+.callout .lb{font-weight:700;display:block;margin-bottom:2px;font-size:13px;letter-spacing:.03em}
+.callout p{margin:6px 0 0}
+.callout.point{background:var(--accentSoft)}.callout.point .lb{color:var(--accent)}
+.callout.note{background:var(--infoSoft)}.callout.note .lb{color:var(--info)}
+.callout.warn{background:var(--warnSoft)}.callout.warn .lb{color:var(--warn)}
+.callout.goro{background:var(--okSoft)}.callout.goro .lb{color:var(--ok)}
+.tbl{overflow-x:auto;margin:14px 0;border-radius:10px;border:.5px solid var(--sep)}
+table{border-collapse:collapse;width:100%;font-size:14.5px;min-width:360px}
+th,td{text-align:left;padding:9px 12px;border-bottom:.5px solid var(--sep);vertical-align:top}
+thead th{background:var(--fill);font-weight:700;white-space:nowrap}
+tbody tr:last-child td{border-bottom:0}
+td .s{color:var(--fg2s);font-size:13px}
+figure{margin:16px 0 4px}
+figure svg{display:block;width:100%;height:auto;max-width:100%;background:var(--card)}
+figcaption{font-size:13px;color:var(--fg2s);margin-top:8px;line-height:1.6}
+.steps{list-style:none;counter-reset:s;margin:10px 0;padding:0}
+.steps li{position:relative;padding:4px 0 4px 34px;margin:4px 0}
+.steps li::before{counter-increment:s;content:counter(s);position:absolute;left:0;top:4px;width:24px;height:24px;border-radius:50%;background:var(--accent);color:#fff;font-size:13px;font-weight:700;display:grid;place-items:center}
+.svg-fg{fill:var(--fg)}.svg-sub{fill:var(--fg2s)}
+.exbox{border:1px solid var(--accent);border-radius:12px;padding:12px 14px;margin:16px 0 4px;background:var(--accentSoft)}
+.exbox .eh{font-size:11px;font-weight:700;color:#fff;background:var(--accent);display:inline-block;padding:2px 8px;border-radius:5px;margin-bottom:7px;letter-spacing:.03em}
+.exbox .q{font-weight:600;margin:0}
+.exbox ol.ch{margin:8px 0 0;padding-left:1.4em;font-size:14.5px}
+.exbox ol.ch li{margin:2px 0}
+.exbox details{margin-top:8px}
+.exbox summary{cursor:pointer;color:var(--accent);font-weight:700;font-size:14px;list-style:none}
+.exbox summary::-webkit-details-marker{display:none}
+.exbox summary::before{content:"▶ 答えと解説";font-size:13px}
+.exbox details[open] summary::before{content:"▼ 答えと解説"}
+.exbox .a{margin-top:8px;padding-top:10px;border-top:.5px solid var(--accent);font-size:14.5px;line-height:1.65;background:var(--card);margin-left:-14px;margin-right:-14px;padding-left:14px;padding-right:14px;padding-bottom:2px;border-radius:0 0 11px 11px}
+.exbox .a .v{font-weight:700;color:var(--ok)}
+.exbox .a p{margin:6px 0}
+.exbox .a code{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:13.5px;background:var(--fill);padding:1px 5px;border-radius:4px}
+.cta{display:block;text-align:center;background:var(--accentFill);color:#fff;font-weight:700;font-size:17px;padding:17px;border-radius:14px;text-decoration:none;margin-top:40px;box-shadow:0 6px 18px -8px var(--accentFill)}
+.cta:active{opacity:.85}
+.cta:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+.links{display:flex;flex-wrap:wrap;gap:8px;margin:12px 2px 0;justify-content:center}
+.links a{display:inline-flex;align-items:center;gap:6px;font-size:14px;font-weight:600;color:var(--accent);background:var(--accentSoft);padding:7px 14px;border-radius:980px;text-decoration:none}
+.links a::before{content:"↗";font-size:12px}
+footer{color:var(--fg2s);font-size:13px;text-align:center;margin-top:36px;padding-top:16px;border-top:.5px solid var(--sep)}
+@media (max-width:440px){h1{font-size:28px}h2{font-size:20px}.card{padding:16px 14px 18px}dl.kv{grid-template-columns:1fr}dl.kv dt{margin-top:4px}}
+</style>
+<style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{-webkit-text-size-adjust:100%}body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
+</head>
+<body>
+
+<nav class="nav" aria-label="目次"><div class="nav-in" id="nav"></div></nav>
+<div class="wrap" id="top">
+  <header class="top">
+    <div class="eyebrow">微生物学 細菌学分野</div>
+    <h1>マイコプラズマテキスト</h1>
+  </header>
+
+  <div class="kicker">ANALYSIS</div>
+  <h2 id="analysis">過去問分析（マイコプラズマ）</h2>
+  <div class="card">
+    <p>最大のポイントは<span class="hl">「細胞壁がない」</span>こと。ここから、β-ラクタムが無効な理由・非定型肺炎・マクロライドがすべて導けます。2025年問16で性状・抗菌薬が問われました。</p>
+    <div class="tbl"><table>
+      <thead><tr><th>テーマ</th><th>章</th></tr></thead>
+      <tbody>
+        <tr><td>細胞壁がない → β-ラクタム／バンコマイシン無効</td><td><a href="#nowall">2</a></td></tr>
+        <tr><td>非定型肺炎・マクロライド</td><td><a href="#disease">3</a></td></tr>
+        <tr><td>マイコプラズマ肺炎の病原性（過剰免疫）</td><td><a href="#pneumonia">4</a></td></tr>
+      </tbody>
+    </table></div>
+  </div>
+
+  <div class="kicker">学名（英語で書けるように）</div>
+  <h2 id="names">覚える学名（リストの赤字の菌）</h2>
+  <div class="card">
+    <p>英語（学名）の問題は、<span class="hl">細菌リストの赤字の菌だけ</span>から出ます。この群で覚える対象は次の通りです（頭文字を省略せず、斜体は不要）。</p>
+    <div class="tbl"><table>
+      <thead><tr><th>日本語名</th><th>学名</th></tr></thead>
+      <tbody>
+        <tr><td>肺炎マイコプラズマ</td><td><i>Mycoplasma pneumoniae</i></td></tr>
+        <tr><td>マイコプラズマ・ジェニタリウム</td><td><i>Mycoplasma genitalium</i></td></tr>
+      </tbody>
+    </table></div>
+  </div>
+
+  <div class="kicker">CHAPTER 1</div>
+  <h2 id="about">マイコプラズマとは</h2>
+  <div class="card">
+    <ul class="clean">
+      <li>光学顕微鏡で見えないほど<span class="hl">小さい</span>。</li>
+      <li>人工培地（細胞外）で<span class="hl">自律的に増殖できる最小の生物</span>。細胞内寄生性はない。</li>
+      <li>ゲノムサイズが小さい。</li>
+      <li><span class="hl">細胞壁がない</span>。代わりに細胞膜は柔軟で堅牢な作りで、<span class="hl">コレステロールの割合が高く</span>耐熱性・可塑性が高い。</li>
+      <li>独自の代謝系がほとんどなく、他の生物の粘膜などに付着して寄生・共生する。</li>
+      <li><span class="hl">多型性</span>で形は一定でない。分枝分裂で増殖（長く伸びてから数珠状に分裂）。</li>
+      <li>分離培養では<span class="hl">コロニーが目玉焼き状</span>になることで見分けられる。</li>
+    </ul>
+  </div>
+
+  <div class="kicker">CHAPTER 2</div>
+  <h2 id="nowall">細胞壁がないと…（最重要）</h2>
+  <div class="card">
+    <div class="callout point"><span class="lb">細胞壁がないことの帰結</span>
+      <p>・細胞膜のみなので柔らかく変形しやすい。<br>
+      ・<span class="hl">β-ラクタム系やバンコマイシン（細胞壁合成阻害薬）は無効・無意味</span>。<br>
+      ・<span class="hl">リゾチーム</span>（ペプチドグリカンを分解する酵素）も<span class="hl">無効</span>。</p>
+    </div>
+    <figure><svg viewBox="0 0 600 190" role="img" aria-label="細胞壁がないと細胞壁合成阻害薬の標的がない" font-family="inherit">
+    <g fill="currentColor">
+    <text x="150" y="24" text-anchor="middle" font-size="13" font-weight="700">普通の細菌</text>
+    <text x="450" y="24" text-anchor="middle" font-size="13" font-weight="700" fill="#C21A63">マイコプラズマ</text>
+    <line x1="300" y1="36" x2="300" y2="172" stroke="currentColor" opacity=".12"/>
+    <circle cx="150" cy="100" r="46" fill="none" stroke="#C21A63" stroke-width="7" opacity=".5"/>
+    <circle cx="150" cy="100" r="36" fill="#0A6DC2" opacity=".1" stroke="#0A6DC2"/>
+    <text x="150" y="56" text-anchor="middle" font-size="10" fill="#C21A63">細胞壁</text>
+    <text x="150" y="162" text-anchor="middle" font-size="11">β-ラクタムが<tspan font-weight="700">標的にできる</tspan></text>
+    <circle cx="450" cy="100" r="40" fill="#0A6DC2" opacity=".12" stroke="#0A6DC2" stroke-dasharray="5 4"/>
+    <text x="450" y="56" text-anchor="middle" font-size="10">細胞膜のみ</text>
+    <text x="450" y="104" text-anchor="middle" font-size="17" font-weight="700" fill="#C21A63">壁なし</text>
+    <text x="450" y="162" text-anchor="middle" font-size="11" fill="#C21A63">標的がない→<tspan font-weight="700">無効</tspan></text>
+    </g></svg>
+    <figcaption>β-ラクタムやバンコマイシンは<b>細胞壁を標的</b>にする薬。マイコプラズマは細胞壁がないので<b>標的がなく無効</b>。</figcaption></figure>
+    <p>対抗策として、<span class="hl">微生物にのみ存在しヒトにはない分子</span>を標的にする。</p>
+    <div class="tbl"><table>
+      <thead><tr><th>薬</th><th>作用点</th></tr></thead>
+      <tbody>
+        <tr><td><span class="hl">マクロライド</span>（第一選択）</td><td>リボソーム50Sの23S rRNAに結合し、タンパク質合成を阻害。</td></tr>
+        <tr><td>テトラサイクリン系</td><td>タンパク質合成を阻害。</td></tr>
+        <tr><td>ニューキノロン系</td><td>DNAジャイレース（原核生物特有の酵素）を阻害。</td></tr>
+      </tbody>
+    </table></div>
+    <div class="callout warn"><span class="lb">耐性</span>
+      <p>2000年代のマクロライド濫用で<span class="hl">アジスロマイシンなどの耐性株</span>が増加。テトラサイクリンやニューキノロンへ変更するが、<span class="hl">小児の適用には注意</span>が必要。</p>
+    </div>
+    <div class="exbox">
+      <span class="eh">記述対策</span>
+      <p class="q">マイコプラズマにβ-ラクタム系やバンコマイシンが無効な理由と、有効な抗菌薬の考え方を説明しなさい。</p>
+      <details><summary></summary><div class="a"><p class="v">解答例</p>
+      <p>マイコプラズマは<span class="hl">細胞壁（ペプチドグリカン）をもたない</span>ため、細胞壁合成を阻害するβ-ラクタム系やバンコマイシンは標的がなく無効。代わりに、<span class="hl">ヒトにはなく微生物にのみある分子</span>を標的にする薬（マクロライド＝50Sに結合しタンパク質合成阻害、テトラサイクリン、ニューキノロン＝DNAジャイレース阻害）が有効。</p></div></details>
+    </div>
+  </div>
+
+  <div class="kicker">CHAPTER 3</div>
+  <h2 id="disease">感染症</h2>
+  <div class="card">
+    <dl class="kv">
+      <dt><i>M. pneumoniae</i></dt><dd><span class="hl">非定型肺炎</span>（マイコプラズマ肺炎）。</dd>
+      <dt><i>M. genitalium</i></dt><dd><span class="hl">性感染症</span>。</dd>
+    </dl>
+    <div class="callout note"><span class="lb">用語：「非定型」の由来</span>
+      <p>まだ小さすぎてマイコプラズマやクラミジアが見つかっていなかった時代、<span class="hl">肺炎球菌やインフルエンザ桿菌による肺炎を「定型肺炎」</span>と呼び、それ以外を「非定型肺炎」と呼んでいた名残。</p>
+    </div>
+  </div>
+
+  <div class="kicker">CHAPTER 4</div>
+  <h2 id="pneumonia">マイコプラズマ肺炎</h2>
+  <div class="card">
+    <p>市中肺炎の原因病原体のうち<span class="hl">約10%</span>を占め、<span class="hl">小児・学童期以降に好発</span>。</p>
+    <div class="callout point"><span class="lb">病原性＝過剰な免疫応答が主</span>
+      <p>毒素などの分泌因子によるものもあるが、<span class="hl">過剰な免疫応答で自己組織が2次的に障害される</span>のが主。<span class="hl">交差反応</span>（菌体成分が宿主の自己組織と似ているため免疫が自分を攻撃する）による<span class="hl">肺外症状</span>も起こる。重症時は抗菌薬に加えて<span class="hl">ステロイド</span>など抗炎症薬を併用することがある。</p>
+    </div>
+    <div class="exbox">
+      <span class="eh">記述対策</span>
+      <p class="q">マイコプラズマ肺炎で組織障害や肺外症状が起こる機序を説明しなさい。</p>
+      <details><summary></summary><div class="a"><p class="v">解答例</p>
+      <p>組織障害は毒素だけでなく、<span class="hl">過剰な免疫応答による2次的な自己組織の障害</span>が主である。さらに菌体成分が宿主の自己組織と似ているため、免疫が自分自身を攻撃する<span class="hl">交差反応</span>が起こり、肺外症状を生じることがある。重症例ではステロイドを併用する。</p></div></details>
+    </div>
+  </div>
+
+  <div class="kicker">CHAPTER 5</div>
+  <h2 id="research">寄生と研究</h2>
+  <div class="card">
+    <div class="callout note"><span class="lb">寄生のメリット／デメリット</span>
+      <p><b>メリット</b>：安定した生育環境（温度・湿度・pH）、栄養を自分で合成せず確保、不要な遺伝子を捨ててゲノムを縮小できる。<br>
+      <b>デメリット</b>：自分ではアミノ酸や脂肪酸を合成できない（培地に栄養を加えないと培養できない）。</p>
+    </div>
+    <p>最小必須遺伝子の絞り込みに利用され、細胞が細胞であるための必要最低限の遺伝子数は<span class="hl">382</span>であることが分かった（生物と無生物の境と考えられている）。</p>
+  </div>
+
+  <a class="cta" href="index.html">マイコプラズマの問題を解く →</a>
+  <div class="links">
+    <a href="soron.html">総論テキスト</a>
+    <a href="spirochete.html">らせん菌テキスト</a>
+  </div>
+  <footer>マイコプラズマテキスト</footer>
+</div>
+
+<script>
+(function(){
+  const secs=[["analysis","過去問分析"],["names","学名"],["about","マイコプラズマとは"],["nowall","細胞壁がないと"],["disease","感染症"],["pneumonia","肺炎"],["research","寄生と研究"]];
+  const nav=document.getElementById('nav');
+  secs.forEach(([id,t])=>{const a=document.createElement('a');a.href='#'+id;a.textContent=t;nav.appendChild(a)});
+  const navEl=document.querySelector('.nav');
+  function setNavH(){document.documentElement.style.setProperty('--navh',navEl.getBoundingClientRect().height+'px')}
+  setNavH();window.addEventListener('resize',setNavH);
+  nav.querySelectorAll('a').forEach(a=>a.addEventListener('click',e=>{e.preventDefault();const el=document.getElementById(a.getAttribute('href').slice(1));if(el)el.scrollIntoView({behavior:'smooth',block:'start'})}));
+})();
+</script>
+
+</body>
+</html>
